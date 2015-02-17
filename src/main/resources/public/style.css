@@ -1,0 +1,37 @@
+body {
+	font-family: sans-serif;
+	font-size: 10pt;
+	color: black;
+}
+
+h1 {
+	font-size: 14pt;
+}
+
+a {
+    color: gray;
+	text-decoration: none;
+}
+
+a:HOVER {
+	text-decoration: underline;
+}
+
+label {
+	padding-bottom: 5pt;
+    padding-top: 15pt;
+}
+
+input {
+	border: 1px solid gray;
+}
+
+input[type=text] {
+    width: 409pt;
+}
+
+.error {
+	color: red;
+	font-style: italic;
+}
+
