@@ -27,7 +27,13 @@
 
     <body>
         <h1>Knowledgebase 2.0</h1>
-        <div>
+        <div class="container button_big">
+            <a href="/data">&Uuml;bersicht</a>
+        </div>
+        
+        <br/><br/>
+        
+        <div class="container">
     
             <form id="documentForm" action="/data" method="post">
                 <label for="header">Titel</label><br/><input type="text" name="header" id="header" value="${header}"/><br/>
@@ -35,8 +41,6 @@
                 <label for="tags">Schlagw&ouml;rter</label><br/><input type="text" name="tags" id="tags" value="${tags}"/><br/>
                 <input type="submit" value="Speichern" />
             </form>
-
-            <a href="/data">zur&uumlck zur &Uuml;bersicht</a>
             
         </div>
     </body>

@@ -2,6 +2,7 @@ body {
 	font-family: sans-serif;
 	font-size: 10pt;
 	color: black;
+	text-align: center;
 }
 
 h1 {
@@ -9,7 +10,7 @@ h1 {
 }
 
 a {
-    color: gray;
+    color: #898989;
 	text-decoration: none;
 }
 
@@ -35,3 +36,16 @@ input[type=text] {
 	font-style: italic;
 }
 
+.container {
+    padding: 5pt;
+	display: inline-block;
+    border-radius: 5px;
+    border: 1px solid #898989;
+    margin: 5px;
+    text-align: center;
+}
+
+.button_big {
+    padding: 10pt;
+	background-color: #dedede;
+}

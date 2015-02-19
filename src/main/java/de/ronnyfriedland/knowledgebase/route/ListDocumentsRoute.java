@@ -7,6 +7,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import spark.QueryParamsMap;
 import spark.Request;
 import spark.Response;
 import de.ronnyfriedland.knowledgebase.entity.Document;
@@ -39,7 +40,17 @@ public class ListDocumentsRoute extends AbstractRoute {
         Map<String, Object> attributes = new HashMap<>();
 
         try {
-            Collection<Document<String>> documents = repository.listTextDocuments(0, 0);
+            QueryParamsMap qp = request.queryMap();
+            Integer offset = qp.get("offset").integerValue();
+            if (null == offset) {
+                offset = 0;
+            }
+            Integer limit = qp.get("limit").integerValue();
+            if (null == limit) {
+                limit = 0;
+            }
+
+            Collection<Document<String>> documents = repository.listTextDocuments(offset, limit);
             attributes.put("messages", documents);
 
             return processResult("list.ftl", attributes).response;

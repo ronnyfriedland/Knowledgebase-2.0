@@ -2,14 +2,23 @@ package de.ronnyfriedland.knowledgebase.repository;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.jcr.Node;
 import javax.jcr.NodeIterator;
+import javax.jcr.PathNotFoundException;
 import javax.jcr.Repository;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.SimpleCredentials;
+import javax.jcr.Value;
+import javax.jcr.ValueFormatException;
+import javax.jcr.query.QueryManager;
+import javax.jcr.query.QueryResult;
+import javax.jcr.query.qom.QueryObjectModel;
+import javax.jcr.query.qom.QueryObjectModelFactory;
+import javax.jcr.query.qom.Selector;
 
 import org.apache.jackrabbit.commons.JcrUtils;
 
@@ -51,8 +60,7 @@ public class JackRabbitRepository implements IRepository {
                 Node root = session.getRootNode();
                 Node node = root.getNode(key);
 
-                return new Document<String>(key, node.getProperty(PROPERTY_HEADER).getString(), node.getProperty(
-                        PROPERTY_MESSAGE).getString());
+                return convertToDocument(node);
             } finally {
                 session.logout();
             }
@@ -104,27 +112,28 @@ public class JackRabbitRepository implements IRepository {
         try {
             Session session = repository.login(new SimpleCredentials("admin", "admin".toCharArray()));
             try {
-                // QueryManager qm = session.getWorkspace().getQueryManager();
-                // QueryObjectModelFactory qomf = qm.getQOMFactory();
-                // Selector nodeTypeSelector = qomf.selector("unstructured", "unstructured" + "Selector");
-                //
-                // QueryObjectModel qom = qomf.createQuery(nodeTypeSelector, null, null, null);
-                //
-                // qom.setLimit(max);
-                // qom.setOffset(offset);
-                // QueryResult qr = qom.execute();
+                QueryManager qm = session.getWorkspace().getQueryManager();
+                QueryObjectModelFactory qomf = qm.getQOMFactory();
+                Selector nodeTypeSelector = qomf
+                        .selector("{http://www.jcp.org/jcr/nt/1.0}unstructured", "unstructured");
 
-                Node root = session.getRootNode();
+                QueryObjectModel qom = qomf.createQuery(nodeTypeSelector, null, null, null);
 
-                NodeIterator nodes = root.getNodes();
+                if (0 < max) {
+                    qom.setLimit(max);
+                }
+                if (0 < offset) {
+                    qom.setOffset(offset);
+                }
+                QueryResult qr = qom.execute();
+
+                NodeIterator nodes = qr.getNodes();
                 while (nodes.hasNext()) {
                     Node node = (Node) nodes.next();
                     if (node.hasProperty(PROPERTY_HEADER)) {
-                        result.add(new Document<String>(node.getName(), node.getProperty(PROPERTY_HEADER).getString(),
-                                node.getProperty(PROPERTY_MESSAGE).getString()));
+                        result.add(convertToDocument(node));
                     }
                 }
-
             } finally {
                 session.logout();
             }
@@ -132,5 +141,19 @@ public class JackRabbitRepository implements IRepository {
             throw new DataException(e);
         }
         return result;
+    }
+
+    private Document<String> convertToDocument(final Node node) throws ValueFormatException, RepositoryException,
+            PathNotFoundException {
+        String header = node.getProperty(PROPERTY_HEADER).getString();
+        String message = node.getProperty(PROPERTY_MESSAGE).getString();
+
+        List<String> tags = new ArrayList<>();
+        Value[] tagValues = node.getProperty(PROPERTY_TAGS).getValues();
+        for (Value tagValue : tagValues) {
+            tags.add(tagValue.getString());
+        }
+
+        return new Document<String>(node.getName(), header, message, tags.toArray(new String[tags.size()]));
     }
 }

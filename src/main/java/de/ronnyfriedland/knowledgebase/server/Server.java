@@ -5,10 +5,7 @@ import org.springframework.stereotype.Component;
 
 import spark.Spark;
 import de.ronnyfriedland.knowledgebase.configuration.Configuration;
-import de.ronnyfriedland.knowledgebase.repository.IRepository;
-import de.ronnyfriedland.knowledgebase.route.ListDocumentsRoute;
-import de.ronnyfriedland.knowledgebase.route.LoadOrInitDocumentRoute;
-import de.ronnyfriedland.knowledgebase.route.CreateNewDocumentRoute;
+import de.ronnyfriedland.knowledgebase.route.AbstractRoute;
 
 /**
  * @author ronnyfriedland
@@ -17,10 +14,19 @@ import de.ronnyfriedland.knowledgebase.route.CreateNewDocumentRoute;
 public class Server implements Runnable {
 
     @Autowired
-    private IRepository repository;
+    private Configuration configuration;
 
     @Autowired
-    private Configuration configuration;
+    private AbstractRoute addDocument;
+
+    @Autowired
+    private AbstractRoute loadDocument;
+
+    @Autowired
+    private AbstractRoute listDocuments;
+
+    @Autowired
+    private AbstractRoute createDocument;
 
     /**
      * {@inheritDoc}
@@ -32,9 +38,9 @@ public class Server implements Runnable {
         Spark.setPort(configuration.getPort());
         Spark.staticFileLocation(configuration.getStaticContentLocation());
 
-        Spark.get(new LoadOrInitDocumentRoute(repository, "/data/add"));
-        Spark.get(new LoadOrInitDocumentRoute(repository, "/data/:key"));
-        Spark.get(new ListDocumentsRoute(repository, "/data"));
-        Spark.post(new CreateNewDocumentRoute(repository, "/data"));
+        Spark.get(addDocument);
+        Spark.get(loadDocument);
+        Spark.get(listDocuments);
+        Spark.post(createDocument);
     }
 }
