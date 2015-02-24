@@ -2,7 +2,7 @@
     <head>
         <link rel="stylesheet" type="text/css" href="/style.css"/>
         <script src="/jquery-1.11.2.min.js"></script>
-        <script src="/jquery.validate.js"></script>
+        <script src="/jquery.validate.min.js"></script>
         <script type="text/javascript" src="/openwysiwyg/scripts/wysiwyg.js"></script>
         <script type="text/javascript" src="/openwysiwyg/scripts/wysiwyg-settings.js"></script>
         <script type="text/javascript">
@@ -27,9 +27,7 @@
 
     <body>
         <h1>Knowledgebase 2.0</h1>
-        <div class="container button_big">
-            <a href="/data">&Uuml;bersicht</a>
-        </div>
+        <a href="/data"><div class="container button_big">&Uuml;bersicht</div></a>
         
         <br/><br/>
         

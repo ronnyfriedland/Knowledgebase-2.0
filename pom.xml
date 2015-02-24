@@ -6,43 +6,105 @@
     <version>0.0.1-SNAPSHOT</version>
 
     <properties>
-
         <!-- Generic properties -->
         <java.version>1.7</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <spring-framework.version>3.2.3.RELEASE</spring-framework.version>
+        <spring.version>3.2.3.RELEASE</spring.version>
         <slf4j.version>1.7.5</slf4j.version>
+        <sparkjava.version>1.1.1</sparkjava.version>
+        <sparkjava.freemarker.version>1.0</sparkjava.freemarker.version>
+        <jcr.version>2.0</jcr.version>
+        <jackrabbit.version>2.9.0</jackrabbit.version>
         <!-- Test -->
         <junit.version>4.11</junit.version>
-
     </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <showDeprecation>false</showDeprecation>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.akathist.maven.plugins.launch4j</groupId>
+                <artifactId>launch4j-maven-plugin</artifactId>
+                <version>1.7.1</version>
+                <executions>
+                    <execution>
+                        <id>l4j-gui</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>launch4j</goal>
+                        </goals>
+                        <configuration>
+                            <headerType>gui</headerType>
+                            <outfile>${project.build.directory}/KB-2.0.exe</outfile>
+                            <jar>${project.artifactId}-${project.version}.jar</jar>
+                            <dontWrapJar>true</dontWrapJar>
+                            <errTitle>Knowledgebase 2.0</errTitle>
+                            <classPath>
+                                <mainClass>de.ronnyfriedland.knowledgebase.launcher.Launcher</mainClass>
+                                <addDependencies>true</addDependencies>
+                            </classPath>
+                            <jre>
+                                <minVersion>1.7.0</minVersion>
+                                <opts>
+                                    <opt>-Xms32m</opt>
+                                    <opt>-Xmx128m</opt>
+                                    <opt>-XX:+HeapDumpOnOutOfMemoryError</opt>
+                                    <opt>-XX:HeapDumpPath=heapdump.hprof</opt>
+                                </opts>
+                            </jre>
+                            <versionInfo>
+                                <fileVersion>0.1.0.0</fileVersion>
+                                <txtFileVersion>${project.version}</txtFileVersion>
+                                <fileDescription>Knowledgebase 2.0 executable</fileDescription>
+                                <copyright>GPL</copyright>
+                                <productVersion>0.1.0.0</productVersion>
+                                <txtProductVersion>${project.version}</txtProductVersion>
+                                <productName>Knowledgebase 2.0</productName>
+                                <internalName>Knowledgebase 2.0</internalName>
+                                <originalFilename>Knowledgebase2.0.exe</originalFilename>
+                            </versionInfo>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
     <dependencies>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <version>${spring-framework.version}</version>
+            <version>${spring.version}</version>
         </dependency>
         <dependency>
             <groupId>com.sparkjava</groupId>
             <artifactId>spark-core</artifactId>
-            <version>1.1.1</version>
+            <version>${sparkjava.version}</version>
         </dependency>
         <dependency>
             <groupId>com.sparkjava</groupId>
             <artifactId>spark-template-freemarker</artifactId>
-            <version>1.0</version>
+            <version>${sparkjava.freemarker.version}</version>
         </dependency>
         <dependency>
             <groupId>javax.jcr</groupId>
             <artifactId>jcr</artifactId>
-            <version>2.0</version>
+            <version>${jcr.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.jackrabbit</groupId>
             <artifactId>jackrabbit-core</artifactId>
-            <version>2.9.0</version>
+            <version>${jackrabbit.version}</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -60,7 +122,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
-            <version>${spring-framework.version}</version>
+            <version>${spring.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>

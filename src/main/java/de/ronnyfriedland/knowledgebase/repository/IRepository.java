@@ -39,4 +39,6 @@ public interface IRepository {
      * @throws DataException if an error occurs retrieving the document
      */
     Collection<Document<String>> listTextDocuments(final int offset, final int max) throws DataException;
+
+    void removeDocument(final String id) throws DataException;
 }

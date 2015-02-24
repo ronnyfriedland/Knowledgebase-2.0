@@ -112,12 +112,25 @@ public class JackRabbitRepository implements IRepository {
         try {
             Session session = repository.login(new SimpleCredentials("admin", "admin".toCharArray()));
             try {
-                QueryManager qm = session.getWorkspace().getQueryManager();
-                QueryObjectModelFactory qomf = qm.getQOMFactory();
-                Selector nodeTypeSelector = qomf
-                        .selector("{http://www.jcp.org/jcr/nt/1.0}unstructured", "unstructured");
+                final QueryManager qm = session.getWorkspace().getQueryManager();
+                final QueryObjectModelFactory qomf = qm.getQOMFactory();
+                final Selector nodeTypeSelector = qomf.selector("{http://www.jcp.org/jcr/nt/1.0}unstructured",
+                        "unstructured");
 
-                QueryObjectModel qom = qomf.createQuery(nodeTypeSelector, null, null, null);
+                // final Ordering order = qomf.ascending(new PropertyValue() {
+                //
+                // @Override
+                // public String getSelectorName() {
+                // return nodeTypeSelector.getSelectorName();
+                // }
+                //
+                // @Override
+                // public String getPropertyName() {
+                // return "jcr:created";
+                // }
+                // });
+
+                final QueryObjectModel qom = qomf.createQuery(nodeTypeSelector, null, null, null);
 
                 if (0 < max) {
                     qom.setLimit(max);
@@ -125,6 +138,7 @@ public class JackRabbitRepository implements IRepository {
                 if (0 < offset) {
                     qom.setOffset(offset);
                 }
+                qom.getOrderings();
                 QueryResult qr = qom.execute();
 
                 NodeIterator nodes = qr.getNodes();
@@ -141,6 +155,32 @@ public class JackRabbitRepository implements IRepository {
             throw new DataException(e);
         }
         return result;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @see de.ronnyfriedland.knowledgebase.repository.IRepository#removeDocument(java.lang.String)
+     */
+    @Override
+    public void removeDocument(final String key) throws DataException {
+        try {
+            Session session = repository.login(new SimpleCredentials("admin", "admin".toCharArray()));
+            try {
+
+                Node root = session.getRootNode();
+                Node node = root.getNode(key);
+
+                if (null != node) {
+                    node.remove();
+                    session.save();
+                }
+            } finally {
+                session.logout();
+            }
+        } catch (RepositoryException e) {
+            throw new DataException(e);
+        }
     }
 
     private Document<String> convertToDocument(final Node node) throws ValueFormatException, RepositoryException,

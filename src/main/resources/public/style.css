@@ -12,6 +12,7 @@ h1 {
 a {
     color: #898989;
 	text-decoration: none;
+	cursor: default;
 }
 
 a:HOVER {
@@ -19,11 +20,15 @@ a:HOVER {
 }
 
 label {
+	font-weight: bold;
+	display: inline-block;
 	padding-bottom: 5pt;
     padding-top: 15pt;
 }
 
 input {
+    margin-top: 15pt;
+	display: inline-block;
 	border: 1px solid gray;
 }
 
@@ -36,7 +41,7 @@ input[type=text] {
 	font-style: italic;
 }
 
-.container {
+.container, .button, .button_big {
     padding: 5pt;
 	display: inline-block;
     border-radius: 5px;
@@ -45,7 +50,22 @@ input[type=text] {
     text-align: center;
 }
 
+.button:HOVER {
+    background-color: #dedede;
+}
+
+.button_big:HOVER {
+    background-color: #FFFDE6;
+}
+
+.container {
+    background-color: #FFFDE6;
+}
+
+.button {
+    background-color: #FFFFFF;
+}
+
 .button_big {
-    padding: 10pt;
 	background-color: #dedede;
 }

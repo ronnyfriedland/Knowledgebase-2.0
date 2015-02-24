@@ -28,6 +28,9 @@ public class Server implements Runnable {
     @Autowired
     private AbstractRoute createDocument;
 
+    @Autowired
+    private AbstractRoute deleteDocument;
+
     /**
      * {@inheritDoc}
      *
@@ -42,5 +45,6 @@ public class Server implements Runnable {
         Spark.get(loadDocument);
         Spark.get(listDocuments);
         Spark.post(createDocument);
+        Spark.delete(deleteDocument);
     }
 }

@@ -41,7 +41,7 @@ var WYSIWYG = {
 		
 		// Default WYSIWYG width and height (use px or %)
 		this.Width = "500px";
-		this.Height = "400px";
+		this.Height = "250px";
 		
 		// Default stylesheet of the WYSIWYG editor window
 		this.DefaultStyle = "font-family: Arial; font-size: 12px; background-color: #FFFFFF";

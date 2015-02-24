@@ -28,4 +28,9 @@
         <constructor-arg value="${post.document.create.url}" />
     </bean>
 
+    <bean id="deleteDocument" class="de.ronnyfriedland.knowledgebase.route.DeleteDocumentRoute">
+        <constructor-arg ref="jackRabbitRepository" />
+        <constructor-arg value="${delete.document.delete.url}" />
+    </bean>
+
 </beans>

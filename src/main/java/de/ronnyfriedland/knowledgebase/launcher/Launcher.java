@@ -1,5 +1,7 @@
 package de.ronnyfriedland.knowledgebase.launcher;
 
+import java.awt.MenuItem;
+import java.awt.PopupMenu;
 import java.awt.SystemTray;
 import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
@@ -37,7 +39,7 @@ public class Launcher {
         // register shutdown hook to close context
         context.registerShutdownHook();
 
-        ExecutorService es = Executors.newFixedThreadPool(2);
+        ExecutorService es = Executors.newFixedThreadPool(1);
         try {
             Server server = context.getBean("server", Server.class);
             es.execute(server);
@@ -50,16 +52,22 @@ public class Launcher {
 
                     Configuration config = context.getBean("configuration", Configuration.class);
                     trayIcon.setToolTip("Knowledgebase 2.0 - listen on port " + config.getPort());
+                    trayIcon.setPopupMenu(new PopupMenu());
 
-                    tray.add(trayIcon);
-
-                    trayIcon.addActionListener(new ActionListener() {
+                    MenuItem menuItemExit = new MenuItem("Exit");
+                    menuItemExit.addActionListener(new ActionListener() {
 
                         @Override
                         public void actionPerformed(final ActionEvent e) {
                             System.exit(1);
                         }
                     });
+                    PopupMenu popup = new PopupMenu();
+                    popup.add(menuItemExit);
+
+                    trayIcon.setPopupMenu(popup);
+
+                    tray.add(trayIcon);
                 } catch (Exception e) {
                     LOG.error("Error adding to tray", e);
                     // ignore

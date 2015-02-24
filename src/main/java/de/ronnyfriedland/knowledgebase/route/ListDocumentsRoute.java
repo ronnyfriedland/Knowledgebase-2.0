@@ -47,7 +47,7 @@ public class ListDocumentsRoute extends AbstractRoute {
             }
             Integer limit = qp.get("limit").integerValue();
             if (null == limit) {
-                limit = 0;
+                limit = 10;
             }
 
             Collection<Document<String>> documents = repository.listTextDocuments(offset, limit);
