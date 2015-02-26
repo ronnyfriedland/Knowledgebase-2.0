@@ -2,7 +2,9 @@ package de.ronnyfriedland.knowledgebase.repository;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.jcr.Node;
@@ -14,11 +16,9 @@ import javax.jcr.Session;
 import javax.jcr.SimpleCredentials;
 import javax.jcr.Value;
 import javax.jcr.ValueFormatException;
+import javax.jcr.query.Query;
 import javax.jcr.query.QueryManager;
 import javax.jcr.query.QueryResult;
-import javax.jcr.query.qom.QueryObjectModel;
-import javax.jcr.query.qom.QueryObjectModelFactory;
-import javax.jcr.query.qom.Selector;
 
 import org.apache.jackrabbit.commons.JcrUtils;
 
@@ -41,7 +41,10 @@ public class JackRabbitRepository implements IRepository {
     @PostConstruct
     public void init() {
         try {
-            repository = JcrUtils.getRepository();
+            Map<String, String> params = new HashMap<>();
+            params.put("org.apache.jackrabbit.repository.home", "target/jackrabbit");
+            // params.put("org.apache.jackrabbit.repository.conf", "/src/main/resources/repository.xml");
+            repository = JcrUtils.getRepository(params);
         } catch (RepositoryException e) {
             throw new de.ronnyfriedland.knowledgebase.exception.RepositoryException(e);
         }
@@ -58,6 +61,7 @@ public class JackRabbitRepository implements IRepository {
             Session session = repository.login(new SimpleCredentials("admin", "admin".toCharArray()));
             try {
                 Node root = session.getRootNode();
+
                 Node node = root.getNode(key);
 
                 return convertToDocument(node);
@@ -112,34 +116,13 @@ public class JackRabbitRepository implements IRepository {
         try {
             Session session = repository.login(new SimpleCredentials("admin", "admin".toCharArray()));
             try {
-                final QueryManager qm = session.getWorkspace().getQueryManager();
-                final QueryObjectModelFactory qomf = qm.getQOMFactory();
-                final Selector nodeTypeSelector = qomf.selector("{http://www.jcp.org/jcr/nt/1.0}unstructured",
-                        "unstructured");
+                QueryManager qm = session.getWorkspace().getQueryManager();
 
-                // final Ordering order = qomf.ascending(new PropertyValue() {
-                //
-                // @Override
-                // public String getSelectorName() {
-                // return nodeTypeSelector.getSelectorName();
-                // }
-                //
-                // @Override
-                // public String getPropertyName() {
-                // return "jcr:created";
-                // }
-                // });
+                Query query = qm.createQuery("SELECT * FROM [nt:base] AS doc", Query.JCR_SQL2);
+                query.setLimit(max);
+                query.setOffset(offset);
 
-                final QueryObjectModel qom = qomf.createQuery(nodeTypeSelector, null, null, null);
-
-                if (0 < max) {
-                    qom.setLimit(max);
-                }
-                if (0 < offset) {
-                    qom.setOffset(offset);
-                }
-                qom.getOrderings();
-                QueryResult qr = qom.execute();
+                QueryResult qr = query.execute();
 
                 NodeIterator nodes = qr.getNodes();
                 while (nodes.hasNext()) {

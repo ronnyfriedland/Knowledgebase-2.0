@@ -40,5 +40,11 @@ public interface IRepository {
      */
     Collection<Document<String>> listTextDocuments(final int offset, final int max) throws DataException;
 
+    /**
+     * Removes the given document from the repository
+     *
+     * @param id the unique identifier of the document
+     * @throws DataException if an error occurs removing the document
+     */
     void removeDocument(final String id) throws DataException;
 }
