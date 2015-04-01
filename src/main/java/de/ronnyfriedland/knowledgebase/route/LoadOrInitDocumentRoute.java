@@ -48,6 +48,10 @@ public class LoadOrInitDocumentRoute extends AbstractRoute {
                 return processResult("document.ftl", attributes).response;
             } else { // load existing document
                 Document<String> document = repository.getTextDocument(key);
+                if (null == document) {
+                    response.status(404);
+                    return "Not found";
+                }
                 attributes.put("header", document.getHeader());
                 attributes.put("message", document.getMessage());
                 attributes.put("tags", StringUtils.arrayToDelimitedString(document.getTags(), ","));

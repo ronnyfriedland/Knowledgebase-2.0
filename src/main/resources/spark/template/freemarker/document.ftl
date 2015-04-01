@@ -18,7 +18,7 @@
                         }
                     },
                     messages: {
-                        header: "Bitte einen Titel vergeben",
+                        header: "Bitte einen g&uuml;ltigen Titel vergeben",
                     }
                 });
             });

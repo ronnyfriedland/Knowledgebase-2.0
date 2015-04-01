@@ -30,17 +30,21 @@
         <a href="/"><div class="container button_big">zur Startseite</div></a>
         <a href="/data/add"><div class="container button_big">Eintrag hinzuf&uuml;gen</div></a>
 
-        <br/><br/>
+        <br/>
+        <p>Vorhandene Eintr&auml;ge</p>
+        <br/>
 
-        <div class="container scroll">
-            <#list messages as message>
-            <a href="/data/${message.key}"><div class="button">${message.header}</div></a>
-            <br/>
-        
-            </#list>
+        <#if (messages?size > 0) >
+            <div class="container scroll">
+                <#list messages as message>
+                <a href="/data/${message.key}"><div class="button">${message.header}</div></a>
+                <br/>
             
-            <a onClick="javascript:load();">mehr</a>
-        </div>
-        
+                </#list>
+
+                <a onClick="javascript:load();">mehr</a>
+            </div>
+        </#if>
+
     </body>
 </html>
