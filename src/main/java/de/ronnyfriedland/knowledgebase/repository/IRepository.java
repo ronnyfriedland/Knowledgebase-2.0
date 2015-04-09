@@ -35,10 +35,11 @@ public interface IRepository {
      *
      * @param offset the offset
      * @param max the result limit
+     * @param tag the optional tag filter
      * @return a list of documents
      * @throws DataException if an error occurs retrieving the document
      */
-    Collection<Document<String>> listTextDocuments(final int offset, final int max) throws DataException;
+    Collection<Document<String>> listTextDocuments(final int offset, final int max, String tag) throws DataException;
 
     /**
      * Removes the given document from the repository

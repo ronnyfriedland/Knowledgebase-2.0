@@ -17,6 +17,7 @@ import javax.jcr.version.VersionException;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.jackrabbit.commons.JcrUtils;
+import org.apache.jackrabbit.ocm.exception.ObjectContentManagerException;
 import org.apache.jackrabbit.ocm.manager.ObjectContentManager;
 import org.apache.jackrabbit.ocm.manager.impl.ObjectContentManagerImpl;
 import org.apache.jackrabbit.ocm.mapper.Mapper;
@@ -68,7 +69,7 @@ public class JackRabbitRepository implements IRepository {
         if (null == document) {
             return null; // not found - wrong path?
         }
-        return new Document<String>(document.getPath(), document.getHeader(), document.getMessage(), document.getTags());
+        return Document.fromJcrTextDocument(key, document);
     }
 
     /**
@@ -99,15 +100,19 @@ public class JackRabbitRepository implements IRepository {
     /**
      * {@inheritDoc}
      *
-     * @see de.ronnyfriedland.knowledgebase.repository.IRepository#listTextDocuments(int, int)
+     * @see de.ronnyfriedland.knowledgebase.repository.IRepository#listTextDocuments(int, int, java.lang.String)
      */
     @SuppressWarnings("unchecked")
     @Override
-    public Collection<Document<String>> listTextDocuments(final int offset, final int max) throws DataException {
+    public Collection<Document<String>> listTextDocuments(final int offset, final int max, final String tag)
+            throws DataException {
         Collection<Document<String>> result = new ArrayList<>();
 
         QueryManager queryManager = ocm.getQueryManager();
         Filter filter = queryManager.createFilter(JCRTextDocument.class);
+        if (null != tag) {
+            filter.addLike("tags", tag);
+        }
         Query query = queryManager.createQuery(filter);
         query.addOrderByDescending("creationDate");
         Collection<JCRTextDocument> objects = ocm.getObjects(query);
@@ -116,7 +121,7 @@ public class JackRabbitRepository implements IRepository {
         for (JCRTextDocument object : objects) {
             if (count >= offset && count < max) { // should be replaced by query paging support
                 String path = object.getPath().substring(1);
-                result.add(new Document<String>(path, object.getHeader(), object.getMessage(), object.getTags()));
+                result.add(Document.fromJcrTextDocument(path, object));
             }
             count++;
         }
@@ -130,14 +135,18 @@ public class JackRabbitRepository implements IRepository {
      * @see de.ronnyfriedland.knowledgebase.repository.IRepository#removeDocument(java.lang.String)
      */
     @Override
-    public void removeDocument(final String key) {
-        ocm.remove("/" + key);
+    public void removeDocument(final String key) throws DataException {
+        try {
+            ocm.remove("/" + key);
+        } catch (ObjectContentManagerException e) {
+            throw new DataException("Path does not exist,", e);
+        }
         ocm.save();
     }
 
     @SuppressWarnings("rawtypes")
     private ObjectContentManager getObjectContentManager(final Session session) throws LoginException,
-    RepositoryException {
+            RepositoryException {
         List<Class> classes = new ArrayList<>();
         classes.add(JCRTextDocument.class);
         Mapper mapper = new AnnotationMapperImpl(classes);

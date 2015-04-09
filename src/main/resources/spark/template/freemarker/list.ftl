@@ -22,6 +22,10 @@
                 limit = limit + 10;
                 window.location.href='/data?limit='+limit+'&offset=0';
             };
+            var filter = function (tag) {
+                limit = limit + 10;
+                window.location.href='/data?limit='+limit+'&offset=0&tag='+tag;
+            };
         </script
     </head>
     <body>
@@ -39,7 +43,8 @@
                 <#list messages as message>
                 <a href="/data/${message.key}">
                     <div class="button">${message.header}
-                        <div class="tags"><#list message.tags as tag>${tag}</#list></div>
+                        <br/><br/>
+                        <#list message.tags as tag><a onClick="javascript:filter('${tag}');"><span class="tags">${tag}</span></a></#list>
                     </div>
                 </a>
                 <br/>

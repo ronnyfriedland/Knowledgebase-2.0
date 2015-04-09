@@ -49,8 +49,9 @@ public class ListDocumentsRoute extends AbstractRoute {
             if (null == limit) {
                 limit = 10;
             }
+            String tag = qp.get("tag").value();
 
-            Collection<Document<String>> documents = repository.listTextDocuments(offset, limit);
+            Collection<Document<String>> documents = repository.listTextDocuments(offset, limit, tag);
             attributes.put("messages", documents);
 
             return processResult("list.ftl", attributes).response;

@@ -26,6 +26,22 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>de.ronnyfriedland.knowledgebase.launcher.Launcher</mainClass>
+                            <addClasspath>true</addClasspath>
+                        </manifest>
+                        <manifestEntries>
+                            <Built-By></Built-By>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>2.3.2</version>
                 <configuration>
@@ -37,7 +53,7 @@
             <plugin>
                 <groupId>com.akathist.maven.plugins.launch4j</groupId>
                 <artifactId>launch4j-maven-plugin</artifactId>
-                <version>1.7.1</version>
+                <version>1.7.4</version>
                 <executions>
                     <execution>
                         <id>l4j-gui</id>
@@ -51,6 +67,7 @@
                             <jar>${project.artifactId}-${project.version}.jar</jar>
                             <dontWrapJar>true</dontWrapJar>
                             <errTitle>Knowledgebase 2.0</errTitle>
+                            <icon>${basedir}/src/main/resources/images/icon.ico</icon>
                             <classPath>
                                 <mainClass>de.ronnyfriedland.knowledgebase.launcher.Launcher</mainClass>
                                 <addDependencies>true</addDependencies>
