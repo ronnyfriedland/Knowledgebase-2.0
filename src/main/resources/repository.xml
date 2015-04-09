@@ -98,7 +98,7 @@
         -->
         <PersistenceManager class="org.apache.jackrabbit.core.persistence.pool.H2PersistenceManager">
           <param name="driver" value="org.h2.Driver"/>
-          <param name="url" value="jdbc:h2:mem:knowledgebase"/>
+          <param name="url" value="jdbc:h2:./${rep.home}/knowledgebase"/>
           <param name="schemaObjectPrefix" value="${wsp.name}_"/>
         </PersistenceManager>
         <!--
@@ -131,7 +131,7 @@
         -->
         <PersistenceManager class="org.apache.jackrabbit.core.persistence.pool.H2PersistenceManager">
           <param name="driver" value="org.h2.Driver"/>
-          <param name="url" value="jdbc:h2:mem:knowledgebase/version/db"/>
+          <param name="url" value="jdbc:h2:./${rep.home}/knowledgebase/version/db"/>
           <param name="schemaObjectPrefix" value="version_"/>
         </PersistenceManager>
     </Versioning>

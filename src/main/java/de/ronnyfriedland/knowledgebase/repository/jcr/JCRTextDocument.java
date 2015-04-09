@@ -6,8 +6,10 @@ import java.util.Date;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 
-@Node
+@Node(jcrMixinTypes = "mix:versionable, mix:referenceable, mix:lockable")
 public class JCRTextDocument {
+    @Field(uuid = true)
+    private String uuid;
     @Field(path = true)
     private String path;
     @Field
@@ -75,4 +77,11 @@ public class JCRTextDocument {
         this.creationDate = creationDate;
     }
 
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(final String uuid) {
+        this.uuid = uuid;
+    }
 }

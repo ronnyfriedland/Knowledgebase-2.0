@@ -5,9 +5,9 @@
                         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
 
     <context:component-scan base-package="de.ronnyfriedland.knowledgebase" />
-    
+
     <context:property-placeholder location="classpath:kb.properties" />
-    
+
     <bean id="addDocument" class="de.ronnyfriedland.knowledgebase.route.LoadOrInitDocumentRoute">
         <constructor-arg ref="jackRabbitRepository" />
         <constructor-arg value="${get.document.add.url}" />
@@ -22,7 +22,7 @@
         <constructor-arg ref="jackRabbitRepository" />
         <constructor-arg value="${get.documents.list.url}" />
     </bean>
-    
+
     <bean id="createDocument" class="de.ronnyfriedland.knowledgebase.route.CreateNewDocumentRoute">
         <constructor-arg ref="jackRabbitRepository" />
         <constructor-arg value="${post.document.create.url}" />
@@ -32,5 +32,4 @@
         <constructor-arg ref="jackRabbitRepository" />
         <constructor-arg value="${delete.document.delete.url}" />
     </bean>
-
 </beans>

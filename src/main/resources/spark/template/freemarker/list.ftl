@@ -37,12 +37,18 @@
         <#if (messages?size > 0) >
             <div class="container scroll">
                 <#list messages as message>
-                <a href="/data/${message.key}"><div class="button">${message.header}</div></a>
+                <a href="/data/${message.key}">
+                    <div class="button">${message.header}
+                        <div class="tags"><#list message.tags as tag>${tag}</#list></div>
+                    </div>
+                </a>
                 <br/>
             
                 </#list>
 
-                <a onClick="javascript:load();">mehr</a>
+                <#if (messages?size%10 == 0) >
+                    <a onClick="javascript:load();">mehr</a>
+                </#if>
             </div>
         </#if>
 

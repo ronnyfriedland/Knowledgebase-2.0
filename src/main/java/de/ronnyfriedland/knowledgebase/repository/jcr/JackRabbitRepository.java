@@ -13,6 +13,7 @@ import javax.jcr.Repository;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.SimpleCredentials;
+import javax.jcr.version.VersionException;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.jackrabbit.commons.JcrUtils;
@@ -76,16 +77,23 @@ public class JackRabbitRepository implements IRepository {
      * @see de.ronnyfriedland.knowledgebase.repository.IRepository#saveTextDocument(de.ronnyfriedland.knowledgebase.entity.Document)
      */
     @Override
-    public String saveTextDocument(final Document<String> message) {
+    public String saveTextDocument(final Document<String> message) throws DataException {
         JCRTextDocument jcrDocument = new JCRTextDocument(message.getKey(), message.getHeader(), message.getMessage(),
                 StringUtils.join(message.getTags(), ","));
-        if (ocm.objectExists(jcrDocument.getPath())) {
-            ocm.update(jcrDocument);
-        } else {
-            ocm.insert(jcrDocument);
+        try {
+            if (ocm.objectExists(jcrDocument.getPath())) {
+                ocm.checkout(jcrDocument.getPath());
+                ocm.update(jcrDocument);
+                ocm.save();
+                ocm.checkin(jcrDocument.getPath());
+            } else {
+                ocm.insert(jcrDocument);
+                ocm.save();
+            }
+        } catch (VersionException e) {
+            throw new DataException(e);
         }
-        ocm.save();
-        return "";
+        return jcrDocument.getUuid();
     }
 
     /**
@@ -107,8 +115,8 @@ public class JackRabbitRepository implements IRepository {
         int count = 0;
         for (JCRTextDocument object : objects) {
             if (count >= offset && count < max) { // should be replaced by query paging support
-                result.add(new Document<String>(object.getPath(), object.getHeader(), object.getMessage(), object
-                        .getTags()));
+                String path = object.getPath().substring(1);
+                result.add(new Document<String>(path, object.getHeader(), object.getMessage(), object.getTags()));
             }
             count++;
         }
@@ -129,7 +137,7 @@ public class JackRabbitRepository implements IRepository {
 
     @SuppressWarnings("rawtypes")
     private ObjectContentManager getObjectContentManager(final Session session) throws LoginException,
-            RepositoryException {
+    RepositoryException {
         List<Class> classes = new ArrayList<>();
         classes.add(JCRTextDocument.class);
         Mapper mapper = new AnnotationMapperImpl(classes);
