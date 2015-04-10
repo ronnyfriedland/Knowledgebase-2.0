@@ -15,7 +15,6 @@ import javax.jcr.Session;
 import javax.jcr.SimpleCredentials;
 import javax.jcr.version.VersionException;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.jackrabbit.commons.JcrUtils;
 import org.apache.jackrabbit.ocm.exception.ObjectContentManagerException;
 import org.apache.jackrabbit.ocm.manager.ObjectContentManager;
@@ -80,7 +79,7 @@ public class JackRabbitRepository implements IRepository {
     @Override
     public String saveTextDocument(final Document<String> message) throws DataException {
         JCRTextDocument jcrDocument = new JCRTextDocument(message.getKey(), message.getHeader(), message.getMessage(),
-                StringUtils.join(message.getTags(), ","));
+                message.getTags());
         try {
             if (ocm.objectExists(jcrDocument.getPath())) {
                 ocm.checkout(jcrDocument.getPath());

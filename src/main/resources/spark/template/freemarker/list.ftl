@@ -43,8 +43,10 @@
                 <#list messages as message>
                 <a href="/data/${message.key}">
                     <div class="button">${message.header}
-                        <br/><br/>
-                        <#list message.tags as tag><a onClick="javascript:filter('${tag}');"><span class="tags">${tag}</span></a></#list>
+                        <#if (message.tags?size > 0) >
+                            <br/><br/>
+                            <#list message.tags as tag><a onClick="javascript:filter('${tag}');"><span class="tags">${tag}</span></a></#list>
+                        </#if>
                     </div>
                 </a>
                 <br/>

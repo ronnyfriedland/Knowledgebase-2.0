@@ -1,11 +1,20 @@
 package de.ronnyfriedland.knowledgebase.repository.jcr;
 
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
+import org.apache.jackrabbit.ocm.manager.collectionconverter.impl.MultiValueCollectionConverterImpl;
+import org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 
+/**
+ * Node implementation to store text based documents.
+ *
+ * @author ronnyfriedland
+ */
 @Node(jcrMixinTypes = "mix:versionable, mix:referenceable, mix:lockable")
 public class JCRTextDocument {
     @Field(uuid = true)
@@ -16,12 +25,32 @@ public class JCRTextDocument {
     private String header;
     @Field
     private String message;
-    @Field
-    private String tags;
+    @Collection(collectionConverter = MultiValueCollectionConverterImpl.class)
+    private ManageableStringCollectionImpl tags;
     @Field
     private Date creationDate;
 
-    public JCRTextDocument(final String path, final String header, final String message, final String tags) {
+    /**
+     * Creates a new {@link JCRTextDocument} instance.
+     *
+     * @param path the path of the document
+     * @param header the header
+     * @param message the message
+     * @param tags the (optional) tags
+     */
+    public JCRTextDocument(final String path, final String header, final String message, final String[] tags) {
+        this(path, header, message, Arrays.asList(tags));
+    }
+
+    /**
+     * Creates a new {@link JCRTextDocument} instance.
+     *
+     * @param path the path of the document
+     * @param header the header
+     * @param message the message
+     * @param tags the (optional) tags
+     */
+    public JCRTextDocument(final String path, final String header, final String message, final List<String> tags) {
         this();
         if (path.startsWith("/")) {
         } else {
@@ -29,10 +58,13 @@ public class JCRTextDocument {
         }
         this.header = header;
         this.message = message;
-        this.tags = tags;
+        this.tags = new ManageableStringCollectionImpl(tags);
         this.creationDate = Calendar.getInstance().getTime();
     }
 
+    /**
+     * Creates a new {@link JCRTextDocument} instance.
+     */
     public JCRTextDocument() {
         super();
     }
@@ -61,11 +93,11 @@ public class JCRTextDocument {
         this.message = message;
     }
 
-    public String getTags() {
+    public ManageableStringCollectionImpl getTags() {
         return tags;
     }
 
-    public void setTags(final String tags) {
+    public void setTags(final ManageableStringCollectionImpl tags) {
         this.tags = tags;
     }
 

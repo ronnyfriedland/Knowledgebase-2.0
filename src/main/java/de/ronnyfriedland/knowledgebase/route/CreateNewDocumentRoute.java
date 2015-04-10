@@ -37,9 +37,14 @@ public class CreateNewDocumentRoute extends AbstractRoute {
             String header = request.queryParams("header");
             String key = header.replaceAll("[\\W&&[^-]]", "_");
             // prepare tags
-            String[] tags = request.queryParams("tags").split(",");
+            String[] tags = null;
+            if (request.queryParams("tags") != "") {
+                tags = request.queryParams("tags").split(",");
+            }
+            // get message
+            String message = request.queryParams("message");
             // save document
-            repository.saveTextDocument(new Document<String>(key, header, request.queryParams("message"), tags));
+            repository.saveTextDocument(new Document<String>(key, header, message, tags));
             // redirect to overview
             response.redirect("/data");
             return null;

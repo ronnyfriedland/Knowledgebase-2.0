@@ -3,6 +3,7 @@ package de.ronnyfriedland.knowledgebase.entity;
 import java.io.Serializable;
 
 import de.ronnyfriedland.knowledgebase.repository.jcr.JCRTextDocument;
+import de.ronnyfriedland.knowledgebase.repository.jcr.ManageableStringCollectionImpl;
 
 /**
  * @author ronnyfriedland
@@ -20,6 +21,14 @@ public class Document<T> implements Serializable {
     private final T message;
     private final String[] tags;
 
+    /**
+     * Creates a new {@link Document} instance.
+     *
+     * @param key
+     * @param header
+     * @param message
+     * @param tags
+     */
     public Document(final String key, final String header, final T message, final String... tags) {
         this.key = key;
         this.header = header;
@@ -54,12 +63,12 @@ public class Document<T> implements Serializable {
     }
 
     public static Document<String> fromJcrTextDocument(final String path, final JCRTextDocument jcrTextDocument) {
-        String[] jcrTags = jcrTextDocument.getTags().split(",");
         String[] tags;
+        ManageableStringCollectionImpl jcrTags = jcrTextDocument.getTags();
         if (null != jcrTags) {
-            tags = new String[jcrTags.length];
+            tags = new String[jcrTags.getSize()];
             int i = 0;
-            for (String jcrTag : jcrTags) {
+            for (String jcrTag : jcrTags.getObjects()) {
                 tags[i] = jcrTag.trim();
                 i++;
             }
