@@ -8,7 +8,12 @@
         <script type="text/javascript">
             jQuery( document ).ready(function() {
                 WYSIWYG.attach('message');
-    
+
+                header = jQuery("#header");
+                if("" != header.val()) {
+                    header.prop('disabled', true);
+                }
+
                 // validate signup form on keyup and submit
                 jQuery("#documentForm").validate({
                     rules: {
