@@ -11,7 +11,7 @@
 
                 header = jQuery("#header");
                 if("" != header.val()) {
-                    header.prop('disabled', true);
+                    header.attr('readonly', true);
                 }
 
                 // validate signup form on keyup and submit
@@ -23,7 +23,7 @@
                         }
                     },
                     messages: {
-                        header: "Bitte einen g&uuml;ltigen Titel vergeben",
+                        header: "Bitte einen g&uuml;ltigen Titel vergeben (mindestens 2 Zeichen)",
                     }
                 });
             });
@@ -39,7 +39,7 @@
         <div class="container">
     
             <form id="documentForm" action="/data" method="post">
-                <label for="header">Titel</label><br/><input type="text" name="header" id="header" value="${header}"/><br/>
+                <label for="header">&Uuml;berschrift</label><br/><input type="text" name="header" id="header" value="${header}"/><br/>
                 <label for="message">Inhalt</label><br/><textarea id="message" name="message">${message}</textarea><br/>
                 <label for="tags">Schlagw&ouml;rter</label><br/><input type="text" name="tags" id="tags" value="${tags}"/><br/>
                 <input type="submit" value="Speichern" />
