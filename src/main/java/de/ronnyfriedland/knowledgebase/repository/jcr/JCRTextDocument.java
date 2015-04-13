@@ -1,10 +1,12 @@
 package de.ronnyfriedland.knowledgebase.repository.jcr;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.jackrabbit.ocm.manager.collectionconverter.impl.ManageableCollectionImpl;
 import org.apache.jackrabbit.ocm.manager.collectionconverter.impl.MultiValueCollectionConverterImpl;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
@@ -17,6 +19,36 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
  */
 @Node(jcrMixinTypes = "mix:versionable, mix:referenceable, mix:lockable")
 public class JCRTextDocument {
+    public static final class ManageableStringCollectionImpl extends ManageableCollectionImpl {
+
+        /**
+         * Creates a new {@link ManageableStringCollectionImpl} instance.
+         *
+         * @param collection the initial collection
+         */
+        public ManageableStringCollectionImpl(final java.util.Collection<String> collection) {
+            super(collection);
+        }
+
+        /**
+         * Creates a new {@link ManageableStringCollectionImpl} instance.
+         */
+        public ManageableStringCollectionImpl() {
+            super(new ArrayList<String>());
+        }
+
+        /**
+         * {@inheritDoc}
+         *
+         * @see org.apache.jackrabbit.ocm.manager.collectionconverter.impl.ManageableCollectionImpl#getObjects()
+         */
+        @SuppressWarnings("unchecked")
+        @Override
+        public java.util.Collection<String> getObjects() {
+            return super.getObjects();
+        }
+    }
+
     @Field(uuid = true)
     private String uuid;
     @Field(path = true)
@@ -99,6 +131,14 @@ public class JCRTextDocument {
 
     public void setTags(final ManageableStringCollectionImpl tags) {
         this.tags = tags;
+    }
+
+    public void setTags(final String[] tags) {
+        setTags(Arrays.asList(tags));
+    }
+
+    public void setTags(final List<String> tags) {
+        this.tags = new ManageableStringCollectionImpl(tags);
     }
 
     public Date getCreationDate() {

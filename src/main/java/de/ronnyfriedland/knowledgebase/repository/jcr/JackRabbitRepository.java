@@ -24,6 +24,9 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.AnnotationMapperImpl;
 import org.apache.jackrabbit.ocm.query.Filter;
 import org.apache.jackrabbit.ocm.query.Query;
 import org.apache.jackrabbit.ocm.query.QueryManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 
 import de.ronnyfriedland.knowledgebase.entity.Document;
 import de.ronnyfriedland.knowledgebase.exception.DataException;
@@ -36,14 +39,28 @@ import de.ronnyfriedland.knowledgebase.repository.IRepository;
 @org.springframework.beans.factory.annotation.Qualifier("jcr")
 public class JackRabbitRepository implements IRepository {
 
+    private static final Logger LOG = LoggerFactory.getLogger(JackRabbitRepository.class);
+
+    @Value("${jcr.repository.home}")
+    private String repositoryHome;
+
+    @Value("${jcr.repository.conf}")
+    private String repositoryConf;
+
+    @Value("${jcr.repository.user}")
+    private String repositoryUsername;
+
+    @Value("${jcr.repository.user.password}")
+    private char[] repositoryPassword;
+
     private ObjectContentManager ocm;
 
     @PostConstruct
     public void init() {
         try {
             Map<String, String> params = new HashMap<>();
-            params.put("org.apache.jackrabbit.repository.home", "target/jackrabbit");
-            params.put("org.apache.jackrabbit.repository.conf", "src/main/resources/repository.xml");
+            params.put("org.apache.jackrabbit.repository.home", repositoryHome);
+            params.put("org.apache.jackrabbit.repository.conf", repositoryConf);
             Repository repository = JcrUtils.getRepository(params);
 
             ocm = getObjectContentManager(createSession(repository));
@@ -145,7 +162,7 @@ public class JackRabbitRepository implements IRepository {
 
     @SuppressWarnings("rawtypes")
     private ObjectContentManager getObjectContentManager(final Session session) throws LoginException,
-            RepositoryException {
+    RepositoryException {
         List<Class> classes = new ArrayList<>();
         classes.add(JCRTextDocument.class);
         Mapper mapper = new AnnotationMapperImpl(classes);
@@ -153,7 +170,7 @@ public class JackRabbitRepository implements IRepository {
     }
 
     private Session createSession(final Repository repository) throws LoginException, RepositoryException {
-        Session session = repository.login(new SimpleCredentials("admin", "admin".toCharArray()));
+        Session session = repository.login(new SimpleCredentials(repositoryUsername, repositoryPassword));
         return session;
     }
 
