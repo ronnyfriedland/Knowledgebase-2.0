@@ -153,16 +153,18 @@ public class JackRabbitRepository implements IRepository {
     @Override
     public void removeDocument(final String key) throws DataException {
         try {
-            ocm.remove("/" + key);
+            if (ocm.objectExists("/" + key)) {
+                ocm.remove("/" + key);
+                ocm.save();
+            }
         } catch (ObjectContentManagerException e) {
-            throw new DataException("Path does not exist,", e);
+            throw new DataException("Error accessing path.", e);
         }
-        ocm.save();
     }
 
     @SuppressWarnings("rawtypes")
     private ObjectContentManager getObjectContentManager(final Session session) throws LoginException,
-    RepositoryException {
+            RepositoryException {
         List<Class> classes = new ArrayList<>();
         classes.add(JCRTextDocument.class);
         Mapper mapper = new AnnotationMapperImpl(classes);
