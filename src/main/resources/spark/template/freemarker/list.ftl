@@ -1,6 +1,14 @@
 <html>
     <head>
-        <link rel="stylesheet" type="text/css" href="/style.css"/>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Knowledgebase 2.0">
+        <meta name="author" content="Ronny Friedland">
+
+        <link rel="stylesheet" href="/bootstrap.min.css">
+        <link rel="stylesheet" href="/bootstrap-theme.min.css">
+        <script src="/bootstrap.min.js"></script>
         
         <script src="/jquery-1.11.2.min.js"></script>
         <script type="text/javascript">
@@ -28,29 +36,55 @@
             };
         </script
     </head>
-    <body>
-        <h1>Knowledgebase 2.0</h1>
-        
-        <a href="/"><div class="container button_big">zur Startseite</div></a>
-        <a href="/data/add"><div class="container button_big">Eintrag hinzuf&uuml;gen</div></a>
+    <body role="document">
 
+      <nav class="navbar navbar-default">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Knowledgebase 2.0</a>
+          </div>
+          <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+            <li><a href="/data/add">Eintrag hinzuf&uuml;gen</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+      
         <br/>
-        <p>Vorhandene Eintr&auml;ge</p>
+        <div class="page-header">
+            <h2>Liste der Eintr&auml;ge</h2>
+        </div>
         <br/>
 
         <#if (messages?size > 0) >
-            <div class="container scroll">
+              <div class="container scroll">
                 <#list messages as message>
-                <a href="/data/${message.key}">
-                    <div class="button">${message.header}
-                        <#if (message.tags?size > 0) >
-                            <br/><br/>
-                            <#list message.tags as tag><a onClick="javascript:filter('${tag}');"><span class="tags">${tag}</span></a></#list>
-                        </#if>
-                    </div>
-                </a>
-                <br/>
-            
+                
+                  <div class="row">
+                    <div class="col-sm-4">
+                      <div class="list-group">
+                        <a href="/data/${message.key}">
+                          <h4 class="list-group-item-heading">${message.header}</h4>
+                          <#if (message.tags?size > 0) >
+                            <p class="list-group-item-text">
+                                <#list message.tags as tag>
+                                    <a onClick="javascript:filter('${tag}');"><span class="label label-success">${tag}</span></a>
+                                    &nbsp;
+                                </#list>
+                            </p>
+                          </#if>
+                        </a>
+                      </div>
+                    </div><!-- /.col-sm-4 -->
+                  </div>
+
                 </#list>
 
                 <#if (messages?size%10 == 0) >
@@ -60,4 +94,6 @@
         </#if>
 
     </body>
+    
+    
 </html>

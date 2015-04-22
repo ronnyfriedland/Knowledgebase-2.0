@@ -1,6 +1,14 @@
 <html>
     <head>
-        <link rel="stylesheet" type="text/css" href="/style.css"/>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Knowledgebase 2.0">
+        <meta name="author" content="Ronny Friedland">
+
+        <link rel="stylesheet" href="/bootstrap.min.css">
+        <link rel="stylesheet" href="/bootstrap-theme.min.css">
+        <script src="/bootstrap.min.js"></script>
         <script src="/jquery-1.11.2.min.js"></script>
         <script src="/jquery.validate.min.js"></script>
         <script type="text/javascript" src="/openwysiwyg/scripts/wysiwyg.js"></script>
@@ -30,11 +38,27 @@
         </script>
     </head>
 
-    <body>
-        <h1>Knowledgebase 2.0</h1>
-        <a href="/data"><div class="container button_big">&Uuml;bersicht</div></a>
+    <body role="document">
+
+      <nav class="navbar navbar-default">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Knowledgebase 2.0</a>
+          </div>
+          <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+            <li><a href="/data">&Uuml;bersicht</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
         
-        <br/><br/>
         
         <div class="container">
     
