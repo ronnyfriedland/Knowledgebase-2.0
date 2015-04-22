@@ -47,7 +47,7 @@
           </div>
           <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-            <li><a href="/data">&Uuml;bersicht</a></li>
+            <li><a href="/data">Eintr&auml;ge auflisten</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>
