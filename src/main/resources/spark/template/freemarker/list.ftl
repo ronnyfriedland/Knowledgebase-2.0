@@ -62,7 +62,7 @@
             <p>Liste der Eintr&auml;ge</p>
             <br/>
     
-            <p>Filter entfernen: <a href="#" onClick="javascript:refresh();"><span id="tagfilter" /></a></p>
+            <p>Filter entfernen: <a href="#" onClick="javascript:refresh();" style="text-decoration:line-through;"><span id="tagfilter" /></a></p>
             <br/>
             
             <#if (messages?size > 0) >
