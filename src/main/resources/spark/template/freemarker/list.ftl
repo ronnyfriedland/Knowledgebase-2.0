@@ -30,10 +30,17 @@
                 limit = limit + 10;
                 window.location.href='/data?limit='+limit+'&offset=0';
             };
+            var refresh = function () {
+                window.location.href='/data?limit='+limit+'&offset=0';
+            };
             var filter = function (tag) {
-                limit = limit + 10;
                 window.location.href='/data?limit='+limit+'&offset=0&tag='+tag;
             };
+
+            jQuery( document ).ready(function() {
+                var tag = getQueryVariable('tag');
+                jQuery('#tagfilter').text(tag);
+            });
         </script
     </head>
     <body role="document">
@@ -51,42 +58,43 @@
         </div>
       </nav>
       
-        <br/>
-        <div class="page-header">
-            <h2>Liste der Eintr&auml;ge</h2>
-        </div>
-        <br/>
-
-        <#if (messages?size > 0) >
-              <div class="container scroll">
-                <#list messages as message>
-                
-                  <div class="row">
-                    <div class="col-sm-4">
-                      <div class="list-group">
-                        <a href="/data/${message.key}">
-                          <h4 class="list-group-item-heading">${message.header}</h4>
-                          <#if (message.tags?size > 0) >
-                            <p class="list-group-item-text">
-                                <#list message.tags as tag>
-                                    <a onClick="javascript:filter('${tag}');"><span class="label label-success">${tag}</span></a>
-                                    &nbsp;
-                                </#list>
-                            </p>
-                          </#if>
-                        </a>
+        <div class="container">
+            <p>Liste der Eintr&auml;ge</p>
+            <br/>
+    
+            <p>Filter entfernen: <a href="#" onClick="javascript:refresh();"><span id="tagfilter" /></a></p>
+            <br/>
+            
+            <#if (messages?size > 0) >
+                  <div class="container scroll">
+                    <#list messages as message>
+                    
+                      <div class="row">
+                        <div class="col-sm-4">
+                          <div class="list-group">
+                            <a href="/data/${message.key}">
+                              <h4 class="list-group-item-heading">${message.header}</h4>
+                              <#if (message.tags?size > 0) >
+                                <p class="list-group-item-text">
+                                    <#list message.tags as tag>
+                                        <a onClick="javascript:filter('${tag}');"><span class="label label-success">${tag}</span></a>
+                                        &nbsp;
+                                    </#list>
+                                </p>
+                              </#if>
+                            </a>
+                          </div>
+                        </div><!-- /.col-sm-4 -->
                       </div>
-                    </div><!-- /.col-sm-4 -->
-                  </div>
-
-                </#list>
-
-                <#if (messages?size%10 == 0) >
-                    <a onClick="javascript:load();">mehr</a>
-                </#if>
-            </div>
-        </#if>
-
+    
+                    </#list>
+    
+                    <#if (messages?size%10 == 0) >
+                        <a onClick="javascript:load();">mehr</a>
+                    </#if>
+                </div>
+            </#if>
+        </div>
     </body>
     
     

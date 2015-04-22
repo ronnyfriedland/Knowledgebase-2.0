@@ -1,15 +1,19 @@
 package de.ronnyfriedland.knowledgebase.launcher;
 
+import java.awt.Desktop;
 import java.awt.MenuItem;
 import java.awt.PopupMenu;
 import java.awt.SystemTray;
 import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.URI;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,9 +54,21 @@ public class Launcher {
                     TrayIcon trayIcon = new TrayIcon(new ImageIcon(Thread.currentThread().getContextClassLoader()
                             .getResource("public/images/icon.gif")).getImage());
 
-                    Configuration config = context.getBean("configuration", Configuration.class);
+                    final Configuration config = context.getBean("configuration", Configuration.class);
+
                     trayIcon.setToolTip("Knowledgebase 2.0 - listen on port " + config.getPort());
                     trayIcon.setPopupMenu(new PopupMenu());
+                    trayIcon.addActionListener(new ActionListener() {
+
+                        @Override
+                        public void actionPerformed(final ActionEvent e) {
+                            try {
+                                Desktop.getDesktop().browse(URI.create("http://localhost:" + config.getPort()));
+                            } catch (IOException e1) {
+                                JOptionPane.showMessageDialog(null, "Kann Broswer mit Anwendung nicht öffnen.");
+                            }
+                        }
+                    });
 
                     MenuItem menuItemExit = new MenuItem("Exit");
                     menuItemExit.addActionListener(new ActionListener() {
