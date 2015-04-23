@@ -14,6 +14,7 @@ import java.util.concurrent.Executors;
 
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,6 +38,31 @@ public class Launcher {
      * @param args application parameters
      */
     public static void main(final String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            /**
+             * {@inheritDoc}
+             *
+             * @see java.lang.Runnable#run()
+             */
+            @Override
+            public void run() {
+                new Launcher().init();
+            }
+        });
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            /**
+             * {@inheritDoc}
+             *
+             * @see java.lang.Thread#run()
+             */
+            @Override
+            public void run() {
+                // todo
+            }
+        });
+    }
+
+    private void init() {
         LOG.info("Starting Knowledgebase 2.0 ...");
 
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("context.xml");
@@ -92,6 +118,5 @@ public class Launcher {
         } finally {
             es.shutdown();
         }
-
     }
 }

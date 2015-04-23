@@ -11,7 +11,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <spring.version>3.2.3.RELEASE</spring.version>
-        <slf4j.version>1.7.5</slf4j.version>
+        <slf4j.version>1.7.7</slf4j.version>
         <sparkjava.version>1.1.1</sparkjava.version>
         <sparkjava.freemarker.version>1.0</sparkjava.freemarker.version>
         <jcr.version>2.0</jcr.version>
@@ -23,6 +23,14 @@
     </properties>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+            <resource>
+                <directory>src/main/application</directory>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -33,8 +41,10 @@
                         <manifest>
                             <mainClass>de.ronnyfriedland.knowledgebase.launcher.Launcher</mainClass>
                             <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib</classpathPrefix>
                         </manifest>
                         <manifestEntries>
+                            <Class-Path>conf/</Class-Path>
                             <Built-By></Built-By>
                         </manifestEntries>
                     </archive>
@@ -47,13 +57,13 @@
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
-                    <showDeprecation>false</showDeprecation>
+                    <showDeprecation>true</showDeprecation>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>com.akathist.maven.plugins.launch4j</groupId>
                 <artifactId>launch4j-maven-plugin</artifactId>
-                <version>1.7.4</version>
+                <version>1.7.5</version>
                 <executions>
                     <execution>
                         <id>l4j-gui</id>
@@ -67,7 +77,6 @@
                             <jar>${project.artifactId}-${project.version}.jar</jar>
                             <dontWrapJar>true</dontWrapJar>
                             <errTitle>Knowledgebase 2.0</errTitle>
-                            <icon>${basedir}/src/main/resources/images/icon.ico</icon>
                             <classPath>
                                 <mainClass>de.ronnyfriedland.knowledgebase.launcher.Launcher</mainClass>
                                 <addDependencies>true</addDependencies>
@@ -96,10 +105,40 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.2.2</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <descriptors>
+                        <descriptor>src/main/application/zip.xml</descriptor>
+                    </descriptors>
+                    <outputDirectory>target/zip</outputDirectory>
+                    <appendAssemblyId>false</appendAssemblyId>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
     <dependencies>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-jdk14</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+            <scope>compile</scope>
+        </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
@@ -134,18 +173,6 @@
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <version>${h2.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-jdk14</artifactId>
-            <version>${slf4j.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>${slf4j.version}</version>
-            <scope>compile</scope>
         </dependency>
 
         <!-- Test Artifacts -->

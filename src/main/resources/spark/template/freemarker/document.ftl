@@ -31,7 +31,7 @@
                         }
                     },
                     messages: {
-                        header: "<span class='label label-danger'>Bitte einen g&uuml;ltigen Titel vergeben (mindestens 2 Zeichen)</span>",
+                        header: "<span class='alert alert-danger' role='alert'>Bitte einen g&uuml;ltigen Titel vergeben (mindestens 2 Zeichen)</span>",
                     }
                 });
             });

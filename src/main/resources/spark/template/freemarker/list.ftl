@@ -59,12 +59,12 @@
       </nav>
       
         <div class="container">
-            <p>Liste der Eintr&auml;ge</p>
-            <br/>
-    
             <p>Filter entfernen: <a href="#" onClick="javascript:refresh();" style="text-decoration:line-through;"><span id="tagfilter" /></a></p>
             <br/>
             
+            <p>Liste der Eintr&auml;ge</p>
+            <br/>
+    
             <#if (messages?size > 0) >
                   <div class="container scroll">
                     <#list messages as message>

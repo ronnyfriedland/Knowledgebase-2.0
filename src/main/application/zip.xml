@@ -1,0 +1,54 @@
+<assembly>
+	<id>bin</id>
+	<formats>
+		<format>zip</format>
+	</formats>
+	<includeBaseDirectory>false</includeBaseDirectory>
+	<files>
+        <!-- add windows executable -->
+        <file>
+            <source>${project.build.directory}/KB-2.0.exe</source>
+            <outputDirectory>/</outputDirectory>
+        </file>
+        <!-- properties -->
+        <file>
+            <source>${project.build.directory}/classes/kb.properties</source>
+            <outputDirectory>/conf</outputDirectory>
+        </file>
+        <file>
+            <source>${project.build.directory}/classes/logging.properties</source>
+            <outputDirectory>/conf</outputDirectory>
+        </file>
+        <file>
+            <source>${project.build.directory}/classes/repository.xml</source>
+            <outputDirectory>/conf</outputDirectory>
+        </file>
+	</files>
+	<fileSets>
+		<!-- add dependency libs -->
+        <fileSet>
+            <directory>${project.build.directory}/lib</directory>
+            <outputDirectory>/lib</outputDirectory>
+            <includes>
+                <include>*</include>
+            </includes>
+        </fileSet>
+	</fileSets>
+	<dependencySets>
+		<!-- add jar -->
+		<dependencySet>
+			<outputDirectory>/</outputDirectory>
+			<includes>
+				<include>de.ronnyfriedland:knowledgebase</include>
+			</includes>
+			<useProjectAttachments>true</useProjectAttachments>
+		</dependencySet>
+        <dependencySet>
+            <outputDirectory>/lib</outputDirectory>
+            <excludes>
+                <exclude>de.ronnyfriedland:knowledgebase</exclude>
+            </excludes>
+        </dependencySet>
+	</dependencySets>
+
+</assembly>
