@@ -74,17 +74,20 @@
                           <div class="list-group">
                             <a href="/data/${message.key}">
                               <h4 class="list-group-item-heading">${message.header}</h4>
-                              <#if (message.tags?size > 0) >
-                                <p class="list-group-item-text">
-                                    <#list message.tags as tag>
-                                        <a onClick="javascript:filter('${tag}');"><span class="label label-success">${tag}</span></a>
-                                        &nbsp;
-                                    </#list>
-                                </p>
-                              </#if>
                             </a>
+                            <div id="message">
+                              ${message.message}
+                            </div>
+                            <#if (message.tags?size > 0) >
+                              <p class="list-group-item-text">
+                                <#list message.tags as tag>
+                                  <a onClick="javascript:filter('${tag}');"><span class="label label-success">${tag}</span></a>
+                                  &nbsp;
+                                </#list>
+                              </p>
+                            </#if>
                           </div>
-                        </div><!-- /.col-sm-4 -->
+                        </div>
                       </div>
     
                     </#list>
