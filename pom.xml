@@ -10,14 +10,14 @@
         <java.version>1.7</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <spring.version>3.2.3.RELEASE</spring.version>
+        <spring.version>4.1.6.RELEASE</spring.version>
         <slf4j.version>1.7.7</slf4j.version>
         <sparkjava.version>1.1.1</sparkjava.version>
         <sparkjava.freemarker.version>1.0</sparkjava.freemarker.version>
         <jcr.version>2.0</jcr.version>
-        <jackrabbit.version>2.9.0</jackrabbit.version>
+        <jackrabbit.version>2.10.0</jackrabbit.version>
         <jackrabbit.ocm.version>1.5.3</jackrabbit.ocm.version>
-        <h2.version>1.4.185</h2.version>
+        <h2.version>1.4.187</h2.version>
         <!-- Test -->
         <junit.version>4.11</junit.version>
     </properties>
@@ -118,7 +118,7 @@
                 </executions>
                 <configuration>
                     <descriptors>
-                        <descriptor>src/main/application/zip.xml</descriptor>
+                        <descriptor>src/main/assembly/zip.xml</descriptor>
                     </descriptors>
                     <outputDirectory>target/zip</outputDirectory>
                     <appendAssemblyId>false</appendAssemblyId>
