@@ -118,42 +118,42 @@ public class JackRabbitRepository implements IRepository {
      *
      * @see de.ronnyfriedland.knowledgebase.repository.IRepository#listTextDocuments(int, int, java.lang.String)
      */
-    @SuppressWarnings("unchecked")
     @Override
     public Collection<Document<String>> listTextDocuments(final int offset, final int max, final String tag)
             throws DataException {
-        Collection<Document<String>> result = new ArrayList<>();
 
         QueryManager queryManager = ocm.getQueryManager();
         Filter filter = queryManager.createFilter(JCRTextDocument.class);
         if (null != tag) {
             filter.addLike("tags", tag);
         }
-        Query query = queryManager.createQuery(filter);
-        query.addOrderByDescending("creationDate");
-        Collection<JCRTextDocument> objects = ocm.getObjects(query);
 
-        int count = 0;
-        for (JCRTextDocument object : objects) {
-            if (count >= offset && count < max) { // should be replaced by query paging support
-                String path = object.getPath().substring(1);
-                result.add(Document.fromJcrTextDocument(path, object));
-            }
-            count++;
-        }
-
-        return result;
+        return getDocumentsByQuery(offset, max, filter);
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @see de.ronnyfriedland.knowledgebase.repository.IRepository#searchTextDocuments(int, int, java.lang.String)
+     */
     @Override
     public Collection<Document<String>> searchTextDocuments(final int offset, final int max, final String search)
             throws DataException {
-        Collection<Document<String>> result = new ArrayList<>();
-
         QueryManager queryManager = ocm.getQueryManager();
         Filter filter = queryManager.createFilter(JCRTextDocument.class);
         filter.addContains("message", search);
 
+        return getDocumentsByQuery(offset, max, filter);
+    }
+
+    /**
+     * Executes the query (ordered by creationdate) with the given {@link Filter}.
+     */
+    @SuppressWarnings("unchecked")
+    private Collection<Document<String>> getDocumentsByQuery(final int offset, final int max, final Filter filter) {
+        Collection<Document<String>> result = new ArrayList<>();
+
+        QueryManager queryManager = ocm.getQueryManager();
         Query query = queryManager.createQuery(filter);
         query.addOrderByDescending("creationDate");
         Collection<JCRTextDocument> objects = ocm.getObjects(query);
@@ -166,7 +166,6 @@ public class JackRabbitRepository implements IRepository {
             }
             count++;
         }
-
         return result;
     }
 
