@@ -145,6 +145,31 @@ public class JackRabbitRepository implements IRepository {
         return result;
     }
 
+    @Override
+    public Collection<Document<String>> searchTextDocuments(final int offset, final int max, final String search)
+            throws DataException {
+        Collection<Document<String>> result = new ArrayList<>();
+
+        QueryManager queryManager = ocm.getQueryManager();
+        Filter filter = queryManager.createFilter(JCRTextDocument.class);
+        filter.addContains("message", search);
+
+        Query query = queryManager.createQuery(filter);
+        query.addOrderByDescending("creationDate");
+        Collection<JCRTextDocument> objects = ocm.getObjects(query);
+
+        int count = 0;
+        for (JCRTextDocument object : objects) {
+            if (count >= offset && count < max) { // should be replaced by query paging support
+                String path = object.getPath().substring(1);
+                result.add(Document.fromJcrTextDocument(path, object));
+            }
+            count++;
+        }
+
+        return result;
+    }
+
     /**
      * {@inheritDoc}
      *

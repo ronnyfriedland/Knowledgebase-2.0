@@ -33,13 +33,23 @@
             var refresh = function () {
                 window.location.href='/data?limit='+limit+'&offset=0';
             };
-            var filter = function (tag) {
-                window.location.href='/data?limit='+limit+'&offset=0&tag='+tag;
+            var filter = function (value) {
+                window.location.href='/data?limit='+limit+'&offset=0&tag='+value;
+            };
+            
+            var search = function (value) {
+                window.location.href='/data?limit='+limit+'&offset=0&search='+value;
             };
 
             jQuery( document ).ready(function() {
                 var tag = getQueryVariable('tag');
-                jQuery('#tagfilter').text(tag);
+                if(tag != "") {
+                    jQuery('#filter').text(tag);
+                }
+                var search = getQueryVariable('search');
+                if(search != "") {
+                    jQuery('#filter').text(search);
+                }
             });
         </script
     </head>
@@ -59,8 +69,10 @@
       </nav>
       
         <div class="container">
-            <p>Filter entfernen: <a href="#" onClick="javascript:refresh();" style="text-decoration:line-through;"><span id="tagfilter" /></a></p>
-            <br/>
+            <hr/>
+            <p>Suche: <input type="text" id="search" /><input type="button" value="Suchen" onClick="javascript:search(jQuery('#search').val())"/></p>
+            <p>Filter: <a href="#" onClick="javascript:refresh();" style="text-decoration:line-through;"><span id="filter" /></a></p>
+            <hr/>
             
             <p>Liste der Eintr&auml;ge</p>
             <br/>
@@ -75,17 +87,17 @@
                             <a href="/data/${message.key}">
                               <h4 class="list-group-item-heading">${message.header}</h4>
                             </a>
-                            <div id="message">
-                              ${message.message}
-                            </div>
-                            <#if (message.tags?size > 0) >
-                              <p class="list-group-item-text">
-                                <#list message.tags as tag>
-                                  <a onClick="javascript:filter('${tag}');"><span class="label label-success">${tag}</span></a>
-                                  &nbsp;
-                                </#list>
-                              </p>
-                            </#if>
+                            <p class="list-group-item-text">
+                                <div id="message">
+                                  ${message.message}
+                                </div>
+                                <#if (message.tags?size > 0) >
+                                    <#list message.tags as tag>
+                                      <a onClick="javascript:filter('${tag}');"><span class="label label-success">${tag}</span></a>
+                                      &nbsp;
+                                    </#list>
+                                </#if>
+                            </p>
                           </div>
                         </div>
                       </div>
