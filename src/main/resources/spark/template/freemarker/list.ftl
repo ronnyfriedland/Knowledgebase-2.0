@@ -38,7 +38,11 @@
             };
             
             var search = function (value) {
-                window.location.href='/data?limit='+limit+'&offset=0&search='+value;
+                if(value != "") {
+                    window.location.href='/data?limit='+limit+'&offset=0&search='+value;
+                } else {
+                    refresh();
+                }
             };
 
             jQuery( document ).ready(function() {
