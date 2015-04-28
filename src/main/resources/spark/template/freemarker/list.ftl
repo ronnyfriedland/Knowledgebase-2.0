@@ -8,9 +8,16 @@
 
         <link rel="stylesheet" href="/bootstrap.min.css">
         <link rel="stylesheet" href="/bootstrap-theme.min.css">
-        <script src="/bootstrap.min.js"></script>
+        
+        <style type="text/css">
+            .highlight {
+                background-color: yellow;
+            }
+        </style>
         
         <script src="/jquery-1.11.2.min.js"></script>
+        <script src="/bootstrap.min.js"></script>
+        <script src="/jquery.highlight.min.js"></script>
         <script type="text/javascript">
             function getQueryVariable(variable, def) {
                 var query = window.location.search.substring(1);
@@ -47,12 +54,14 @@
 
             jQuery( document ).ready(function() {
                 var tag = getQueryVariable('tag');
-                if(tag != "") {
+                if(tag != null) {
                     jQuery('#filter').text(tag);
+                    jQuery('#message').highlight(tag);
                 }
                 var search = getQueryVariable('search');
-                if(search != "") {
+                if(search != null) {
                     jQuery('#filter').text(search);
+                    jQuery('#message').highlight(search);
                 }
             });
         </script
