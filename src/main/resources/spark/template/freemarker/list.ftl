@@ -61,7 +61,7 @@
                 var search = getQueryVariable('search');
                 if(search != null) {
                     jQuery('#filter').text(search);
-                    jQuery('#message').highlight(search);
+                    jQuery('.message').highlight(search);
                 }
             });
         </script
@@ -101,7 +101,7 @@
                               <h4 class="list-group-item-heading">${message.header}</h4>
                             </a>
                             <p class="list-group-item-text">
-                                <div id="message">
+                                <div class="message">
                                   ${message.message}
                                 </div>
                                 <#if (message.tags?size > 0) >
