@@ -16,7 +16,7 @@
         <sparkjava.freemarker.version>1.0</sparkjava.freemarker.version>
         <jcr.version>2.0</jcr.version>
         <jackrabbit.version>2.10.0</jackrabbit.version>
-        <jackrabbit.ocm.version>1.5.3</jackrabbit.ocm.version>
+        <jackrabbit.ocm.version>2.0.0</jackrabbit.ocm.version>
         <h2.version>1.4.187</h2.version>
         <!-- Test -->
         <junit.version>4.11</junit.version>
@@ -165,7 +165,7 @@
             <version>${jackrabbit.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.jackrabbit</groupId>
+            <groupId>org.apache</groupId>
             <artifactId>jackrabbit-ocm</artifactId>
             <version>${jackrabbit.ocm.version}</version>
         </dependency>

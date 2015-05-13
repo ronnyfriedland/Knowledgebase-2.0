@@ -13,6 +13,11 @@
             .highlight {
                 background-color: yellow;
             }
+            
+            .message {
+                max-height: 150px;
+                overflow: auto;
+            }
         </style>
         
         <script src="/jquery-1.11.2.min.js"></script>
@@ -101,9 +106,7 @@
                               <h4 class="list-group-item-heading">${message.header}</h4>
                             </a>
                             <p class="list-group-item-text">
-                                <div class="message">
-                                  ${message.message}
-                                </div>
+                                <div class="message" id="${message.key}">${message.message}</div>
                                 <#if (message.tags?size > 0) >
                                     <#list message.tags as tag>
                                       <a onClick="javascript:filter('${tag}');"><span class="label label-success">${tag}</span></a>
