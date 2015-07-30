@@ -26,8 +26,10 @@ import org.apache.jackrabbit.ocm.query.Query;
 import org.apache.jackrabbit.ocm.query.QueryManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
+import de.ronnyfriedland.knowledgebase.cache.RepositoryCache;
 import de.ronnyfriedland.knowledgebase.entity.Document;
 import de.ronnyfriedland.knowledgebase.exception.DataException;
 import de.ronnyfriedland.knowledgebase.repository.IRepository;
@@ -52,6 +54,9 @@ public class JackRabbitRepository implements IRepository {
 
     @Value("${jcr.repository.user.password}")
     private char[] repositoryPassword;
+
+    @Autowired
+    private RepositoryCache<String> cache;
 
     private ObjectContentManager ocm;
 
@@ -81,11 +86,19 @@ public class JackRabbitRepository implements IRepository {
      */
     @Override
     public Document<String> getTextDocument(final String key) {
-        JCRTextDocument document = (JCRTextDocument) ocm.getObject("/" + key);
-        if (null == document) {
-            return null; // not found - wrong path?
+        Document<String> cachedDocument = cache.get(key);
+        if (null == cachedDocument) {
+            JCRTextDocument document = (JCRTextDocument) ocm.getObject("/" + key);
+            if (null == document) {
+                return null; // not found - wrong path?
+            }
+            return Document.fromJcrTextDocument(key, document);
+        } else {
+            if (LOG.isTraceEnabled()) {
+                LOG.trace("using cached entry for key: '{}' -> '{}'.", key, cachedDocument);
+            }
+            return cachedDocument;
         }
-        return Document.fromJcrTextDocument(key, document);
     }
 
     /**
@@ -107,6 +120,10 @@ public class JackRabbitRepository implements IRepository {
                 ocm.insert(jcrDocument);
                 ocm.save();
             }
+            if (LOG.isTraceEnabled()) {
+                LOG.trace("Put entry to cache: '{}'.", message);
+            }
+            cache.put(message.getKey(), message);
         } catch (VersionException e) {
             throw new DataException(e);
         }
@@ -161,8 +178,19 @@ public class JackRabbitRepository implements IRepository {
         int count = 0;
         for (JCRTextDocument object : objects) {
             if (count >= offset && count < max) { // should be replaced by query paging support
-                String path = object.getPath().substring(1);
-                result.add(Document.fromJcrTextDocument(path, object));
+                String key = object.getPath().substring(1);
+                Document<String> cachedDocument = cache.get(key);
+                if (null == cachedDocument) {
+                    if (LOG.isTraceEnabled()) {
+                        LOG.trace("Not found in cache: '{}'.", key);
+                    }
+                    result.add(Document.fromJcrTextDocument(key, object));
+                } else {
+                    if (LOG.isTraceEnabled()) {
+                        LOG.trace("using cached entry for key: '{}' -> '{}'.", key, cachedDocument);
+                    }
+                    result.add(cachedDocument);
+                }
             }
             count++;
         }
