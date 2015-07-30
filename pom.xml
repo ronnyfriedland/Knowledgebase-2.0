@@ -64,7 +64,7 @@
             <plugin>
                 <groupId>com.akathist.maven.plugins.launch4j</groupId>
                 <artifactId>launch4j-maven-plugin</artifactId>
-                <version>1.7.5</version>
+                <version>1.7.7</version>
                 <executions>
                     <execution>
                         <id>l4j-gui</id>
@@ -78,11 +78,15 @@
                             <jar>${project.artifactId}-${project.version}.jar</jar>
                             <dontWrapJar>true</dontWrapJar>
                             <errTitle>Knowledgebase 2.0</errTitle>
+                            <singleInstance>
+                                <mutexName>Knowledgebase 2.0</mutexName>
+                            </singleInstance> 
                             <classPath>
                                 <mainClass>de.ronnyfriedland.knowledgebase.launcher.Launcher</mainClass>
                                 <addDependencies>true</addDependencies>
                             </classPath>
                             <jre>
+                                <path>${JAVA_HOME}</path>
                                 <minVersion>1.6.0</minVersion>
                                 <opts>
                                     <opt>-Xms32m</opt>
