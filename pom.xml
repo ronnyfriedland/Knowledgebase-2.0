@@ -27,9 +27,11 @@
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
+                <filtering>true</filtering>
             </resource>
             <resource>
                 <directory>src/main/application</directory>
+                <filtering>true</filtering>
             </resource>
         </resources>
         <plugins>
@@ -96,11 +98,11 @@
                                 </opts>
                             </jre>
                             <versionInfo>
-                                <fileVersion>0.1.0.0</fileVersion>
+                                <fileVersion>0.0.3.0</fileVersion>
                                 <txtFileVersion>${project.version}</txtFileVersion>
                                 <fileDescription>Knowledgebase 2.0 executable</fileDescription>
                                 <copyright>GPL</copyright>
-                                <productVersion>0.1.0.0</productVersion>
+                                <productVersion>0.0.3.0</productVersion>
                                 <txtProductVersion>${project.version}</txtProductVersion>
                                 <productName>Knowledgebase 2.0</productName>
                                 <internalName>Knowledgebase 2.0</internalName>
