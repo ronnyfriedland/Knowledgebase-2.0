@@ -37,27 +37,10 @@ public class ListDocumentsRoute extends AbstractRoute {
      */
     @Override
     public Object handle(final Request request, final Response response) {
-        Map<String, Object> attributes = new HashMap<>();
-
         try {
-            QueryParamsMap qp = request.queryMap();
-            Integer offset = qp.get("offset").integerValue();
-            if (null == offset) {
-                offset = 0;
-            }
-            Integer limit = qp.get("limit").integerValue();
-            if (null == limit) {
-                limit = 10;
-            }
-            String tag = qp.get("tag").value();
-            String search = qp.get("search").value();
+            Map<String, Object> attributes = new HashMap<>();
 
-            Collection<Document<String>> documents;
-            if (null != search) {
-                documents = repository.searchTextDocuments(offset, limit, search);
-            } else {
-                documents = repository.listTextDocuments(offset, limit, tag);
-            }
+            Collection<Document<String>> documents = retrieveDocuments(request);
             attributes.put("messages", documents);
 
             return processResult("list.ftl", attributes).response;
@@ -67,5 +50,30 @@ public class ListDocumentsRoute extends AbstractRoute {
             response.status(500);
             return "error getting content";
         }
+    }
+
+    /**
+     * Maps the request attributes and retrieves the data.
+     */
+    protected Collection<Document<String>> retrieveDocuments(final Request request) throws DataException {
+        QueryParamsMap qp = request.queryMap();
+        Integer offset = qp.get("offset").integerValue();
+        if (null == offset) {
+            offset = 0;
+        }
+        Integer limit = qp.get("limit").integerValue();
+        if (null == limit) {
+            limit = 10;
+        }
+        String tag = qp.get("tag").value();
+        String search = qp.get("search").value();
+
+        Collection<Document<String>> documents;
+        if (null != search) {
+            documents = repository.searchTextDocuments(offset, limit, search);
+        } else {
+            documents = repository.listTextDocuments(offset, limit, tag);
+        }
+        return documents;
     }
 }

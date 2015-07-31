@@ -80,6 +80,7 @@
           </div>
           <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
+            <li><a href="/data/export">Eintr&auml;ge exportieren</a></li>
             <li><a href="/data/add">Eintrag hinzuf&uuml;gen</a></li>
             </ul>
           </div><!--/.nav-collapse -->
