@@ -88,44 +88,51 @@
       </nav>
       
         <div class="container">
-            <hr/>
-            <p>Suche: <input type="text" id="search" /><input type="button" value="Suchen" onClick="javascript:search(jQuery('#search').val())"/></p>
-            <p>Filter: <a href="#" onClick="javascript:refresh();" style="text-decoration:line-through;"><span id="filter" /></a></p>
-            <hr/>
+            <div class="form-group"><label for="search">Suche</label> <input type="text" id="search" /><input class="btn btn-default" type="button" value="Suchen" onClick="javascript:search(jQuery('#search').val())"/></div>
+            <div class="form-group"><label for="search">Filter</label> <a href="#" onClick="javascript:refresh();" style="text-decoration:line-through;"><span id="filter" /></a></div>
             
-            <p>Liste der Eintr&auml;ge</p>
-            <br/>
-    
-            <#if (messages?size > 0) >
-                  <div class="container scroll">
-                    <#list messages as message>
-                    
-                      <div class="row">
-                        <div class="col-sm-4">
-                          <div class="list-group">
-                            <a href="/data/${message.key}">
-                              <h4 class="list-group-item-heading">${message.header}</h4>
-                            </a>
-                            <p class="list-group-item-text">
-                                <div class="message" id="${message.key}">${message.message}</div>
-                                <#if (message.tags?size > 0) >
-                                    <#list message.tags as tag>
-                                      <a onClick="javascript:filter('${tag}');"><span class="label label-success">${tag}</span></a>
-                                      &nbsp;
-                                    </#list>
-                                </#if>
-                            </p>
-                          </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">Liste der Eintr&auml;ge</div>
+                <div class="panel-body">
+                    <#if (messages?size > 0) >
+                          <div class="container-fluid scroll">
+                            <#list messages as message>
+                            
+                              <div class="row">
+                                <div class="col-md-10">
+                                  <div class="list-group">
+                                    <a href="/data/${message.key}">
+                                      <h4 class="list-group-item-heading">${message.header}</h4>
+                                    </a>
+                                    <p class="list-group-item-text">
+                                        <div class="message" id="${message.key}">${message.message}</div>
+                                    </p>
+                                    <#if (message.tags?size > 0) >
+                                        <#list message.tags as tag>
+                                          <a onClick="javascript:filter('${tag}');"><span class="label label-success">${tag}</span></a>
+                                          &nbsp;
+                                        </#list>
+                                    </#if>
+                                  </div>
+                                </div>
+                              </div>
+            
+                            </#list>
+            
+                            <#if (messages?size%10 == 0) >
+                                <a onClick="javascript:load();">mehr</a>
+                            </#if>
                         </div>
-                      </div>
-    
-                    </#list>
-    
-                    <#if (messages?size%10 == 0) >
-                        <a onClick="javascript:load();">mehr</a>
                     </#if>
                 </div>
-            </#if>
+            </div>
+            
+        </div>
+        
+        <div class="container">
+            <footer>
+                <p>Version: ${project.version}</p>
+            </footer>
         </div>
     </body>
     

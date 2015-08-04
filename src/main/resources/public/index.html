@@ -9,6 +9,7 @@
 
     <link rel="stylesheet" href="/bootstrap.min.css">
     <link rel="stylesheet" href="/bootstrap-theme.min.css">
+    <script src="/jquery-1.11.2.min.js"></script>
     <script src="/bootstrap.min.js"></script>
 </head>
 
@@ -28,11 +29,66 @@
       </nav>
 
       <div class="container">
-        <p>
-            <div class="well">Wissensspeicher f&uuml;r aktuell nur textbasierte Informationen.</div>
-            Version: ${project.version}</p>
+        <div class="panel panel-default">
+          <div class="panel-heading">Wissensspeicher f&uuml;r aktuell nur textbasierte Informationen.</div>
+          <div class="panel-body">
+              <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Funktions&uuml;bersicht</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Speichern von Textbasierten Eintr&auml;gen</td>
+                    </tr>
+                    <tr>
+                        <td>Tagging-Support</td>
+                    </tr>
+                    <tr>
+                        <td>Paging</td>
+                    </tr>
+                    <tr>
+                        <td>Volltextsuche mit Highlighting des Suchtexts im Ergebnis</td>
+                    </tr>
+                    <tr>
+                        <td>lokal als Windowsanwendung ausf&uuml;hrbar</td>
+                    </tr>
+                    <tr>
+                        <td>Rest-Schnittstelle zur Anbindung eigener Frontends</td>
+                    </tr>
+                </tbody>
+              </table>
+          </div>
+        </div>
       </div>
-      
+
+    <div class="row">
+<!--
+      <div class="container" style="height: 250px">
+          <div id="carousel-screenshots" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+                <li data-target="#carousel-screenshots" data-slide-to="0" class="active"></li>
+                <li data-target="#carousel-screenshots" data-slide-to="1"></li>
+            </ol>
+            <div class="carousel-inner" role="listbox">
+                <div class="item active">
+                    <center><img src="/images/list.png" alt="List"></center>
+                </div>
+                <div class="item">
+                    <center><img src="/images/add.png" alt="Add"></center>
+                </div>
+            </div>
+          </div>
+      </div>
+    </div>
+-->
+    <div class="container">
+        <footer>
+            <p>Version: ${project.version}</p>
+        </footer>
+    </div>
+
 </body>
 
 </html>

@@ -53,16 +53,23 @@
         </div>
       </nav>
         
-        
         <div class="container">
-    
-            <form id="documentForm" action="/data" method="post">
-                <label for="header">&Uuml;berschrift</label><br/><input type="text" name="header" id="header" value="${header}"/><br/>
-                <label for="message">Inhalt</label><br/><textarea id="message" name="message">${message}</textarea><br/>
-                <label for="tags">Schlagw&ouml;rter</label><br/><input type="text" name="tags" id="tags" value="${tags}"/><br/>
-                <input type="submit" value="Speichern" />
-            </form>
-            
+            <div class="panel panel-default">
+                <div class="panel-heading">Eintrag hinzuf&uuml;gen</div>
+                <div class="panel-body">
+                    <form role="form" id="documentForm" action="/data" method="post">
+                        <div class="form-group"><label for="header">&Uuml;berschrift</label><br/><input type="text" name="header" id="header" value="${header}"/></div>
+                        <div class="form-group"><label for="message">Inhalt</label><br/><textarea id="message" name="message">${message}</textarea></div>
+                        <div class="form-group"><label for="tags">Schlagw&ouml;rter</label><br/><input type="text" name="tags" id="tags" value="${tags}"/></div>
+                        <input class="btn btn-default" type="submit" value="Speichern" />
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <footer>
+                <p>Version: ${project.version}</p>
+            </footer>
         </div>
     </body>
 </html>
