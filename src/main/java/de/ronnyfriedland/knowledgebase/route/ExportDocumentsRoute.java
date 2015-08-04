@@ -1,11 +1,13 @@
 package de.ronnyfriedland.knowledgebase.route;
 
+import java.io.IOException;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.xml.bind.JAXB;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlList;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.slf4j.Logger;
@@ -40,16 +42,21 @@ public class ExportDocumentsRoute extends ListDocumentsRoute {
     public Object handle(final Request request, final Response response) {
         try {
             Collection<Document<String>> documents = retrieveDocuments(request);
-
-            StringWriter sw = new StringWriter();
+            XmlDocumentList xmlDocuments = new XmlDocumentList();
 
             for (Document<String> document : documents) {
-                JAXB.marshal(new XmlDocument(document.getKey(), document.getMessage(), document.getTags()), sw);
+                xmlDocuments.add(new XmlDocument(document.getHeader(), document.getMessage(), document.getTags()));
             }
 
-            response.raw().setContentType("text/xml");
+            try (StringWriter sw = new StringWriter()) {
+                JAXB.marshal(xmlDocuments, sw);
+                response.raw().setContentType("text/xml");
 
-            return new Result(sw.toString()).response;
+                return new Result(sw.toString()).response;
+            } catch (IOException ioE) {
+                throw new DataException(ioE);
+            }
+
         } catch (DataException e) {
             LOG.error("Error getting content", e);
 
@@ -58,22 +65,33 @@ public class ExportDocumentsRoute extends ListDocumentsRoute {
         }
     }
 
-    @XmlRootElement
+    @XmlRootElement(name = "entry")
     private static class XmlDocument {
-        @XmlElement
-        private String key;
-        @XmlElement
+        @XmlElement(name = "header")
+        private String header;
+        @XmlElement(name = "message")
         private String message;
-        @XmlList
+        @XmlElementWrapper
+        @XmlElement(name = "tag")
         private String[] tags;
 
         public XmlDocument() {
         }
 
-        public XmlDocument(final String key, final String message, final String[] tags) {
-            this.key = key;
+        public XmlDocument(final String header, final String message, final String[] tags) {
+            this.header = header;
             this.message = message;
             this.tags = tags;
+        }
+    }
+
+    @XmlRootElement(name = "entries")
+    private static class XmlDocumentList {
+        @XmlElement(name = "employee")
+        private final Collection<XmlDocument> entries = new ArrayList<>();
+
+        public void add(final XmlDocument entry) {
+            entries.add(entry);
         }
     }
 
