@@ -56,7 +56,7 @@ public class JackRabbitRepository implements IRepository {
     private char[] repositoryPassword;
 
     @Autowired
-    private RepositoryCache<String> cache;
+    private RepositoryCache<Document<String>> cache;
 
     private ObjectContentManager ocm;
 
@@ -216,7 +216,7 @@ public class JackRabbitRepository implements IRepository {
 
     @SuppressWarnings("rawtypes")
     private ObjectContentManager getObjectContentManager(final Session session) throws LoginException,
-            RepositoryException {
+    RepositoryException {
         List<Class> classes = new ArrayList<>();
         classes.add(JCRTextDocument.class);
         Mapper mapper = new AnnotationMapperImpl(classes);

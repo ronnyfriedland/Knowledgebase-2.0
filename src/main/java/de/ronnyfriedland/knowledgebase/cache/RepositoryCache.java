@@ -7,8 +7,6 @@ import org.apache.jcs.access.CacheAccess;
 import org.apache.jcs.access.exception.CacheException;
 import org.springframework.stereotype.Component;
 
-import de.ronnyfriedland.knowledgebase.entity.Document;
-
 /**
  * @author ronnyfriedland
  */
@@ -23,11 +21,11 @@ public class RepositoryCache<T> {
     }
 
     @SuppressWarnings("unchecked")
-    public Document<T> get(final String key) {
-        return (Document<T>) cache.get(key);
+    public T get(final String key) {
+        return (T) cache.get(key);
     }
 
-    public void put(final String key, final Document<T> document) {
+    public void put(final String key, final T document) {
         try {
             cache.put(key, document);
         } catch (CacheException e) {
