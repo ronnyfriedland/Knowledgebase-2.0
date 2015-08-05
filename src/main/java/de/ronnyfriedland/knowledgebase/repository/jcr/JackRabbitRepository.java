@@ -158,7 +158,7 @@ public class JackRabbitRepository implements IRepository {
             throws DataException {
         QueryManager queryManager = ocm.getQueryManager();
         Filter filter = queryManager.createFilter(JCRTextDocument.class);
-        filter.addContains("message", search);
+        filter.addContains("message", "*" + search + "*");
 
         return getDocumentsByQuery(offset, max, filter);
     }
