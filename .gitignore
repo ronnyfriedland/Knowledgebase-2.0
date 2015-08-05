@@ -5,3 +5,4 @@
 derby.log
 jackrabbit/
 /target/
+/test-output/
