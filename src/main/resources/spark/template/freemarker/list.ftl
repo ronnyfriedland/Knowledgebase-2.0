@@ -88,7 +88,7 @@
       </nav>
       
         <div class="container">
-            <div class="form-group"><label for="search">Suche</label> <input type="text" id="search" /><input class="btn btn-default" type="button" value="Suchen" onClick="javascript:search(jQuery('#search').val())"/></div>
+            <div class="form-group"><label for="search">Suche</label> <input type="text" id="search" />&nbsp;<input class="btn btn-default" type="button" value="Suchen" onClick="javascript:search(jQuery('#search').val())"/></div>
             <div class="form-group"><label for="search">Filter</label> <a href="#" onClick="javascript:refresh();" style="text-decoration:line-through;"><span id="filter" /></a></div>
             
             <div class="panel panel-default">
