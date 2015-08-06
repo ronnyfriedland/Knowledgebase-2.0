@@ -50,13 +50,15 @@
             var filter = function (value) {
                 window.location.href='/data?limit='+limit+'&offset=0&tag='+value;
             };
-            
             var search = function (value) {
                 if(value != "") {
                     window.location.href='/data?limit='+limit+'&offset=0&search='+value;
                 } else {
                     refresh();
                 }
+            };
+            var exportxml = function () {
+                window.location.href='/data/export' + window.location.search;
             };
 
             jQuery( document ).ready(function() {
@@ -82,7 +84,7 @@
           </div>
           <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-            <li><a href="/data/export">Eintr&auml;ge exportieren</a></li>
+            <li><a href="#" onClick="javascript:exportxml();">Eintr&auml;ge exportieren</a></li>
             <li><a href="/data/add">Eintrag hinzuf&uuml;gen</a></li>
             </ul>
           </div><!--/.nav-collapse -->
@@ -90,7 +92,7 @@
       </nav>
       
         <div class="container">
-            <div class="form-group"><label for="search">Suche</label> <input type="text" id="search" />&nbsp;<input class="btn btn-default" type="button" value="Suchen" onClick="javascript:search(jQuery('#search').val())"/></div>
+            <div class="form-group"><label for="search">Suche</label> <input type="text" id="search" />&nbsp;<input class="btn btn-default" type="button" value="Suchen" onClick="javascript:search(jQuery('#search').val());"/></div>
             <div class="form-group"><label for="search">Filter</label> <a href="#" onClick="javascript:refresh();" style="text-decoration:line-through;"><span id="filter" /></a></div>
             
             <div class="panel panel-default">
