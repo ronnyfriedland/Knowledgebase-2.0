@@ -8,23 +8,12 @@
 
         <link rel="stylesheet" href="/bootstrap.min.css">
         <link rel="stylesheet" href="/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="/knowledgebase.css">
         
-        <style type="text/css">
-            .highlight {
-                background-color: yellow;
-            }
-            
-            .message {
-                height: 150px;
-                min-height: 150px;
-                overflow: auto;
-                resize: vertical;
-            }
-        </style>
-        
-        <script src="/jquery-1.11.2.min.js"></script>
         <script src="/bootstrap.min.js"></script>
+        <script src="/jquery-1.11.2.min.js"></script>
         <script src="/jquery.highlight.min.js"></script>
+        
         <script type="text/javascript">
             function getQueryVariable(variable, def) {
                 var query = window.location.search.substring(1);
@@ -73,7 +62,7 @@
                     jQuery('.message').highlight(search);
                 }
             });
-        </script
+        </script>
     </head>
     <body role="document">
 
