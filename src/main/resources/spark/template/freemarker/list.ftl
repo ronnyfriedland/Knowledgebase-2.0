@@ -62,6 +62,7 @@
         <div class="navbar-collapse">
           <ul class="nav navbar-nav">
             <li><a href="#" onClick="javascript:exportxml();">Eintr&auml;ge exportieren</a></li>
+            <li><a href="import.html">Eintr&auml;ge importieren</a></li>
             <li><a href="/data/add">Eintrag hinzuf&uuml;gen</a></li>
           </ul>
         </div><!--/.nav-collapse -->

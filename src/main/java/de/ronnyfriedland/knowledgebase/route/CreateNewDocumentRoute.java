@@ -8,6 +8,7 @@ import spark.Response;
 import de.ronnyfriedland.knowledgebase.entity.Document;
 import de.ronnyfriedland.knowledgebase.exception.DataException;
 import de.ronnyfriedland.knowledgebase.repository.IRepository;
+import de.ronnyfriedland.knowledgebase.util.TextUtils;
 
 public class CreateNewDocumentRoute extends AbstractRoute {
     private static final Logger LOG = LoggerFactory.getLogger(LoadOrInitDocumentRoute.class);
@@ -35,7 +36,7 @@ public class CreateNewDocumentRoute extends AbstractRoute {
         try {
             // remove invalid chars
             String header = request.queryParams("header");
-            String key = header.replaceAll("[\\W&&[^-]]", "_");
+            String key = TextUtils.replaceInvalidChars(header);
             // prepare tags
             String[] tags = null;
             if (request.queryParams("tags") != "") {
@@ -55,4 +56,5 @@ public class CreateNewDocumentRoute extends AbstractRoute {
             return "error saving document";
         }
     }
+
 }

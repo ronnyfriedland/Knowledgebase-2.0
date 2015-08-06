@@ -23,9 +23,14 @@
         <constructor-arg value="${get.documents.list.url}" />
     </bean>
 
-    <bean id="exportDocuments" class="de.ronnyfriedland.knowledgebase.route.ExportDocumentsRoute">
+    <bean id="exportDocuments" class="de.ronnyfriedland.knowledgebase.route.xml.ExportDocumentsRoute">
         <constructor-arg ref="jackRabbitRepository" />
         <constructor-arg value="${get.documents.export.url}" />
+    </bean>
+    
+    <bean id="importDocuments" class="de.ronnyfriedland.knowledgebase.route.xml.ImportDocumentsRoute">
+        <constructor-arg ref="jackRabbitRepository" />
+        <constructor-arg value="${post.documents.import.url}" />
     </bean>
 
     <bean id="createDocument" class="de.ronnyfriedland.knowledgebase.route.CreateNewDocumentRoute">

@@ -1,4 +1,4 @@
-package de.ronnyfriedland.knowledgebase.route;
+package de.ronnyfriedland.knowledgebase.route.xml;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -18,6 +18,7 @@ import spark.Response;
 import de.ronnyfriedland.knowledgebase.entity.Document;
 import de.ronnyfriedland.knowledgebase.exception.DataException;
 import de.ronnyfriedland.knowledgebase.repository.IRepository;
+import de.ronnyfriedland.knowledgebase.route.ListDocumentsRoute;
 
 public class ExportDocumentsRoute extends ListDocumentsRoute {
 
@@ -87,7 +88,7 @@ public class ExportDocumentsRoute extends ListDocumentsRoute {
 
     @XmlRootElement(name = "entries")
     private static class XmlDocumentList {
-        @XmlElement(name = "entry")
+        @XmlElement(name = "employee")
         private final Collection<XmlDocument> entries = new ArrayList<>();
 
         public void add(final XmlDocument entry) {

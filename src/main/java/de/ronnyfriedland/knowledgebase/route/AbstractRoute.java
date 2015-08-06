@@ -23,8 +23,8 @@ public abstract class AbstractRoute extends Route {
     }
 
     protected class Result {
-        String response;
-        Exception exception;
+        public String response;
+        public Exception exception;
 
         public Result(final String response) {
             this.response = response;
