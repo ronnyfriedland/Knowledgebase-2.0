@@ -15,8 +15,10 @@
             }
             
             .message {
-                max-height: 150px;
+                height: 150px;
+                min-height: 150px;
                 overflow: auto;
+                resize: vertical;
             }
         </style>
         
