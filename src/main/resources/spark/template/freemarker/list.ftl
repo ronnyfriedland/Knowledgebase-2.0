@@ -13,43 +13,9 @@
         <script src="/bootstrap.min.js"></script>
         <script src="/jquery-1.11.2.min.js"></script>
         <script src="/jquery.highlight.min.js"></script>
+        <script src="/knowledgebase.js"></script>
         
         <script type="text/javascript">
-            function getQueryVariable(variable, def) {
-                var query = window.location.search.substring(1);
-                var vars = query.split('&');
-                for (var i = 0; i < vars.length; i++) {
-                    var pair = vars[i].split('=');
-                    if (decodeURIComponent(pair[0]) == variable) {
-                        return decodeURIComponent(pair[1]);
-                    }
-                }
-                return def;
-            }
-
-            var limit = new Number(getQueryVariable('limit', '10'));
-
-            var load = function () {
-                limit = limit + 10;
-                window.location.href='/data?limit='+limit+'&offset=0';
-            };
-            var refresh = function () {
-                window.location.href='/data?limit='+limit+'&offset=0';
-            };
-            var filter = function (value) {
-                window.location.href='/data?limit='+limit+'&offset=0&tag='+value;
-            };
-            var search = function (value) {
-                if(value != "") {
-                    window.location.href='/data?limit='+limit+'&offset=0&search='+value;
-                } else {
-                    refresh();
-                }
-            };
-            var exportxml = function () {
-                window.location.href='/data/export' + window.location.search;
-            };
-
             jQuery( document ).ready(function() {
                 var tag = getQueryVariable('tag');
                 if(tag != null) {
