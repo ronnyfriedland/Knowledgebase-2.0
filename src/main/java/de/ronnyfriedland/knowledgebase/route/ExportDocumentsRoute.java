@@ -87,7 +87,7 @@ public class ExportDocumentsRoute extends ListDocumentsRoute {
 
     @XmlRootElement(name = "entries")
     private static class XmlDocumentList {
-        @XmlElement(name = "employee")
+        @XmlElement(name = "entry")
         private final Collection<XmlDocument> entries = new ArrayList<>();
 
         public void add(final XmlDocument entry) {
