@@ -24,8 +24,9 @@ Java based content store to store text-based information.
 
 ## TODOs:
 
-- unit testing
-- encryption support
+- fix logging
+- unit testing (ongoing)
+- encryption support (xml + https)
 - support binary content
 
 ## Technology:
