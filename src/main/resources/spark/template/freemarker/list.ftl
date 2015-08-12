@@ -37,7 +37,7 @@
         <div class="navbar-header">
           <a class="navbar-brand" href="/">Knowledgebase 2.0</a>
         </div>
-        <div class="navbar">
+        <div class="navbar-collapse">
           <ul class="nav navbar-nav">
             <li><a href="#" onClick="javascript:exportxml();">Eintr&auml;ge exportieren</a></li>
             <li><a href="/data/add">Eintrag hinzuf&uuml;gen</a></li>
@@ -69,12 +69,12 @@
                         </div>
                         <div id="${message.key}" class="panel-collapse collapse in">
                           <div class="panel-body">
-                            <a href="/data/${message.key}">
-                              <h4 class="list-group-item-heading">${message.header}</h4>
-                            </a>
                             <p class="list-group-item-text collapse in">
                               <div class="message" id="${message.key}">${message.message}</div>
                             </p>
+                            <form action="/data/${message.key}">
+                                <input class="btn btn-default" type="submit" value="Bearbeiten" />
+                            </form>
                             <#if (message.tags?size > 0) >
                               <#list message.tags as tag>
                                 <a onClick="javascript:filter('${tag}');"><span class="label label-success">${tag}</span></a>&nbsp;
@@ -83,9 +83,11 @@
                           </div>
                         </div>
                       </div>
-                      <script type="text/javascript">
-                        jQuery(function () { jQuery('#${message.key}').collapse('hide')});
-                      </script>  
+                      <#if (message_index > 0) >
+                        <script type="text/javascript">
+                          jQuery(function () { jQuery('#${message.key}').collapse('hide')});
+                        </script>  
+                      </#if>
                     </div>
                   </div>
                 </div>

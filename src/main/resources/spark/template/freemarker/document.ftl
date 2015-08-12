@@ -45,7 +45,7 @@
         <div class="navbar-header">
           <a class="navbar-brand" href="/">Knowledgebase 2.0</a>
         </div>
-        <div class="navbar">
+        <div class="navbar-collapse">
           <ul class="nav navbar-nav">
           <li><a href="/data">Eintr&auml;ge auflisten</a></li>
           </ul>
