@@ -209,6 +209,7 @@ public class JackRabbitRepository implements IRepository {
                 ocm.remove("/" + key);
                 ocm.save();
             }
+            cache.remove(key);
         } catch (ObjectContentManagerException e) {
             throw new DataException("Error accessing path.", e);
         }
