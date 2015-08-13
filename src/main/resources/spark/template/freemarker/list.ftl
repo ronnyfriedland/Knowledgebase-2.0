@@ -16,6 +16,14 @@
     <script src="/knowledgebase.js"></script>
 
     <script type="text/javascript">
+      var removeEntry = function(url){
+        jQuery.ajax({
+          url: url,
+          type: 'DELETE',
+          async:false
+        });
+        window.location.reload();
+      };
       jQuery( document ).ready(function() {
         var tag = getQueryVariable('tag');
         if(tag != null) {
@@ -63,9 +71,20 @@
                     <div class="list-group">
                       <div class="panel panel-success">
                         <div class="panel-heading">
-                          <h4 class="panel-title">
-                            <a data-toggle="collapse" href="#${message.key}">${message.header}</a>
-                          </h4>
+                          <div class="panel-title">
+                            <#if (message.header?length > 50)>
+                              <a data-toggle="collapse" href="#${message.key}">${message.header?substring(0,50)}...</a>
+                            <#else>
+                              <a data-toggle="collapse" href="#${message.key}">${message.header}</a>
+                            </#if>
+                          </div>
+                          <div>
+                            <#if (message.tags?size > 0) >
+                              <#list message.tags as tag>
+                                <a onClick="javascript:filter('${tag}');"><span class="label label-default">${tag}</span></a>
+                              </#list>
+                            </#if>
+                          </div>
                         </div>
                         <div id="${message.key}" class="panel-collapse collapse in">
                           <div class="panel-body">
@@ -74,12 +93,8 @@
                             </p>
                             <form action="/data/${message.key}">
                                 <input class="btn btn-default" type="submit" value="Bearbeiten" />
+                                <input class="btn btn-default" type="button" value="L&ouml;schen" onclick="javascript:removeEntry('/data/${message.key}');" />
                             </form>
-                            <#if (message.tags?size > 0) >
-                              <#list message.tags as tag>
-                                <a onClick="javascript:filter('${tag}');"><span class="label label-success">${tag}</span></a>&nbsp;
-                              </#list>
-                            </#if>
                           </div>
                         </div>
                       </div>
