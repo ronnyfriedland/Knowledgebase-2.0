@@ -32,4 +32,15 @@ public class RepositoryCache<T> {
             // ignore
         }
     }
+
+    public void remove(final String key) {
+        try {
+            T result = get(key);
+            if (null != result) {
+                cache.remove(result);
+            }
+        } catch (CacheException e) {
+            // ignore
+        }
+    }
 }
