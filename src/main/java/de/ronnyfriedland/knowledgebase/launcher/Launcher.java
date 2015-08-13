@@ -89,9 +89,10 @@ public class Launcher {
                         @Override
                         public void actionPerformed(final ActionEvent e) {
                             try {
-                                Desktop.getDesktop().browse(URI.create("http://localhost:" + config.getPort()));
+                                Desktop.getDesktop().browse(
+                                        URI.create("http://localhost:" + config.getPort() + "/data"));
                             } catch (IOException e1) {
-                                JOptionPane.showMessageDialog(null, "Kann Broswer mit Anwendung nicht öffnen.");
+                                JOptionPane.showMessageDialog(null, "Kann Browser mit Anwendung nicht öffnen.");
                             }
                         }
                     });
