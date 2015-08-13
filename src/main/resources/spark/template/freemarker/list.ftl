@@ -12,17 +12,31 @@
 
     <script src="/jquery-1.11.2.min.js"></script>
     <script src="/jquery.highlight.min.js"></script>
+    <script src="/jquery.confirm.min.js"></script>
     <script src="/bootstrap.min.js"></script>
     <script src="/knowledgebase.js"></script>
 
     <script type="text/javascript">
       var removeEntry = function(url){
-        jQuery.ajax({
-          url: url,
-          type: 'DELETE',
-          async:false
+        jQuery.confirm({
+          text: "Eintrag wirklich l&ouml;schen?",
+          title: "Best&auml;tigung erforderlich",
+          confirm: function(button) {
+            jQuery.ajax({
+              url: url,
+              type: 'DELETE',
+              async:false
+            });
+            window.location.reload();
+          },
+          confirmButton: "Ja",
+          cancelButton: "Nein",
+          post: true,
+          confirmButtonClass: "btn-danger",
+          cancelButtonClass: "btn-default",
+          dialogClass: "modal-dialog modal-lg"
         });
-        window.location.reload();
+
       };
       jQuery( document ).ready(function() {
         var tag = getQueryVariable('tag');
@@ -81,7 +95,7 @@
                           <div>
                             <#if (message.tags?size > 0) >
                               <#list message.tags as tag>
-                                <a onClick="javascript:filter('${tag}');"><span class="label label-default">${tag}</span></a>
+                                <a onClick="javascript:filter('${tag}');"><span class="label label-default">${tag}</span></a>&nbsp;
                               </#list>
                             </#if>
                           </div>
@@ -93,7 +107,7 @@
                             </p>
                             <form action="/data/${message.key}">
                                 <input class="btn btn-default" type="submit" value="Bearbeiten" />
-                                <input class="btn btn-default" type="button" value="L&ouml;schen" onclick="javascript:removeEntry('/data/${message.key}');" />
+                                <input class="btn btn-default confirm" type="button" value="L&ouml;schen" onclick="javascript:removeEntry('/data/${message.key}');" />
                             </form>
                           </div>
                         </div>
