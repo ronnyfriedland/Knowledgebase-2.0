@@ -11,11 +11,11 @@
     <script src="/jquery-1.11.2.min.js"></script>
     <script src="/jquery.validate.min.js"></script>
     <script src="/bootstrap.min.js"></script>
-    <script type="text/javascript" src="/openwysiwyg/scripts/wysiwyg.js"></script>
-    <script type="text/javascript" src="/openwysiwyg/scripts/wysiwyg-settings.js"></script>
+    <script src="/ckeditor/ckeditor.js"></script>
     <script type="text/javascript">
         jQuery( document ).ready(function() {
-            WYSIWYG.attach('message');
+            CKEDITOR.replace('message');
+            CKEDITOR.config.extraPlugins = "base64image";
 
             header = jQuery("#header");
             if("" != header.val()) {
