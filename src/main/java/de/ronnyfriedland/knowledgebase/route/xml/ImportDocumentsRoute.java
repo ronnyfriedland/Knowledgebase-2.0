@@ -66,6 +66,7 @@ public class ImportDocumentsRoute extends AbstractRoute {
             }
 
             if (null != xmlDocuments) {
+                xmlDocuments.reverseOrder();
                 for (XmlDocument xmlDocument : xmlDocuments) {
                     String header = xmlDocument.header;
                     String message = xmlDocument.message;
