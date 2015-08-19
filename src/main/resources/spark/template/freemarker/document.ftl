@@ -15,7 +15,6 @@
     <script type="text/javascript">
         jQuery( document ).ready(function() {
             CKEDITOR.replace('message');
-            CKEDITOR.config.extraPlugins = "base64image";
 
             header = jQuery("#header");
             if("" != header.val()) {
