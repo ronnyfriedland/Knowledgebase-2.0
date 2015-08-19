@@ -2,13 +2,9 @@ package de.ronnyfriedland.knowledgebase.route.xml;
 
 import java.io.IOException;
 import java.io.StringWriter;
-import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.xml.bind.JAXB;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlRootElement;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,35 +61,4 @@ public class ExportDocumentsRoute extends ListDocumentsRoute {
             return "error getting content";
         }
     }
-
-    @XmlRootElement(name = "entry")
-    private static class XmlDocument {
-        @XmlElement(name = "header")
-        private String header;
-        @XmlElement(name = "message")
-        private String message;
-        @XmlElementWrapper
-        @XmlElement(name = "tag")
-        private String[] tags;
-
-        public XmlDocument() {
-        }
-
-        public XmlDocument(final String header, final String message, final String[] tags) {
-            this.header = header;
-            this.message = message;
-            this.tags = tags;
-        }
-    }
-
-    @XmlRootElement(name = "entries")
-    private static class XmlDocumentList {
-        @XmlElement(name = "employee")
-        private final Collection<XmlDocument> entries = new ArrayList<>();
-
-        public void add(final XmlDocument entry) {
-            entries.add(entry);
-        }
-    }
-
 }
