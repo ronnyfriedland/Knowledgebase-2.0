@@ -41,3 +41,4 @@ Java based content store to store text-based information.
 - jQuery JS
 - Bootstrap CSS/JS
 - Launch4j
+- CKEditor 4
