@@ -108,17 +108,25 @@ public class JackRabbitRepository implements IRepository {
      */
     @Override
     public String saveTextDocument(final Document<String> message) throws DataException {
-        JCRTextDocument jcrDocument = new JCRTextDocument(message.getKey(), message.getHeader(), message.getMessage(),
-                message.getTags());
+        String result = null;
+        String path = "/" + message.getKey();
         try {
-            if (ocm.objectExists(jcrDocument.getPath())) {
-                ocm.checkout(jcrDocument.getPath());
-                ocm.update(jcrDocument);
+            if (ocm.objectExists(path)) {
+                ocm.checkout(path);
+                JCRTextDocument storedDocument = (JCRTextDocument) ocm.getObject(path);
+                storedDocument.setHeader(message.getHeader());
+                storedDocument.setMessage(message.getMessage());
+                storedDocument.setTags(message.getTags());
+                ocm.update(storedDocument);
                 ocm.save();
-                ocm.checkin(jcrDocument.getPath());
+                ocm.checkin(path);
+                result = storedDocument.getUuid();
             } else {
+                JCRTextDocument jcrDocument = new JCRTextDocument(message.getKey(), message.getHeader(),
+                        message.getMessage(), message.getTags());
                 ocm.insert(jcrDocument);
                 ocm.save();
+                result = jcrDocument.getUuid();
             }
             if (LOG.isTraceEnabled()) {
                 LOG.trace("Put entry to cache: '{}'.", message);
@@ -127,7 +135,7 @@ public class JackRabbitRepository implements IRepository {
         } catch (VersionException e) {
             throw new DataException(e);
         }
-        return jcrDocument.getUuid();
+        return result;
     }
 
     /**
