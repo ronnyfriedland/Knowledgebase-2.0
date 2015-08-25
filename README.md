@@ -1,4 +1,4 @@
-# Knowledgebase2.0
+# Knowledgebase 2.0
 
 Java based content store to store text-based information in a blog style.
 
