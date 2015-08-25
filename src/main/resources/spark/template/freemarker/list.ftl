@@ -8,12 +8,14 @@
 
     <link rel="stylesheet" href="/bootstrap.min.css" />
     <link rel="stylesheet" href="/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="/bootstrap-lightbox.min.css"/>
     <link rel="stylesheet" href="/knowledgebase.css"/>
 
     <script src="/jquery-1.11.2.min.js"></script>
     <script src="/jquery.highlight.min.js"></script>
     <script src="/jquery.confirm.min.js"></script>
     <script src="/bootstrap.min.js"></script>
+    <script src="/bootstrap-lightbox.min.js"></script>
     <script src="/knowledgebase.js"></script>
 
     <script type="text/javascript">
@@ -36,8 +38,16 @@
           cancelButtonClass: "btn-default",
           dialogClass: "modal-dialog modal-lg"
         });
-
       };
+      
+      var setModalText = function(elem) {
+        var header = jQuery('#header_' + elem).find('.header').html();
+        var body = jQuery('#body_' + elem).find('.message').html();
+        
+        jQuery('#lightbox').find('.modal-header').html(header);
+        jQuery('#lightbox').find('.modal-body').html(body);
+      }
+
       jQuery( document ).ready(function() {
         var tag = getQueryVariable('tag');
         if(tag != null) {
@@ -85,12 +95,12 @@
                   <div class="col-md-10">
                     <div class="list-group">
                       <div class="panel panel-success">
-                        <div class="panel-heading">
+                        <div id="header_${message.key}" class="panel-heading">
                           <div class="panel-title">
                             <#if (message.header?length > 50)>
-                              <a data-toggle="collapse" href="#${message.key}">${message.header?substring(0,50)}...</a>
+                              <a class="header" data-toggle="collapse" href="#body_${message.key}">${message.header?substring(0,50)}...</a>
                             <#else>
-                              <a data-toggle="collapse" href="#${message.key}">${message.header}</a>
+                              <a class="header" data-toggle="collapse" href="#body_${message.key}">${message.header}</a>
                             </#if>
                           </div>
                           <div>
@@ -101,13 +111,14 @@
                             </#if>
                           </div>
                         </div>
-                        <div id="${message.key}" class="panel-collapse collapse in">
+                        <div id="body_${message.key}" class="panel-collapse collapse in">
                           <div class="panel-body">
                             <p class="list-group-item-text collapse in">
-                              <div class="message" id="${message.key}">${message.message}</div>
+                              <div class="message">${message.message}</div>
                             </p>
                             <form action="/data/${message.key}">
                                 <input class="btn btn-default" type="submit" value="Bearbeiten" />
+                                <input class="btn btn-default" type="button"  data-toggle="modal" data-target="#lightbox" onclick="javascript:setModalText('${message.key}')" value="Vollbild" />
                                 <input class="btn btn-default confirm" type="button" value="L&ouml;schen" onclick="javascript:removeEntry('/data/${message.key}');" />
                             </form>
                           </div>
@@ -115,7 +126,7 @@
                       </div>
                       <#if (message_index > 0) >
                         <script type="text/javascript">
-                          jQuery(function () { jQuery('#${message.key}').collapse('hide')});
+                          jQuery(function () { jQuery('#body_${message.key}').collapse('hide')});
                         </script>  
                       </#if>
                     </div>
@@ -131,7 +142,6 @@
           </#if>
         </div>
       </div>
-
     </div>
 
     <div class="container">
@@ -139,5 +149,18 @@
         <p>Version: ${project.version}</p>
       </footer>
     </div>
+    
+    <div id="lightbox" class=" modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <button type="button" class="close hidden" data-dismiss="modal" aria-hidden="true">×</button>
+          <div class="modal-content">
+            <div class="modal-header">
+            </div>
+            <div class="modal-body">
+            </div>
+        </div>
+      </div>
+    </div>
+
   </body>
 </html>
