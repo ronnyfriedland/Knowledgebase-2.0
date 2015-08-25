@@ -1,6 +1,6 @@
 # Knowledgebase2.0
 
-Java based content store to store text-based information.
+Java based content store to store text-based information in a blog style.
 
 ## Features
 
