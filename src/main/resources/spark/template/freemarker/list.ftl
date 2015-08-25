@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta name="description" content="Knowledgebase 2.0"/>
     <meta name="author" content="Ronny Friedland"/>
+    <title>Knowledgebase 2.0</title>
 
     <link rel="stylesheet" href="/bootstrap.min.css" />
     <link rel="stylesheet" href="/bootstrap-theme.min.css"/>
