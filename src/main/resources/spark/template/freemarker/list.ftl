@@ -45,7 +45,7 @@
         var header = jQuery('#header_' + elem).find('.header').html();
         var body = jQuery('#body_' + elem).find('.message').html();
         
-        jQuery('#lightbox').find('.modal-header').html(header);
+        jQuery('#lightbox').find('.modal-title').html(header);
         jQuery('#lightbox').find('.modal-body').html(body);
       }
 
@@ -156,6 +156,7 @@
         <button type="button" class="close hidden" data-dismiss="modal" aria-hidden="true">×</button>
           <div class="modal-content">
             <div class="modal-header">
+              <h4 class="modal-title">Modal Header</h4>
             </div>
             <div class="modal-body">
             </div>
