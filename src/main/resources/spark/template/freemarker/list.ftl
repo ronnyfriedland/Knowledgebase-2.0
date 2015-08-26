@@ -161,7 +161,7 @@
             <div class="modal-body">
             </div>
             <div class="modal-footer">
-              <button class="close" data-dismiss="modal" data-target="#myModal">×</button>
+              <button class="close" data-dismiss="modal" data-target="#lightbox">×</button>
             </div>
         </div>
       </div>
