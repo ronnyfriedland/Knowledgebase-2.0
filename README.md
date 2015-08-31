@@ -8,7 +8,7 @@ Java based content store to store text-based information in a blog style.
 - possibility of tagging all entries
 - paging support
 - full text search with result highlighting
-- XML export
+- XML export and import
 - Windows application which can be accessed by taskbar icon
 - REST interface to connect your custom frontend to the "Knowledgebase 2.0" backend
 
