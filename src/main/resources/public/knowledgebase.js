@@ -41,5 +41,5 @@ var search = function (value) {
 };
 /** Export current result list as xml */
 var exportxml = function () {
-    window.location.href='/data/export' + window.location.search;
+    window.location.href='/data/xml/export' + window.location.search;
 };

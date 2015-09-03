@@ -8,38 +8,4 @@
 
     <context:property-placeholder location="classpath:kb.properties" />
 
-    <bean id="addDocument" class="de.ronnyfriedland.knowledgebase.route.LoadOrInitDocumentRoute">
-        <constructor-arg ref="jackRabbitRepository" />
-        <constructor-arg value="${get.document.add.url}" />
-    </bean>
-
-    <bean id="loadDocument" class="de.ronnyfriedland.knowledgebase.route.LoadOrInitDocumentRoute">
-        <constructor-arg ref="jackRabbitRepository" />
-        <constructor-arg value="${get.document.load.url}" />
-    </bean>
-
-    <bean id="listDocuments" class="de.ronnyfriedland.knowledgebase.route.ListDocumentsRoute">
-        <constructor-arg ref="jackRabbitRepository" />
-        <constructor-arg value="${get.documents.list.url}" />
-    </bean>
-
-    <bean id="exportDocuments" class="de.ronnyfriedland.knowledgebase.route.xml.ExportDocumentsRoute">
-        <constructor-arg ref="jackRabbitRepository" />
-        <constructor-arg value="${get.documents.export.url}" />
-    </bean>
-    
-    <bean id="importDocuments" class="de.ronnyfriedland.knowledgebase.route.xml.ImportDocumentsRoute">
-        <constructor-arg ref="jackRabbitRepository" />
-        <constructor-arg value="${post.documents.import.url}" />
-    </bean>
-
-    <bean id="createDocument" class="de.ronnyfriedland.knowledgebase.route.CreateNewDocumentRoute">
-        <constructor-arg ref="jackRabbitRepository" />
-        <constructor-arg value="${post.document.create.url}" />
-    </bean>
-
-    <bean id="deleteDocument" class="de.ronnyfriedland.knowledgebase.route.DeleteDocumentRoute">
-        <constructor-arg ref="jackRabbitRepository" />
-        <constructor-arg value="${delete.document.delete.url}" />
-    </bean>
 </beans>

@@ -117,7 +117,10 @@ public class Launcher {
                 }
             }
         } finally {
-            es.shutdown();
+            context.close();
+            if (null != es) {
+                es.shutdown();
+            }
         }
     }
 }

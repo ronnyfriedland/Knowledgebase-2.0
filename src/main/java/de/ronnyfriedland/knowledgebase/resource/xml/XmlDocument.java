@@ -1,4 +1,4 @@
-package de.ronnyfriedland.knowledgebase.route.xml;
+package de.ronnyfriedland.knowledgebase.resource.xml;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;

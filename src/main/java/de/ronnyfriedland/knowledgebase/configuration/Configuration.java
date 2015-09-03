@@ -7,7 +7,6 @@ public class Configuration {
 
     @Value("${server.port}")
     private int port;
-
     @Value("${server.staticcontent.location}")
     private String staticContentLocation;
 
@@ -18,5 +17,4 @@ public class Configuration {
     public String getStaticContentLocation() {
         return staticContentLocation;
     }
-
 }

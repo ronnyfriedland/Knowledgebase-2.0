@@ -1,4 +1,4 @@
-package de.ronnyfriedland.knowledgebase.route.xml;
+package de.ronnyfriedland.knowledgebase.resource.xml;
 
 import java.util.ArrayList;
 import java.util.Collections;
