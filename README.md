@@ -36,7 +36,8 @@ Java based content store to store text-based information in a blog style.
 - H2 Database
 - Lucene Search
 - Apache JCS 1.3
-- Sparkjava
+- JAX-RS
+- Grizzly Http Server
 - Freemarker
 - jQuery JS
 - Bootstrap CSS/JS
