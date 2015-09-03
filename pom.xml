@@ -13,7 +13,7 @@
     <spring.version>4.1.6.RELEASE</spring.version>
     <slf4j.version>1.7.7</slf4j.version>
     <servlet.version>3.1.0</servlet.version>
-    <grizzly.version>2.3.7</grizzly.version>
+    <grizzly.version>2.3.22</grizzly.version>
     <jersey-spring.version>1.17.1</jersey-spring.version>
     <freemarker.version>2.3.19</freemarker.version>
     <jcr.version>2.0</jcr.version>
