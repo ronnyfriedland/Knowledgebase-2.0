@@ -10,19 +10,19 @@
     <java.version>1.7</java.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <spring.version>4.1.6.RELEASE</spring.version>
-    <slf4j.version>1.7.7</slf4j.version>
+    <spring.version>4.2.0.RELEASE</spring.version>
+    <slf4j.version>1.7.12</slf4j.version>
     <servlet.version>3.1.0</servlet.version>
     <grizzly.version>2.3.22</grizzly.version>
-    <jersey-spring.version>1.17.1</jersey-spring.version>
-    <freemarker.version>2.3.19</freemarker.version>
+    <jersey-spring.version>1.19</jersey-spring.version>
+    <freemarker.version>2.3.23</freemarker.version>
     <jcr.version>2.0</jcr.version>
-    <jackrabbit.version>2.10.1</jackrabbit.version>
+    <jackrabbit.version>2.11.0</jackrabbit.version>
     <jackrabbit.ocm.version>1.5.3</jackrabbit.ocm.version>
-    <h2.version>1.4.187</h2.version>
+    <h2.version>1.4.188</h2.version>
     <jcs.version>1.3</jcs.version>
     <!-- Test -->
-    <junit.version>4.11</junit.version>
+    <junit.version>4.12</junit.version>
   </properties>
 
   <build>
