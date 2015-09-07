@@ -16,7 +16,7 @@ public abstract class AbstractResource {
 
     private static final Logger LOG = LoggerFactory.getLogger(AbstractResource.class);
 
-    protected final Configuration config = new Configuration();
+    protected final Configuration config = new Configuration(Configuration.VERSION_2_3_23);
     {
         config.setTemplateLoader(new ClassTemplateLoader(Server.class, "/spark/template/freemarker"));
     }
