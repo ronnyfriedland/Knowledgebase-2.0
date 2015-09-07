@@ -27,15 +27,14 @@ import org.springframework.stereotype.Component;
 import de.ronnyfriedland.knowledgebase.entity.Document;
 import de.ronnyfriedland.knowledgebase.exception.DataException;
 import de.ronnyfriedland.knowledgebase.repository.IRepository;
-import de.ronnyfriedland.knowledgebase.resource.AbstractResource;
+import de.ronnyfriedland.knowledgebase.resource.AbstractDocumentResource;
 import de.ronnyfriedland.knowledgebase.util.TextUtils;
 
 @Path("/xml/")
 @Component
-@SuppressWarnings("restriction")
-public class ImportExportResource extends AbstractResource {
+public class XmlDocumentResource extends AbstractDocumentResource {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ImportExportResource.class);
+    private static final Logger LOG = LoggerFactory.getLogger(XmlDocumentResource.class);
 
     @Autowired
     private IRepository repository;
@@ -52,22 +51,10 @@ public class ImportExportResource extends AbstractResource {
     @GET
     @Path("/export")
     @Produces(MediaType.TEXT_XML)
-    public Response exportXml(@QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit,
+    public Response exportXml(@QueryParam("offset") final Integer offset, @QueryParam("limit") final Integer limit,
             final @QueryParam("tag") String tag, final @QueryParam("search") String search) {
         try {
-            if (null == offset) {
-                offset = 0;
-            }
-            if (null == limit) {
-                limit = 10;
-            }
-
-            Collection<Document<String>> documents;
-            if (null != search) {
-                documents = repository.searchTextDocuments(offset, limit, search);
-            } else {
-                documents = repository.listTextDocuments(offset, limit, tag);
-            }
+            Collection<Document<String>> documents = retrieveData(offset, limit, tag, search);
 
             XmlDocumentList xmlDocuments = new XmlDocumentList();
 
@@ -78,7 +65,8 @@ public class ImportExportResource extends AbstractResource {
             try (StringWriter sw = new StringWriter()) {
                 JAXB.marshal(xmlDocuments, sw);
 
-                return Response.ok(sw.toString()).build();
+                return Response.ok(sw.toString()).header("Content-Disposition", "attachment; filename=export.xml")
+                        .header("Content-Type", "text/xml").build();
             } catch (IOException ioE) {
                 throw new DataException(ioE);
             }
@@ -91,7 +79,7 @@ public class ImportExportResource extends AbstractResource {
 
     /**
      * Imports the data
-     * 
+     *
      * @param importFile not empty if source is a xml file
      * @param importXml not empty if source is xml string
      * @return

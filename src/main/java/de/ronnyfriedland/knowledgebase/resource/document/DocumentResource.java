@@ -25,12 +25,12 @@ import org.springframework.util.StringUtils;
 import de.ronnyfriedland.knowledgebase.entity.Document;
 import de.ronnyfriedland.knowledgebase.exception.DataException;
 import de.ronnyfriedland.knowledgebase.repository.IRepository;
-import de.ronnyfriedland.knowledgebase.resource.AbstractResource;
+import de.ronnyfriedland.knowledgebase.resource.AbstractDocumentResource;
 import de.ronnyfriedland.knowledgebase.util.TextUtils;
 
 @Path("/")
 @Component
-public class DocumentResource extends AbstractResource {
+public class DocumentResource extends AbstractDocumentResource {
     private static final Logger LOG = LoggerFactory.getLogger(DocumentResource.class);
 
     @Autowired
@@ -132,7 +132,7 @@ public class DocumentResource extends AbstractResource {
 
     /**
      * Loads the list of documents based on the input parameters
-     * 
+     *
      * @param offset the offset
      * @param limit the limit
      * @param tag the tags
@@ -142,24 +142,12 @@ public class DocumentResource extends AbstractResource {
     @GET
     @Path("/")
     @Produces(MediaType.TEXT_HTML)
-    public Response loadDocument(@QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit,
+    public Response loadDocument(@QueryParam("offset") final Integer offset, @QueryParam("limit") final Integer limit,
             final @QueryParam("tag") String tag, final @QueryParam("search") String search) {
         try {
             Map<String, Object> attributes = new HashMap<>();
 
-            if (null == offset) {
-                offset = 0;
-            }
-            if (null == limit) {
-                limit = 10;
-            }
-
-            Collection<Document<String>> documents;
-            if (null != search) {
-                documents = repository.searchTextDocuments(offset, limit, search);
-            } else {
-                documents = repository.listTextDocuments(offset, limit, tag);
-            }
+            Collection<Document<String>> documents = retrieveData(offset, limit, tag, search);
 
             attributes.put("messages", documents);
 
