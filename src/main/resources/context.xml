@@ -7,5 +7,7 @@
     <context:component-scan base-package="de.ronnyfriedland.knowledgebase" />
 
     <context:property-placeholder location="classpath:kb.properties" />
+    
+    <context:annotation-config/>
 
 </beans>
