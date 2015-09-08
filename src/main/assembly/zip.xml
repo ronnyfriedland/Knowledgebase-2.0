@@ -12,16 +12,20 @@
         </file>
         <!-- properties -->
         <file>
-            <source>${project.build.directory}/classes/kb.properties</source>
+            <source>${project.basedir}/src/main/application/kb.properties</source>
             <outputDirectory>/conf</outputDirectory>
         </file>
         <file>
-            <source>${project.build.directory}/classes/logging.properties</source>
+            <source>${project.basedir}/src/main/application/logging.properties</source>
             <outputDirectory>/conf</outputDirectory>
         </file>
         <file>
-            <source>${project.build.directory}/classes/repository.xml</source>
+            <source>${project.basedir}/src/main/application/repository.xml</source>
             <outputDirectory>/conf</outputDirectory>
+        </file>
+        <file>
+            <source>${project.basedir}/src/main/application/keystore.jks</source>
+            <outputDirectory>/conf/ssl</outputDirectory>
         </file>
 	</files>
 	<fileSets>
