@@ -89,7 +89,6 @@ public class DocumentResource extends AbstractDocumentResource {
      * @return
      */
     @POST
-    @Path("/")
     public Response saveDocument(final @FormParam("header") String header, final @FormParam("tags") String tagString,
             final @FormParam("message") String message) {
         try {
@@ -140,7 +139,6 @@ public class DocumentResource extends AbstractDocumentResource {
      * @return the processed document list template
      */
     @GET
-    @Path("/")
     @Produces(MediaType.TEXT_HTML)
     public Response loadDocument(@QueryParam("offset") final Integer offset, @QueryParam("limit") final Integer limit,
             final @QueryParam("tag") String tag, final @QueryParam("search") String search) {
