@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.security.KeyManagementException;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
@@ -22,6 +23,8 @@ import org.glassfish.grizzly.servlet.WebappContext;
 import org.glassfish.grizzly.ssl.SSLEngineConfigurator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.ContextLoaderListener;
+import org.springframework.web.context.request.RequestContextListener;
 
 import com.sun.jersey.spi.spring.container.servlet.SpringServlet;
 
@@ -48,18 +51,8 @@ public class Server implements Runnable {
         try {
             NetworkListener listener = new NetworkListener("grizzly2", "localhost", configuration.getPort());
             if (configuration.isSslEnabled()) {
+                listener.setSSLEngineConfig(getSslConfiguration());
                 listener.setSecure(true);
-                SSLContext sslContext = SSLContext.getInstance("TLS");
-                sslContext.init(getKeyManagers(), null, new SecureRandom());
-
-                SSLEngineConfigurator sslEngineConfigurator = new SSLEngineConfigurator(sslContext);
-                sslEngineConfigurator.setClientMode(false);
-                sslEngineConfigurator.setCipherConfigured(true);
-                sslEngineConfigurator.setNeedClientAuth(false);
-                sslEngineConfigurator.setProtocolConfigured(true);
-                sslEngineConfigurator.setEnabledProtocols(configuration.getSslProtocolVersion());
-                sslEngineConfigurator.setEnabledCipherSuites(configuration.getSslCiphersuites());
-                listener.setSSLEngineConfig(sslEngineConfigurator);
             }
             server.addListener(listener);
             server.getServerConfiguration().addHttpHandler(
@@ -69,14 +62,32 @@ public class Server implements Runnable {
             final ServletRegistration reg = ctx.addServlet("spring", new SpringServlet());
             reg.addMapping("/*");
             ctx.addContextInitParameter("contextConfigLocation", "classpath:context.xml");
-            ctx.addListener("org.springframework.web.context.ContextLoaderListener");
-            ctx.addListener("org.springframework.web.context.request.RequestContextListener");
+            ctx.addListener(ContextLoaderListener.class.getCanonicalName());
+            ctx.addListener(RequestContextListener.class.getCanonicalName());
             ctx.deploy(server);
 
             server.start();
         } catch (IOException | GeneralSecurityException e) {
+            if (server.isStarted()) {
+                server.shutdown();
+            }
             throw new RuntimeException(e);
         }
+    }
+
+    private SSLEngineConfigurator getSslConfiguration() throws NoSuchAlgorithmException, KeyManagementException,
+    GeneralSecurityException, IOException, KeyStoreException, UnrecoverableKeyException {
+        SSLContext sslContext = SSLContext.getInstance("TLS");
+        sslContext.init(getKeyManagers(), null, new SecureRandom());
+
+        SSLEngineConfigurator sslEngineConfigurator = new SSLEngineConfigurator(sslContext);
+        sslEngineConfigurator.setClientMode(false);
+        sslEngineConfigurator.setCipherConfigured(true);
+        sslEngineConfigurator.setNeedClientAuth(false);
+        sslEngineConfigurator.setProtocolConfigured(true);
+        sslEngineConfigurator.setEnabledProtocols(configuration.getSslProtocolVersion());
+        sslEngineConfigurator.setEnabledCipherSuites(configuration.getSslCiphersuites());
+        return sslEngineConfigurator;
     }
 
     private KeyManager[] getKeyManagers() throws GeneralSecurityException, IOException, NoSuchAlgorithmException,
