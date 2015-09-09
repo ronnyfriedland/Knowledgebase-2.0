@@ -57,7 +57,6 @@ public class Launcher {
              */
             @Override
             public void run() {
-                // todo
             }
         });
     }
@@ -82,6 +81,10 @@ public class Launcher {
 
                     final Configuration config = context.getBean("configuration", Configuration.class);
 
+                    final int port = config.getPort();
+                    final String url = String.format("http%s://localhost:%d/data", config.isSslEnabled() ? "s" : "",
+                            port);
+
                     trayIcon.setToolTip("Knowledgebase 2.0 - listen on port " + config.getPort());
                     trayIcon.setPopupMenu(new PopupMenu());
                     trayIcon.addActionListener(new ActionListener() {
@@ -89,8 +92,7 @@ public class Launcher {
                         @Override
                         public void actionPerformed(final ActionEvent e) {
                             try {
-                                Desktop.getDesktop().browse(
-                                        URI.create("http://localhost:" + config.getPort() + "/data"));
+                                Desktop.getDesktop().browse(URI.create(url));
                             } catch (IOException e1) {
                                 JOptionPane.showMessageDialog(null, "Kann Browser mit Anwendung nicht öffnen.");
                             }
@@ -123,4 +125,5 @@ public class Launcher {
             }
         }
     }
+
 }

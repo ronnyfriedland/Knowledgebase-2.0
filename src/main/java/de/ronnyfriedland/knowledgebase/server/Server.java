@@ -1,5 +1,7 @@
 package de.ronnyfriedland.knowledgebase.server;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.security.KeyStore;
@@ -80,14 +82,10 @@ public class Server implements Runnable {
     private KeyManager[] getKeyManagers() throws GeneralSecurityException, IOException, NoSuchAlgorithmException,
             KeyStoreException, UnrecoverableKeyException {
         KeyStore ks = KeyStore.getInstance("JKS");
-        ks.load(Thread.currentThread().getContextClassLoader().getResourceAsStream(configuration.getKeystore()),
-                configuration.getKeystorePassword());
+        ks.load(new FileInputStream(new File(configuration.getKeystore())), configuration.getKeystorePassword());
         KeyManagerFactory kmf = KeyManagerFactory.getInstance("SunX509");
         kmf.init(ks, configuration.getKeystorePassword());
         return kmf.getKeyManagers();
     }
 
-    public void shutdown() {
-        server.shutdown();
-    }
 }
