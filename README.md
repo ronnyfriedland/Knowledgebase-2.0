@@ -11,6 +11,7 @@ Java based content store to store text-based information in a blog style.
 - XML export and import
 - Windows application which can be accessed by taskbar icon
 - REST interface to connect your custom frontend to the "Knowledgebase 2.0" backend
+- SSL support for HTTP
 
 ## Screenshots
 
@@ -25,7 +26,6 @@ Java based content store to store text-based information in a blog style.
 ## TODOs:
 
 - unit testing (ongoing)
-- encryption support (xml + https)
 - support binary content
 
 ## Technology:
