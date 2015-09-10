@@ -24,6 +24,7 @@
     <common.codec.version>1.10</common.codec.version>
     <!-- Test -->
     <junit.version>4.12</junit.version>
+    <mockito.version>1.10.19</mockito.version>
   </properties>
 
   <build>
@@ -285,6 +286,11 @@
       <version>${junit.version}</version>
       <scope>test</scope>
     </dependency>
-
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <version>${mockito.version}</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 </project>
