@@ -4,8 +4,10 @@ import org.springframework.beans.factory.annotation.Value;
 
 @org.springframework.context.annotation.Configuration
 public class Configuration {
+    @Value("${server.interface}")
+    private String serverInterface;
     @Value("${server.port}")
-    private int port;
+    private int serverPort;
 
     @Value("${server.ssl.enabled}")
     private boolean sslEnabled;
@@ -23,7 +25,11 @@ public class Configuration {
     private String staticContentLocation;
 
     public int getPort() {
-        return port;
+        return serverPort;
+    }
+
+    public String getInterface() {
+        return serverInterface;
     }
 
     public boolean isSslEnabled() {

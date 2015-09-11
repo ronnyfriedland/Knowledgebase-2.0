@@ -49,15 +49,15 @@ public class Server implements Runnable {
     @Override
     public void run() {
         try {
-            NetworkListener listener = new NetworkListener("grizzly2", "localhost", configuration.getPort());
+            NetworkListener listener = new NetworkListener("grizzly2", configuration.getInterface(),
+                    configuration.getPort());
             if (configuration.isSslEnabled()) {
                 listener.setSSLEngineConfig(getSslConfiguration());
                 listener.setSecure(true);
             }
             server.addListener(listener);
-            server.getServerConfiguration().addHttpHandler(
-                    new CLStaticHttpHandler(Thread.currentThread().getContextClassLoader(),
-                            configuration.getStaticContentLocation()), "/");
+            server.getServerConfiguration().addHttpHandler(new CLStaticHttpHandler(
+                    Thread.currentThread().getContextClassLoader(), configuration.getStaticContentLocation()), "/");
             WebappContext ctx = new WebappContext("ctx", "/data");
             final ServletRegistration reg = ctx.addServlet("spring", new SpringServlet());
             reg.addMapping("/*");
@@ -76,7 +76,7 @@ public class Server implements Runnable {
     }
 
     private SSLEngineConfigurator getSslConfiguration() throws NoSuchAlgorithmException, KeyManagementException,
-    GeneralSecurityException, IOException, KeyStoreException, UnrecoverableKeyException {
+            GeneralSecurityException, IOException, KeyStoreException, UnrecoverableKeyException {
         SSLContext sslContext = SSLContext.getInstance("TLS");
         sslContext.init(getKeyManagers(), null, new SecureRandom());
 
