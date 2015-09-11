@@ -17,14 +17,14 @@ public class RepositoryCacheTest {
 
         Assert.assertNull(subject.get("test"));
 
-        subject.put("test", new Document<String>("1", "2", "3", null));
+        subject.put("test", new Document<String>("1", "2", "3", new String[0]));
         Assert.assertNotNull(subject.get("test"));
         Assert.assertEquals("1", subject.get("test").getKey());
         Assert.assertEquals("2", subject.get("test").getHeader());
         Assert.assertEquals("3", subject.get("test").getMessage());
         Assert.assertArrayEquals(new String[0], subject.get("test").getTags());
 
-        subject.put("test", new Document<String>("a", "b", "c", null));
+        subject.put("test", new Document<String>("a", "b", "c", new String[0]));
         Assert.assertNotNull(subject.get("test"));
         Assert.assertEquals("a", subject.get("test").getKey());
         Assert.assertEquals("b", subject.get("test").getHeader());
