@@ -76,6 +76,7 @@
           </execution>
         </executions>
         <configuration>
+          <verbose>true</verbose>
           <targetClasses>
             <param>de.ronnyfriedland.knowledgebase.*</param>
           </targetClasses>

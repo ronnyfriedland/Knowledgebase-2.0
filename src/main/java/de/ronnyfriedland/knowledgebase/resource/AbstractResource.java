@@ -18,7 +18,7 @@ public abstract class AbstractResource {
 
     protected final Configuration config = new Configuration(Configuration.VERSION_2_3_23);
     {
-        config.setTemplateLoader(new ClassTemplateLoader(Server.class, "/spark/template/freemarker"));
+        config.setTemplateLoader(new ClassTemplateLoader(Server.class, "/templates"));
     }
 
     protected String processResult(final String template, final Map<String, Object> attributes) {
