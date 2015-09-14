@@ -4,14 +4,15 @@ Java based content store to store text-based information in a blog style.
 
 ## Features
 
-- save text-based information
-- possibility of tagging all entries
-- paging support
-- full text search with result highlighting
-- XML export and import
-- Windows application which can be accessed by taskbar icon
-- REST interface to connect your custom frontend to the "Knowledgebase 2.0" backend
-- SSL support for HTTP
+* save text-based information
+* possibility of tagging all entries
+* paging support
+* full text search with result highlighting
+* XML export and import
+  * response contains calculated sha-256 hash of xml data
+* Windows application which can be accessed by taskbar icon
+* REST interface to connect your custom frontend to the "Knowledgebase 2.0" backend
+* SSL support for HTTP
 
 ## Screenshots
 
@@ -38,7 +39,7 @@ Java based content store to store text-based information in a blog style.
 - Apache JCS 1.3
 - JAX-RS
 - Grizzly Http Server
-- Freemarker
+- Freemarker 2.3
 - jQuery JS
 - Bootstrap CSS/JS
 - Launch4j
