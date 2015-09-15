@@ -64,6 +64,28 @@ public class DocumentResource extends AbstractDocumentResource {
     }
 
     /**
+     * Retrieve an existing document for the given key.
+     *
+     * @param key the unique key of the document
+     * @return the plain document stored in backend
+     */
+    @GET
+    @Path("/{key}/raw")
+    @Produces(MediaType.TEXT_HTML)
+    public Response rawDocument(final @PathParam("key") String key) {
+        try {
+            Document<String> document = repository.getTextDocument(key);
+            if (null == document) {
+                return Response.status(404).entity("Not found").build();
+            }
+            return Response.ok(document.getMessage()).build();
+        } catch (DataException e) {
+            LOG.error("Error getting document", e);
+            return Response.status(500).entity("Error getting document").build();
+        }
+    }
+
+    /**
      * Init a new document
      *
      * @return the processed document template (empty)

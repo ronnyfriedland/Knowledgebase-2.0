@@ -18,6 +18,22 @@
         jQuery( document ).ready(function() {
             CKEDITOR.replace('message');
 
+CKEDITOR.on('dialogDefinition', function (ev) {
+    var dialogName = ev.data.name;
+    var dialogDefinition = ev.data.definition;
+    var dialog = dialogDefinition.dialog;
+    var editor = ev.editor;
+
+    if (dialogName == 'image') {
+        dialogDefinition.onOk = function (e) {
+            var imageSrcUrl = e.sender.originalElement.$.src;
+            var width = e.sender.originalElement.$.width;
+            var height = e.sender.originalElement.$.height;
+            var imgHtml = CKEDITOR.dom.element.createFromHtml(imageSrcUrl);
+            editor.insertElement(imgHtml);
+        };
+    }
+});
             header = jQuery("#header");
             if("" != header.val()) {
                 header.attr('readonly', true);
