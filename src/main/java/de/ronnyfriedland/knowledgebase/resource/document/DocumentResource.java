@@ -172,10 +172,6 @@ public class DocumentResource extends AbstractDocumentResource {
 
             attributes.put("messages", documents);
 
-            if (offset == 11) {
-                throw new DataException(new NullPointerException());
-            }
-
             return Response.ok(processResult("list.ftl", attributes)).build();
         } catch (DataException e) {
             LOG.error("Error getting content", e);
