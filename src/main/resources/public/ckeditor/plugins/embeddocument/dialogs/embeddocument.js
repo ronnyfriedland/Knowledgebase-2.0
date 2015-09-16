@@ -20,7 +20,7 @@ CKEDITOR.dialog.add('embeddocumentDialog', function(editor) {
             var response = '';
             jQuery.ajax({
                 type : "GET",
-                url : link,
+                url : link + "/raw",
                 async : false,
                 success : function(text) {
                     response = text;
