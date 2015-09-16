@@ -13,6 +13,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -59,7 +60,7 @@ public class DocumentResource extends AbstractDocumentResource {
             return Response.ok(processResult("document.ftl", attributes)).build();
         } catch (DataException e) {
             LOG.error("Error getting document", e);
-            return Response.status(500).entity("Error getting document").build();
+            throw new WebApplicationException(Response.status(500).entity("Error getting document").build());
         }
     }
 
@@ -81,7 +82,7 @@ public class DocumentResource extends AbstractDocumentResource {
             return Response.ok(document.getMessage()).build();
         } catch (DataException e) {
             LOG.error("Error getting document", e);
-            return Response.status(500).entity("Error getting document").build();
+            throw new WebApplicationException(Response.status(500).entity("Error getting document").build());
         }
     }
 
@@ -128,7 +129,7 @@ public class DocumentResource extends AbstractDocumentResource {
             return Response.status(301).location(URI.create("/")).build();
         } catch (DataException e) {
             LOG.error("Error saving content", e);
-            return Response.status(500).entity("Error getting document").build();
+            throw new WebApplicationException(Response.status(500).entity("Error saving document").build());
         }
     }
 
@@ -147,7 +148,7 @@ public class DocumentResource extends AbstractDocumentResource {
             return Response.ok().build();
         } catch (DataException e) {
             LOG.error("Error deleting document", e);
-            return Response.status(500).entity("Error getting document").build();
+            throw new WebApplicationException(Response.status(500).entity("Error deleting document").build());
         }
     }
 
@@ -171,10 +172,14 @@ public class DocumentResource extends AbstractDocumentResource {
 
             attributes.put("messages", documents);
 
+            if (offset == 11) {
+                throw new DataException(new NullPointerException());
+            }
+
             return Response.ok(processResult("list.ftl", attributes)).build();
         } catch (DataException e) {
             LOG.error("Error getting content", e);
-            return Response.status(500).entity("Error getting document").build();
+            throw new WebApplicationException(Response.status(500).entity("Error getting document").build());
         }
     }
 

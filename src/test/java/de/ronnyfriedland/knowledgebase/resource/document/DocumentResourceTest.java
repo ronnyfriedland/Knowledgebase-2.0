@@ -2,6 +2,7 @@ package de.ronnyfriedland.knowledgebase.resource.document;
 
 import java.util.Collections;
 
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 
 import org.junit.Assert;
@@ -55,9 +56,12 @@ public class DocumentResourceTest {
         Assert.assertNotNull(document2);
         Assert.assertEquals(404, document2.getStatus());
 
-        Response document3 = subject.loadDocument("exception-id");
-        Assert.assertNotNull(document3);
-        Assert.assertEquals(500, document3.getStatus());
+        try {
+            subject.loadDocument("exception-id");
+            Assert.fail("Exception expected !");
+        } catch (WebApplicationException e) {
+            Assert.assertEquals(500, e.getResponse().getStatus());
+        }
     }
 
     @Test

@@ -16,6 +16,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.xml.bind.JAXBContext;
@@ -99,7 +100,7 @@ public class XmlDocumentResource extends AbstractDocumentResource {
                     .header("Content-Type", "text/xml").header("Content-SHA256", hash).build();
         } catch (DataException e) {
             LOG.error("Error getting content", e);
-            return Response.status(500).entity("Error getting document").build();
+            throw new WebApplicationException(Response.status(500).entity("Error exporting document").build());
         }
     }
 
@@ -149,7 +150,7 @@ public class XmlDocumentResource extends AbstractDocumentResource {
             return Response.status(301).location(URI.create("/")).build();
         } catch (DataException e) {
             LOG.error("Error saving content", e);
-            return Response.status(500).entity("Error getting document").build();
+            throw new WebApplicationException(Response.status(500).entity("Error importing document").build());
         }
     }
 
