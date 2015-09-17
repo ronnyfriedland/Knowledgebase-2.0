@@ -26,6 +26,7 @@ import javax.xml.bind.Unmarshaller;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.output.WriterOutputStream;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,7 +97,17 @@ public class XmlDocumentResource extends AbstractDocumentResource {
             } catch (IOException | JAXBException ex) {
                 throw new DataException(ex);
             }
-            return Response.ok(sw.toString()).header("Content-Disposition", "attachment; filename=export.xml")
+
+            StringBuilder filename = new StringBuilder("export");
+            if (!StringUtils.isBlank(tag)) {
+                filename.append("_" + StringUtils.lowerCase(tag));
+            }
+            if (!StringUtils.isBlank(search)) {
+                filename.append("_" + StringUtils.lowerCase(search));
+            }
+            filename.append(".xml");
+
+            return Response.ok(sw.toString()).header("Content-Disposition", "attachment; filename=" + filename)
                     .header("Content-Type", "text/xml").header("Content-SHA256", hash).build();
         } catch (DataException e) {
             LOG.error("Error getting content", e);
