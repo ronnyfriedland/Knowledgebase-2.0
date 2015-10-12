@@ -60,11 +60,11 @@ CKEDITOR.on('dialogDefinition', function (ev) {
     <nav class="navbar navbar-default">
       <div class="container">
         <div class="navbar-header">
-          <a class="navbar-brand" href="/">Knowledgebase 2.0</a>
+          <a class="navbar-brand" href="/">${locale("app.name")}</a>
         </div>
         <div class="navbar-collapse">
           <ul class="nav navbar-nav">
-          <li><a href="/data">Eintr&auml;ge auflisten</a></li>
+          <li><a href="/data">${locale("app.menu.list")}</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -72,13 +72,13 @@ CKEDITOR.on('dialogDefinition', function (ev) {
 
     <div class="container">
       <div class="panel panel-default">
-        <div class="panel-heading">Eintrag hinzuf&uuml;gen</div>
+        <div class="panel-heading">${locale("app.header.add")}</div>
           <div class="panel-body">
             <form role="form" id="documentForm" action="/data" method="post">
-              <div class="form-group"><label for="header">&Uuml;berschrift</label><br/><input class="form-control" type="text" name="header" id="header" value="${header}"/></div>
-              <div class="form-group"><label for="message">Inhalt</label><br/><textarea id="message" name="message">${message}</textarea></div>
-              <div class="form-group"><label for="tags">Schlagw&ouml;rter</label><br/><input class="form-control" type="text" name="tags" id="tags" value="${tags}"/></div>
-              <input class="btn btn-default" type="submit" value="Speichern" />
+              <div class="form-group"><label for="header">${locale("app.label.header")}</label><br/><input class="form-control" type="text" name="header" id="header" value="${header}"/></div>
+              <div class="form-group"><label for="message">${locale("app.label.content")}</label><br/><textarea id="message" name="message">${message}</textarea></div>
+              <div class="form-group"><label for="tags">${locale("app.label.tags")}</label><br/><input class="form-control" type="text" name="tags" id="tags" value="${tags}"/></div>
+              <input class="btn btn-default" type="submit" value="${locale("app.link.save")}" />
             </form>
           </div>
         </div>

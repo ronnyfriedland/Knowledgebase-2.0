@@ -1,5 +1,7 @@
 package de.ronnyfriedland.knowledgebase.configuration;
 
+import java.util.Locale;
+
 import org.springframework.beans.factory.annotation.Value;
 
 @org.springframework.context.annotation.Configuration
@@ -24,12 +26,25 @@ public class Configuration {
     @Value("${server.staticcontent.location}")
     private String staticContentLocation;
 
+    @Value("${server.locale}")
+    private String locale;
+
     public int getPort() {
         return serverPort;
     }
 
     public String getInterface() {
         return serverInterface;
+    }
+
+    public Locale getLocale() {
+        switch (locale) {
+        case "german":
+            return Locale.GERMAN;
+        case "english":
+        default:
+            return Locale.ENGLISH;
+        }
     }
 
     public boolean isSslEnabled() {

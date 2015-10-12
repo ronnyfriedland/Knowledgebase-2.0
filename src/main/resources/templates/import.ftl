@@ -19,12 +19,12 @@
   <nav class="navbar navbar-default">
     <div class="container">
       <div class="navbar-header">
-        <a class="navbar-brand" href="/">Knowledgebase 2.0</a>
+        <a class="navbar-brand" href="/">${locale("app.name")}</a>
       </div>
       <div class="navbar-collapse">
         <ul class="nav navbar-nav">
-        <li><a href="/data">Eintr&auml;ge auflisten</a></li>
-        <li><a href="/data/add">Eintrag hinzuf&uuml;gen</a></li>
+        <li><a href="/data">${locale("app.menu.list")}</a></li>
+        <li><a href="/data/add">${locale("app.menu.add")}</a></li>
         </ul>
       </div><!--/.nav-collapse -->
     </div>
@@ -33,21 +33,18 @@
   <div class="container" role="main">
 
     <div class="alert alert-warning">
-      Es kann eine Datei zum Import ausgew&auml;hlt oder das XML in das vorgesehene Textfeld kopiert werden.
-      Sofern beide Felder bef&uuml;llt werden wird die Datei importiert und der Inhalt des Textfelds ignoriert.<br/><br/>
-      Es erfolgt keine Pr&uuml;fung, ob ein Datensatz bereits im System hinterlegt ist. In diesem Fall wird der bestehende Datensatz durch die Importdaten überschrieben. 
-      Der Schl&uuml;ssel f&uuml;r den Datensatz ist die &Uuml;berschrift bzw. die daraus berechnete von Sonderzeichen befreite Zeichenkette. 
+      ${locale("app.text.import.hint")}
     </div>
   
     <div class="panel panel-default">
-      <div class="panel-heading">Daten importieren</div>
+      <div class="panel-heading">${locale("app.header.import")}</div>
       <div class="panel-body">
 
         <form role="form" id="importForm" action="/data/xml/import" method="post">
-          <div class="form-group"><label for="importFile">Importdatei</label><br/><input type="file" name="importFile" id="importFile"/></div>
+          <div class="form-group"><label for="importFile">${locale("app.label.importfile")}</label><br/><input type="file" name="importFile" id="importFile"/></div>
           <hr>
-          <div class="form-group"><label for="importXml">Importtext</label><br/><textarea class="form-control" name="importXml" id="importXml"></textarea></div>
-          <input class="btn btn-default" type="submit" value="Importieren" />
+          <div class="form-group"><label for="importXml">${locale("app.label.importtext")}</label><br/><textarea class="form-control" name="importXml" id="importXml"></textarea></div>
+          <input class="btn btn-default" type="submit" value="${locale("app.link.import")}" />
         </form>
 
       </div>

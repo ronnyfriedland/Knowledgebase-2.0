@@ -104,6 +104,18 @@ public class DocumentResource extends AbstractDocumentResource {
     }
 
     /**
+     * Import data
+     *
+     * @return the processed document template (empty)
+     */
+    @GET
+    @Path("/import")
+    @Produces(MediaType.TEXT_HTML)
+    public Response importDocuments() {
+        return Response.ok(processResult("import.ftl", null)).build();
+    }
+
+    /**
      * Saves a new document
      *
      * @param header the header

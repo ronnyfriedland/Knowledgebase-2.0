@@ -69,24 +69,24 @@
     <nav class="navbar navbar-default">
       <div class="container">
         <div class="navbar-header">
-          <a class="navbar-brand" href="/">Knowledgebase 2.0</a>
+          <a class="navbar-brand" href="/">${locale("app.name")}</a>
         </div>
         <div class="navbar-collapse">
           <ul class="nav navbar-nav">
-            <li><a href="#" onClick="javascript:exportxml();">Eintr&auml;ge exportieren</a></li>
-            <li><a href="/import.html">Eintr&auml;ge importieren</a></li>
-            <li><a href="/data/add">Eintrag hinzuf&uuml;gen</a></li>
+            <li><a href="#" onClick="javascript:exportxml();">${locale("app.menu.export")}</a></li>
+            <li><a href="/data/import">${locale("app.menu.import")}</a></li>
+            <li><a href="/data/add">${locale("app.menu.add")}</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
     </nav>
 
     <div class="container">
-      <div class="form-group"><label for="search">Suche</label> <input type="text" id="search" />&nbsp;<input class="btn btn-default" type="button" value="Suchen" onClick="javascript:search(jQuery('#search').val());"/></div>
-      <div class="form-group"><label for="search">Filter</label> <a href="#" onClick="javascript:refresh();" style="text-decoration:line-through;"><span id="filter" /></a></div>
+      <div class="form-group"><label for="search">${locale("app.label.search")}</label> <input type="text" id="search" />&nbsp;<input class="btn btn-default" type="button" value="${locale("app.link.search")}" onClick="javascript:search(jQuery('#search').val());"/></div>
+      <div class="form-group"><label for="search">${locale("app.label.filter")}</label> <a href="#" onClick="javascript:refresh();" style="text-decoration:line-through;"><span id="filter" /></a></div>
 
       <div class="panel panel-default">
-        <div class="panel-heading">Liste der Eintr&auml;ge</div>
+        <div class="panel-heading">${locale("app.header.list")}</div>
         <div class="panel-body">
           <#if (messages?size > 0) >
             <div class="container-fluid scroll">
@@ -119,9 +119,9 @@
                               <div class="message">${message.message}</div>
                             </p>
                             <form action="/data/${message.key}">
-                                <input class="btn btn-default" type="submit" value="Bearbeiten" />
-                                <input class="btn btn-default" type="button"  data-toggle="modal" data-target="#lightbox" onclick="javascript:setModalText('${message.key}')" value="Vollbild" />
-                                <input class="btn btn-default confirm" type="button" value="L&ouml;schen" onclick="javascript:removeEntry('/data/${message.key}');" />
+                                <input class="btn btn-default" type="submit" value="${locale("app.link.edit")}" />
+                                <input class="btn btn-default" type="button"  data-toggle="modal" data-target="#lightbox" onclick="javascript:setModalText('${message.key}')" value="${locale("app.link.fullscreen")}" />
+                                <input class="btn btn-default confirm" type="button" value="${locale("app.link.delete")}" onclick="javascript:removeEntry('/data/${message.key}');" />
                             </form>
                           </div>
                         </div>

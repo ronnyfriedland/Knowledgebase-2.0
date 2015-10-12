@@ -6,25 +6,24 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import de.ronnyfriedland.knowledgebase.server.Server;
-import freemarker.cache.ClassTemplateLoader;
-import freemarker.template.Configuration;
+import de.ronnyfriedland.knowledgebase.freemarker.TemplateProcessor;
 import freemarker.template.TemplateException;
 
+/**
+ * @author ronnyfriedland
+ */
 public abstract class AbstractResource {
 
     private static final Logger LOG = LoggerFactory.getLogger(AbstractResource.class);
 
-    protected final Configuration config = new Configuration(Configuration.VERSION_2_3_23);
-    {
-        config.setTemplateLoader(new ClassTemplateLoader(Server.class, "/templates"));
-    }
+    @Autowired
+    private TemplateProcessor templateProcessor;
 
     protected String processResult(final String template, final Map<String, Object> attributes) {
         try (StringWriter writer = new StringWriter()) {
-            config.getTemplate(template).process(attributes, writer);
-            return writer.toString();
+            return templateProcessor.getProcessedTemplate(template, attributes, writer);
         } catch (IOException e) {
             LOG.error("Error getting template {}", template);
             return null;
