@@ -13,6 +13,7 @@ Java based content store to store text-based information in a blog style.
 * Windows application which can be accessed by taskbar icon
 * REST interface to connect your custom frontend to the "Knowledgebase 2.0" backend
 * SSL support for HTTP
+* language support with message properties
 
 ## Screenshots
 
