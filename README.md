@@ -26,7 +26,6 @@ Java based content store to store text-based information in a blog style.
 
 ## TODOs:
 
-- language support
 - unit testing (ongoing)
 - support binary content
   - only images are supported at the moment - embedding also possible
