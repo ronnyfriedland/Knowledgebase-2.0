@@ -138,7 +138,7 @@
               </#list>
 
               <#if (messages?size%10 == 0) >
-                <a onClick="javascript:load();">mehr</a>
+                <a onClick="javascript:load();">${locale("app.link.more")}</a>
               </#if>
             </div>
           </#if>
