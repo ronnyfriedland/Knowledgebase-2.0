@@ -15,6 +15,7 @@ import org.mockito.MockitoAnnotations;
 
 import de.ronnyfriedland.knowledgebase.entity.Document;
 import de.ronnyfriedland.knowledgebase.exception.DataException;
+import de.ronnyfriedland.knowledgebase.freemarker.TemplateProcessor;
 import de.ronnyfriedland.knowledgebase.repository.IRepository;
 
 /**
@@ -29,6 +30,9 @@ public class DocumentResourceTest {
 
     @Mock
     private IRepository repository;
+
+    @Mock
+    private TemplateProcessor templateProcessor;
 
     @Before
     public void init() throws Exception {
