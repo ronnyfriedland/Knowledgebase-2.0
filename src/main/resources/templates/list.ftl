@@ -99,7 +99,7 @@
                       <div class="panel panel-success">
                         <div id="header_${message.key}" class="panel-heading">
                           <div class="panel-title">
-                            <#if (message.header?length > 50)>
+                            <#if (message.header?length > 100)>
                               <a class="header" data-toggle="collapse" href="#body_${message.key}">${message.header?substring(0,50)}...</a>
                             <#else>
                               <a class="header" data-toggle="collapse" href="#body_${message.key}">${message.header}</a>
