@@ -91,7 +91,7 @@ public class XmlDocumentResource extends AbstractDocumentResource {
 
             String hash;
             StringWriter sw = new StringWriter();
-            try (DigestOutputStream dos = new DigestOutputStream(new WriterOutputStream(sw), digest)) {
+            try (DigestOutputStream dos = new DigestOutputStream(new WriterOutputStream(sw, "UTF-8"), digest)) {
                 marshaller.marshal(xmlDocuments, dos);
                 hash = Base64.encodeBase64String(dos.getMessageDigest().digest());
             } catch (IOException | JAXBException ex) {
