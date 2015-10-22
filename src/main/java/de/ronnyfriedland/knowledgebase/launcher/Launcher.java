@@ -32,6 +32,9 @@ public class Launcher {
 
     private static final Logger LOG = LoggerFactory.getLogger(Launcher.class);
 
+    private static final TrayIcon trayIcon = new TrayIcon(new ImageIcon(Thread.currentThread().getContextClassLoader()
+            .getResource("public/images/icon.gif")).getImage());
+
     /**
      * The main method
      *
@@ -57,6 +60,8 @@ public class Launcher {
              */
             @Override
             public void run() {
+                SystemTray tray = SystemTray.getSystemTray();
+                tray.remove(trayIcon);
             }
         });
     }
@@ -76,8 +81,6 @@ public class Launcher {
             if (SystemTray.isSupported()) {
                 try {
                     SystemTray tray = SystemTray.getSystemTray();
-                    TrayIcon trayIcon = new TrayIcon(new ImageIcon(Thread.currentThread().getContextClassLoader()
-                            .getResource("public/images/icon.gif")).getImage());
 
                     final Configuration config = context.getBean("configuration", Configuration.class);
 
