@@ -16,24 +16,27 @@
     <script src="/ckeditor/ckeditor.js"></script>
     <script type="text/javascript">
         jQuery( document ).ready(function() {
-            CKEDITOR.replace('message');
+            CKEDITOR.replace( 'message', {
+                language: '${locale("app.language")}',
+            });
 
-CKEDITOR.on('dialogDefinition', function (ev) {
-    var dialogName = ev.data.name;
-    var dialogDefinition = ev.data.definition;
-    var dialog = dialogDefinition.dialog;
-    var editor = ev.editor;
+            CKEDITOR.on('dialogDefinition', function (ev) {
+                var dialogName = ev.data.name;
+                var dialogDefinition = ev.data.definition;
+                var dialog = dialogDefinition.dialog;
+                var editor = ev.editor;
+            
+                if (dialogName == 'image') {
+                    dialogDefinition.onOk = function (e) {
+                        var imageSrcUrl = e.sender.originalElement.$.src;
+                        var width = e.sender.originalElement.$.width;
+                        var height = e.sender.originalElement.$.height;
+                        var imgHtml = CKEDITOR.dom.element.createFromHtml(imageSrcUrl);
+                        editor.insertElement(imgHtml);
+                    };
+                }
+            });
 
-    if (dialogName == 'image') {
-        dialogDefinition.onOk = function (e) {
-            var imageSrcUrl = e.sender.originalElement.$.src;
-            var width = e.sender.originalElement.$.width;
-            var height = e.sender.originalElement.$.height;
-            var imgHtml = CKEDITOR.dom.element.createFromHtml(imageSrcUrl);
-            editor.insertElement(imgHtml);
-        };
-    }
-});
             header = jQuery("#header");
             if("" != header.val()) {
                 header.attr('readonly', true);
@@ -48,7 +51,7 @@ CKEDITOR.on('dialogDefinition', function (ev) {
                     }
                 },
                 messages: {
-                    header: "&nbsp;<div class='alert alert-danger' role='alert'>Bitte eine g&uuml;ltige &Uuml;berschrift vergeben (mindestens 2 Zeichen)</div>",
+                    header: "&nbsp;<div class='alert alert-danger' role='alert'>${locale("app.error.header.missing")}</div>",
                 }
             });
         });

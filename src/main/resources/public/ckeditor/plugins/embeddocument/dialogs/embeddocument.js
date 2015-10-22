@@ -1,6 +1,6 @@
 CKEDITOR.dialog.add('embeddocumentDialog', function(editor) {
     return {
-        title : 'Dokument einbetten',
+        title : editor.lang.embeddocument.title,
         minWidth : 400,
         minHeight : 200,
         contents : [ {
@@ -9,9 +9,9 @@ CKEDITOR.dialog.add('embeddocumentDialog', function(editor) {
             elements : [ {
                 type : 'text',
                 id : 'link',
-                label : 'Dokumentenlink',
+                label : editor.lang.embeddocument.label.link,
                 validate : CKEDITOR.dialog.validate
-                        .notEmpty("Dokumentenlink darf nicht leer sein.")
+                        .notEmpty(editor.lang.embeddocument.label.error)
             } ]
         } ],
         onOk : function() {

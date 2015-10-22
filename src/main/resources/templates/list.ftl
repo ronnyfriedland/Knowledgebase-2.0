@@ -98,12 +98,15 @@
                     <div class="list-group">
                       <div class="panel panel-success">
                         <div id="header_${message.key}" class="panel-heading">
-                          <div class="panel-title">
+                          <div class="panel-title" >
                             <#if (message.header?length > 100)>
                               <a class="header" data-toggle="collapse" href="#body_${message.key}">${message.header?substring(0,50)}...</a>
                             <#else>
                               <a class="header" data-toggle="collapse" href="#body_${message.key}">${message.header}</a>
                             </#if>
+                            
+<a href="#" data-toggle="tooltip" title="Hooray!">Hover over me</a>
+
                           </div>
                           <div>
                             <#if (message.tags?size > 0) >

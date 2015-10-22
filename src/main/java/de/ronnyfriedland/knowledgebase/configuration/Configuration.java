@@ -39,9 +39,9 @@ public class Configuration {
 
     public Locale getLocale() {
         switch (locale) {
-        case "german":
+        case "de":
             return Locale.GERMAN;
-        case "english":
+        case "en":
         default:
             return Locale.ENGLISH;
         }
