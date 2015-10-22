@@ -104,9 +104,6 @@
                             <#else>
                               <a class="header" data-toggle="collapse" href="#body_${message.key}">${message.header}</a>
                             </#if>
-                            
-<a href="#" data-toggle="tooltip" title="Hooray!">Hover over me</a>
-
                           </div>
                           <div>
                             <#if (message.tags?size > 0) >
