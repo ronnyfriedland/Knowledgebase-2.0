@@ -65,8 +65,9 @@ public interface IRepository {
     /**
      * List metadata of documents in repository
      *
+     * @param id the unique identifier of the document
      * @return repository metadata
      * @throws DataException if an error occurs retrieving the documents
      */
-    RepositoryDocument getMetadata() throws DataException;
+    RepositoryDocument getMetadata(final String id) throws DataException;
 }

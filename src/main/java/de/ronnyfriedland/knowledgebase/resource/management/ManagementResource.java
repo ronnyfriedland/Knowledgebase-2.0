@@ -1,9 +1,6 @@
 package de.ronnyfriedland.knowledgebase.resource.management;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -29,24 +26,34 @@ public class ManagementResource extends AbstractResource {
     private IRepository repository;
 
     /**
-     * Loads the list of documents based on the input parameters
+     * Returns the content of the repositoy
      *
-     * @param offset the offset
-     * @param limit the limit
-     * @param tag the tags
-     * @param search the search
-     * @return the processed document list template
+     * @return the content of the repository
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/metadata")
     public Response getRepositoryMetadata() {
+        return getRepositoryMetadata("/");
+    }
+
+    /**
+     * Returns the content of the repository
+     *
+     * @param key the id of the repository element
+     * @return the content of the repository
+     */
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/metadata/{key:.+}")
+    public Response getRepositoryMetadata(final @PathParam("key") String key) {
         try {
-            RepositoryDocument metadata = repository.getMetadata();
+            RepositoryDocument metadata = repository.getMetadata(key);
             return Response.ok(metadata).build();
         } catch (DataException e) {
             LOG.error("Error getting content", e);
             throw new WebApplicationException(Response.status(500).entity("Error getting document").build());
         }
     }
+
 }

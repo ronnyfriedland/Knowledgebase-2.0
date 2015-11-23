@@ -203,9 +203,9 @@ public class JackRabbitRepository implements IRepository {
      * @see de.ronnyfriedland.knowledgebase.repository.IRepository#getMetadata()
      */
     @Override
-    public RepositoryDocument getMetadata() throws DataException {
+    public RepositoryDocument getMetadata(final String key) throws DataException {
         try {
-            Node node = ocm.getSession().getNode("/");
+            Node node = ocm.getSession().getNode(key);
             RepositoryDocument metadata = new RepositoryDocument();
             processNode(metadata, node);
             return metadata;
@@ -284,7 +284,7 @@ public class JackRabbitRepository implements IRepository {
                 parentDocument.addMetadata(new MetadataKeyValue(prop.getName(), prop.getValue().getString()));
             }
         }
-        parentDocument.setId(UUID.randomUUID().toString());
+        parentDocument.setId(parentNode.getPath());
         parentDocument.setName(parentNode.getName());
     }
 
