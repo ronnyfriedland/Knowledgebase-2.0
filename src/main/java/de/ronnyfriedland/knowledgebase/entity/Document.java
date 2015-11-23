@@ -2,6 +2,8 @@ package de.ronnyfriedland.knowledgebase.entity;
 
 import java.io.Serializable;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+
 import de.ronnyfriedland.knowledgebase.repository.jcr.JCRTextDocument;
 
 /**
@@ -9,9 +11,7 @@ import de.ronnyfriedland.knowledgebase.repository.jcr.JCRTextDocument;
  */
 public class Document<T> implements Serializable {
 
-    /**
-     * the serialVersionUID
-     */
+    /** the serialVersionUID */
     private static final long serialVersionUID = -2596270543790245689L;
 
     private final String key;
@@ -76,4 +76,15 @@ public class Document<T> implements Serializable {
         }
         return new Document<String>(path, jcrTextDocument.getHeader(), jcrTextDocument.getMessage(), tags);
     }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
+    }
+
 }

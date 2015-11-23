@@ -14,7 +14,7 @@
     <slf4j.version>1.7.12</slf4j.version>
     <servlet.version>3.1.0</servlet.version>
     <grizzly.version>2.3.22</grizzly.version>
-    <jersey-spring.version>1.19</jersey-spring.version>
+    <jersey.version>1.19</jersey.version>
     <freemarker.version>2.3.23</freemarker.version>
     <jcr.version>2.0</jcr.version>
     <jackrabbit.version>2.11.0</jackrabbit.version>
@@ -229,9 +229,14 @@
       <version>${common.codec.version}</version>
     </dependency>
     <dependency>
+      <groupId>com.sun.jersey</groupId>
+      <artifactId>jersey-json</artifactId>
+      <version>${jersey.version}</version>
+    </dependency>
+    <dependency>
       <groupId>com.sun.jersey.contribs</groupId>
       <artifactId>jersey-spring</artifactId>
-      <version>${jersey-spring.version}</version>
+      <version>${jersey.version}</version>
       <exclusions>
         <exclusion>
           <groupId>org.springframework</groupId>

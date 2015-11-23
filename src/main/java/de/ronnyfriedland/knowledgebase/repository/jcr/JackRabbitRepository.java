@@ -5,16 +5,22 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.jcr.LoginException;
+import javax.jcr.Node;
+import javax.jcr.NodeIterator;
+import javax.jcr.Property;
+import javax.jcr.PropertyIterator;
 import javax.jcr.Repository;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.SimpleCredentials;
 import javax.jcr.version.VersionException;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.jackrabbit.commons.JcrUtils;
 import org.apache.jackrabbit.ocm.exception.ObjectContentManagerException;
 import org.apache.jackrabbit.ocm.manager.ObjectContentManager;
@@ -33,6 +39,8 @@ import de.ronnyfriedland.knowledgebase.cache.RepositoryCache;
 import de.ronnyfriedland.knowledgebase.entity.Document;
 import de.ronnyfriedland.knowledgebase.exception.DataException;
 import de.ronnyfriedland.knowledgebase.repository.IRepository;
+import de.ronnyfriedland.knowledgebase.resource.management.RepositoryDocument;
+import de.ronnyfriedland.knowledgebase.resource.management.RepositoryDocument.MetadataKeyValue;
 
 /**
  * @author ronnyfriedland
@@ -172,6 +180,41 @@ public class JackRabbitRepository implements IRepository {
     }
 
     /**
+     * {@inheritDoc}
+     *
+     * @see de.ronnyfriedland.knowledgebase.repository.IRepository#removeDocument(java.lang.String)
+     */
+    @Override
+    public void removeDocument(final String key) throws DataException {
+        try {
+            if (ocm.objectExists("/" + key)) {
+                ocm.remove("/" + key);
+                ocm.save();
+            }
+            cache.remove(key);
+        } catch (ObjectContentManagerException e) {
+            throw new DataException("Error accessing path.", e);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @see de.ronnyfriedland.knowledgebase.repository.IRepository#getMetadata()
+     */
+    @Override
+    public RepositoryDocument getMetadata() throws DataException {
+        try {
+            Node node = ocm.getSession().getNode("/");
+            RepositoryDocument metadata = new RepositoryDocument();
+            processNode(metadata, node);
+            return metadata;
+        } catch (RepositoryException e) {
+            throw new DataException(e);
+        }
+    }
+
+    /**
      * Executes the query (ordered by creationdate) with the given {@link Filter}.
      */
     @SuppressWarnings("unchecked")
@@ -205,27 +248,8 @@ public class JackRabbitRepository implements IRepository {
         return result;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see de.ronnyfriedland.knowledgebase.repository.IRepository#removeDocument(java.lang.String)
-     */
-    @Override
-    public void removeDocument(final String key) throws DataException {
-        try {
-            if (ocm.objectExists("/" + key)) {
-                ocm.remove("/" + key);
-                ocm.save();
-            }
-            cache.remove(key);
-        } catch (ObjectContentManagerException e) {
-            throw new DataException("Error accessing path.", e);
-        }
-    }
-
-    @SuppressWarnings("rawtypes")
     private ObjectContentManager getObjectContentManager(final Session session) throws LoginException,
-    RepositoryException {
+            RepositoryException {
         List<Class> classes = new ArrayList<>();
         classes.add(JCRTextDocument.class);
         Mapper mapper = new AnnotationMapperImpl(classes);
@@ -235,6 +259,33 @@ public class JackRabbitRepository implements IRepository {
     private Session createSession(final Repository repository) throws LoginException, RepositoryException {
         Session session = repository.login(new SimpleCredentials(repositoryUsername, repositoryPassword));
         return session;
+    }
+
+    private void processNode(final RepositoryDocument parentDocument, final Node parentNode) throws RepositoryException {
+        NodeIterator childs = parentNode.getNodes();
+        while (childs.hasNext()) {
+            Node child = childs.nextNode();
+            RepositoryDocument childMetadata = new RepositoryDocument();
+            parentDocument.addChildren(childMetadata);
+            processNode(childMetadata, child);
+        }
+
+        PropertyIterator props = parentNode.getProperties();
+        while (props.hasNext()) {
+            final Property prop = props.nextProperty();
+            if (prop.isMultiple()) {
+                javax.jcr.Value[] values = prop.getValues();
+                String[] valueList = new String[values.length];
+                for (int i = 0; i < values.length; i++) {
+                    valueList[i] = values[i].getString();
+                }
+                parentDocument.addMetadata(new MetadataKeyValue(prop.getName(), StringUtils.join(valueList, ",")));
+            } else {
+                parentDocument.addMetadata(new MetadataKeyValue(prop.getName(), prop.getValue().getString()));
+            }
+        }
+        parentDocument.setId(UUID.randomUUID().toString());
+        parentDocument.setName(parentNode.getName());
     }
 
     private void destroySession(final Session session) {

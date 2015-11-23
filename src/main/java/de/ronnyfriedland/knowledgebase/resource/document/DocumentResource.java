@@ -190,5 +190,4 @@ public class DocumentResource extends AbstractDocumentResource {
             throw new WebApplicationException(Response.status(500).entity("Error getting document").build());
         }
     }
-
 }

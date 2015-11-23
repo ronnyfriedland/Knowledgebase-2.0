@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import de.ronnyfriedland.knowledgebase.entity.Document;
 import de.ronnyfriedland.knowledgebase.exception.DataException;
+import de.ronnyfriedland.knowledgebase.resource.management.RepositoryDocument;
 
 /**
  * Defines the interface for repository access.
@@ -60,4 +61,12 @@ public interface IRepository {
      * @throws DataException if an error occurs removing the document
      */
     void removeDocument(final String id) throws DataException;
+
+    /**
+     * List metadata of documents in repository
+     *
+     * @return repository metadata
+     * @throws DataException if an error occurs retrieving the documents
+     */
+    RepositoryDocument getMetadata() throws DataException;
 }
