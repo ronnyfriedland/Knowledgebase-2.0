@@ -35,14 +35,16 @@
          .on('changed.jstree', function (e, data) {
             if(data && data.selected && data.selected.length) {
                 jQuery.get('/data/management/metadata/' + data.selected.join(':'), function (d) {
-                    var text = "";
+                    var text = "<table class='table table-striped'>";
                     jQuery.each(d.metadata, function(idx, obj) {
+                        text += "<tr><td>";
                         text += obj.key;
-                        text += ":";
+                        text += "</td><td>";
                         text += obj.value;
-                        text += "<br/>";
+                        text += "</td></tr>";
                     });
-                    jQuery('#metadatadetails').text(text);
+                    text += "</table>";
+                    jQuery('#metadatadetails').html(text);
                 });
             }
           });
@@ -63,9 +65,24 @@
 
     <div class="container">
 
+      <div class="col-sm-4">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div id="metadata"></div>
+          </div>
+        </div>
+      </div>
 
-        <div id="metadata" class="col-sm-3"></div>
-        <div id="metadatadetails" class="col-sm-9"></div>
+      <div class="col-sm-8">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            Metadaten
+          </div>
+          <div class="panel-body">
+            <div id="metadatadetails"></div>
+          </div>
+        </div>
+      </div>
 
     </div>
 
