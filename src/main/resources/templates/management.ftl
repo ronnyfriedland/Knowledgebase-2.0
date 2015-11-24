@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="/bootstrap.min.css" />
     <link rel="stylesheet" href="/bootstrap-theme.min.css"/>
     <link rel="stylesheet" href="/knowledgebase.css"/>
-    <link rel="stylesheet" href="jstree/themes/default/style.min.css" />
+    <link rel="stylesheet" href="/jstree/themes/default/style.min.css" />
 
     <script src="/jquery-1.11.2.min.js"></script>
     <script src="/bootstrap.min.js"></script>
@@ -56,7 +56,7 @@
     <nav class="navbar navbar-default">
       <div class="container">
         <div class="navbar-header">
-          <div class="navbar-brand" href="/">Knowledgebase 2.0 Management</div>
+          <div class="navbar-brand" href="/">${locale("app.name.management")}</div>
         </div>
         <div class="navbar-collapse">
         </div><!--/.nav-collapse -->

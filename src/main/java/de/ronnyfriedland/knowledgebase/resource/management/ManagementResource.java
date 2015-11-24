@@ -13,6 +13,10 @@ import de.ronnyfriedland.knowledgebase.exception.DataException;
 import de.ronnyfriedland.knowledgebase.repository.IRepository;
 import de.ronnyfriedland.knowledgebase.resource.AbstractResource;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @author ronnyfriedland
  */
@@ -25,6 +29,17 @@ public class ManagementResource extends AbstractResource {
     @Autowired
     private IRepository repository;
 
+    /**
+     * Init
+     *
+     * @return the processed document template (empty)
+     */
+    @GET
+    @Path("/")
+    @Produces(MediaType.TEXT_HTML)
+    public Response initManagement() {
+        return Response.ok(processResult("management.ftl", new HashMap<String, Object>())).build();
+    }
     /**
      * Returns the content of the repositoy
      *

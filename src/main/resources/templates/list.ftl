@@ -23,8 +23,8 @@
     <script type="text/javascript">
       var removeEntry = function(url){
         jQuery.confirm({
-          text: "Eintrag wirklich l&ouml;schen?",
-          title: "Best&auml;tigung erforderlich",
+          text: "${locale("app.label.delete.confirm.text")}",
+          title: "${locale("app.label.delete.confirm.title")}",
           confirm: function(button) {
             jQuery.ajax({
               url: url,
