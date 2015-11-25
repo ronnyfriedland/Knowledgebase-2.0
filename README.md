@@ -14,6 +14,7 @@ Java based content store to store text-based information in a blog style.
 * REST interface to connect your custom frontend to the "Knowledgebase 2.0" backend
 * SSL support for HTTP
 * language support with message properties
+* management view to browse the whole repository
 
 ## Screenshots
 

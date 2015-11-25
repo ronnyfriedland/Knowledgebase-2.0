@@ -84,9 +84,8 @@ public class Launcher {
 
                     final Configuration config = context.getBean("configuration", Configuration.class);
 
-                    final int port = config.getPort();
-                    final String url = String.format("http%s://localhost:%d/data", config.isSslEnabled() ? "s" : "",
-                            port);
+                    final String baseurl = String.format("http%s://localhost:%d", config.isSslEnabled() ? "s" : "",
+                            config.getPort());
 
                     trayIcon.setToolTip("Knowledgebase 2.0 - listen on port " + config.getPort());
                     trayIcon.setPopupMenu(new PopupMenu());
@@ -95,7 +94,7 @@ public class Launcher {
                         @Override
                         public void actionPerformed(final ActionEvent e) {
                             try {
-                                Desktop.getDesktop().browse(URI.create(url));
+                                Desktop.getDesktop().browse(URI.create(baseurl + "/data"));
                             } catch (IOException e1) {
                                 JOptionPane.showMessageDialog(null, "Kann Browser mit Anwendung nicht öffnen.");
                             }
@@ -110,7 +109,34 @@ public class Launcher {
                             System.exit(1);
                         }
                     });
+                    MenuItem menuItemManagement = new MenuItem("Management");
+                    menuItemManagement.addActionListener(new ActionListener() {
+
+                        @Override
+                        public void actionPerformed(final ActionEvent e) {
+                            try {
+                                Desktop.getDesktop().browse(URI.create(baseurl + "/data/management"));
+                            } catch (IOException e1) {
+                                JOptionPane.showMessageDialog(null, "Kann Browser mit Anwendung nicht öffnen.");
+                            }
+                        }
+                    });
+                    MenuItem menuItemBase = new MenuItem("Knowledgebase");
+                    menuItemBase.addActionListener(new ActionListener() {
+
+                        @Override
+                        public void actionPerformed(final ActionEvent e) {
+                            try {
+                                Desktop.getDesktop().browse(URI.create(baseurl + "/data"));
+                            } catch (IOException e1) {
+                                JOptionPane.showMessageDialog(null, "Kann Browser mit Anwendung nicht öffnen.");
+                            }
+                        }
+                    });
                     PopupMenu popup = new PopupMenu();
+                    popup.add(menuItemBase);
+                    popup.add(menuItemManagement);
+                    popup.addSeparator();
                     popup.add(menuItemExit);
 
                     trayIcon.setPopupMenu(popup);
