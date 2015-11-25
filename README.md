@@ -25,11 +25,15 @@ Java based content store to store text-based information in a blog style.
 
 ![Add new entry](src/main/resources/public/images/add.png)
 
+### Management view
+
+![Browse repository](src/main/resources/public/images/management.png)
+
+
 ## TODOs:
 
 - unit testing (ongoing)
-- support binary content
-  - only images are supported at the moment - embedding also possible
+
 
 ## Technology:
 
@@ -43,6 +47,7 @@ Java based content store to store text-based information in a blog style.
 - Grizzly Http Server
 - Freemarker 2.3
 - jQuery JS
+- JSTree
 - Bootstrap CSS/JS
 - Launch4j
 - CKEditor 4
