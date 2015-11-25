@@ -52,3 +52,15 @@ Java based content store to store text-based information in a blog style.
 - Bootstrap CSS/JS
 - Launch4j
 - CKEditor 4
+
+## API:
+
+
+``Context          | Description``   
+``-----------------+--------------------------------------``  
+``/data            | list view``   
+``/data/add        | add document``   
+``/data/{id}       | edit document with 'id'``   
+``/data/import     | import xml``
+``/data/xml/export | export current (filtered) data as xml``   
+``/data/management | management view``   
