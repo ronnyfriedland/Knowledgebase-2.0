@@ -1,6 +1,5 @@
 package de.ronnyfriedland.knowledgebase.resource.xml;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -10,7 +9,7 @@ import java.security.MessageDigest;
 import java.util.Collection;
 
 import javax.annotation.PostConstruct;
-import javax.ws.rs.FormParam;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -31,6 +30,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.sun.jersey.multipart.FormDataParam;
 
 import de.ronnyfriedland.knowledgebase.entity.Document;
 import de.ronnyfriedland.knowledgebase.exception.DataException;
@@ -124,26 +125,23 @@ public class XmlDocumentResource extends AbstractDocumentResource {
      */
     @POST
     @Path("/import")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.TEXT_XML)
-    public Response importXml(final @FormParam("importFile") String importFile,
-            final @FormParam("importXml") String importXml) {
+    public Response importXml(final @FormDataParam("importFile") String importFile,
+            final @FormDataParam("importXml") String importXml) {
         XmlDocumentList xmlDocuments = null;
 
         try {
-            if (null != importFile && !"".equals(importFile)) {
-                try {
-                    xmlDocuments = (XmlDocumentList) unmarshaller.unmarshal(new File(importFile));
-                } catch (JAXBException e) {
-                    throw new DataException(e);
+            try {
+                if (null != importFile && !"".equals(importFile)) {
+                    xmlDocuments = (XmlDocumentList) unmarshaller.unmarshal(new StringReader(importFile));
+                } else if (null != importXml && !"".equals(importXml)) {
+                    xmlDocuments = (XmlDocumentList) unmarshaller.unmarshal(new StringReader(importXml));
+                } else {
+
                 }
-            } else {
-                if (null != importXml && !"".equals(importXml)) {
-                    try {
-                        xmlDocuments = (XmlDocumentList) unmarshaller.unmarshal(new StringReader(importXml));
-                    } catch (JAXBException e) {
-                        throw new DataException(e);
-                    }
-                }
+            } catch (JAXBException e) {
+                throw new DataException(e);
             }
 
             if (null != xmlDocuments) {

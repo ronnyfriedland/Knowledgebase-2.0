@@ -40,7 +40,7 @@
       <div class="panel-heading">${locale("app.header.import")}</div>
       <div class="panel-body">
 
-        <form role="form" id="importForm" action="/data/xml/import" method="post">
+        <form role="form" id="importForm" action="/data/xml/import" method="post" enctype="multipart/form-data">
           <div class="form-group"><label for="importFile">${locale("app.label.importfile")}</label><br/><input type="file" name="importFile" id="importFile"/></div>
           <hr>
           <div class="form-group"><label for="importXml">${locale("app.label.importtext")}</label><br/><textarea class="form-control" name="importXml" id="importXml"></textarea></div>
