@@ -10,6 +10,11 @@
             <source>${project.build.directory}/KB-2.0.exe</source>
             <outputDirectory>/</outputDirectory>
         </file>
+        <!-- add *nix start script -->
+        <file>
+            <source>${project.build.directory}/start.sh</source>
+            <outputDirectory>/</outputDirectory>
+        </file>
         <!-- properties -->
         <file>
             <source>${project.basedir}/src/main/application/kb.properties</source>

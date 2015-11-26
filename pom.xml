@@ -33,6 +33,11 @@
         <directory>src/main/resources</directory>
         <filtering>true</filtering>
       </resource>
+      <resource>
+        <directory>src/main/scripts</directory>
+        <targetPath>${project.build.directory}</targetPath>
+        <filtering>true</filtering>
+      </resource>
     </resources>
     <plugins>
       <plugin>
