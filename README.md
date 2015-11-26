@@ -16,6 +16,11 @@ Java based content store to store text-based information in a blog style.
 * language support with message properties
 * management view to browse the whole repository
 
+## Requirements
+
+* Java 7/8 JRE
+* JCE Unlimited Strength Jurisdiction Policy Files (with current configuration using ssl)
+
 ## Screenshots
 
 ### List all entries
@@ -55,12 +60,11 @@ Java based content store to store text-based information in a blog style.
 
 ## API:
 
-
 ``Context          | Description``   
-``-----------------+--------------------------------------``  
+``-----------------+--------------------------------------``   
 ``/data            | list view``   
 ``/data/add        | add document``   
 ``/data/{id}       | edit document with 'id'``   
-``/data/import     | import xml``
+``/data/import     | import xml``   
 ``/data/xml/export | export current (filtered) data as xml``   
 ``/data/management | management view``   
