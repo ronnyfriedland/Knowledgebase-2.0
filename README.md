@@ -65,6 +65,6 @@ Java based content store to store text-based information in a blog style.
 | /data  | list view  |
 | /data/add  | add document  |
 | /data/{id}  | edit document with 'id'  |
-| /data/import  | import xml view |
+| /data/xml/import  | import xml view |
 | /data/xml/export  | export current (filtered) data as xml  |
 | /data/management  | management view  |
