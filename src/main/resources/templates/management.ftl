@@ -56,9 +56,14 @@
     <nav class="navbar navbar-default">
       <div class="container">
         <div class="navbar-header">
-          <div class="navbar-brand" href="/">${locale("app.name.management")}</div>
+          <div class="navbar-header">
+            <a class="navbar-brand" href="/data/management">${locale("app.name.management")}</a>
+          </div>
         </div>
         <div class="navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="/data">${locale("app.menu.list")}</a></li>
+          </ul>
         </div><!--/.nav-collapse -->
       </div>
     </nav>

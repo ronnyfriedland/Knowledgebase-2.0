@@ -23,8 +23,9 @@
       </div>
       <div class="navbar-collapse">
         <ul class="nav navbar-nav">
-        <li><a href="/data">${locale("app.menu.list")}</a></li>
-        <li><a href="/data/add">${locale("app.menu.add")}</a></li>
+          <li><a href="/data">${locale("app.menu.list")}</a></li>
+          <li><a href="/data/add">${locale("app.menu.add")}</a></li>
+          <li><a href="/data/management">${locale("app.menu.management")}</a></li>
         </ul>
       </div><!--/.nav-collapse -->
     </div>

@@ -76,6 +76,7 @@
             <li><a href="#" onClick="javascript:exportxml();">${locale("app.menu.export")}</a></li>
             <li><a href="/data/import">${locale("app.menu.import")}</a></li>
             <li><a href="/data/add">${locale("app.menu.add")}</a></li>
+            <li><a href="/data/management">${locale("app.menu.management")}</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
