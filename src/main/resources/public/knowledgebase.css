@@ -8,3 +8,7 @@
     overflow: auto;
     resize: vertical;
 }
+
+.overflow_auto {
+    overflow: auto
+}

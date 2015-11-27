@@ -66,7 +66,7 @@
     <div class="container">
 
       <div class="col-sm-4">
-        <div class="panel panel-default">
+        <div class="panel panel-default overflow_auto">
           <div class="panel-body">
             <div id="metadata"></div>
           </div>
@@ -74,7 +74,7 @@
       </div>
 
       <div class="col-sm-8">
-        <div class="panel panel-default">
+        <div class="panel panel-default overflow_auto">
           <div class="panel-heading">
             Metadaten
           </div>
