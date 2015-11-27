@@ -109,7 +109,7 @@
                           <div>
                             <#if (message.tags?size > 0) >
                               <#list message.tags as tag>
-                                <a onClick="javascript:filter('${tag}');"><span class="label label-default">${tag}</span></a>&nbsp;
+                                <a href="#" onClick="javascript:filter('${tag}');"><span class="label label-default">${tag}</span></a>&nbsp;
                               </#list>
                             </#if>
                           </div>
