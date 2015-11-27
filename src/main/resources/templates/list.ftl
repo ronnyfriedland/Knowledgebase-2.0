@@ -33,8 +33,8 @@
             });
             window.location.reload();
           },
-          confirmButton: "Ja",
-          cancelButton: "Nein",
+          confirmButton: "${locale("app.label.yes")}",
+          cancelButton: "${locale("app.label.no")}",
           post: true,
           confirmButtonClass: "btn-danger",
           cancelButtonClass: "btn-default",
@@ -138,7 +138,7 @@
               </#list>
 
               <#if (messages?size%10 == 0) >
-                <a onClick="javascript:load();">${locale("app.link.more")}</a>
+                <a href="#" onClick="javascript:load();">${locale("app.link.more")}</a>
               </#if>
             </div>
           </#if>
