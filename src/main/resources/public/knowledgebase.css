@@ -1,3 +1,8 @@
+a.tag {
+    text-decoration: none;
+    text-color: #FFFFFF;
+}
+
 .highlight {
     background-color: yellow;
 }
