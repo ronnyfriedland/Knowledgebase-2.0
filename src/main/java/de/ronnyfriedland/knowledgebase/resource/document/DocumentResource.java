@@ -121,7 +121,7 @@ public class DocumentResource extends AbstractDocumentResource {
      * @param header the header
      * @param tagString the tags
      * @param message the message
-     * @return
+     * @return response object
      */
     @POST
     public Response saveDocument(final @FormParam("header") String header, final @FormParam("tags") String tagString,
@@ -132,7 +132,7 @@ public class DocumentResource extends AbstractDocumentResource {
             String key = TextUtils.replaceInvalidChars(header);
             // prepare tags
             String[] tags = null;
-            if (tagString != "") {
+            if (!"".equals(tagString)) {
                 tags = tagString.split(",");
             }
             // save document
@@ -149,7 +149,7 @@ public class DocumentResource extends AbstractDocumentResource {
      * Deletes an existing document
      *
      * @param key the unique key of the document
-     * @return
+     * @return response object
      */
     @DELETE
     @Path("/{key}")

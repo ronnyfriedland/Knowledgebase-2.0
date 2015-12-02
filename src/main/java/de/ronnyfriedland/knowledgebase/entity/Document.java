@@ -23,10 +23,10 @@ public class Document<T> implements Serializable {
     /**
      * Creates a new {@link Document} instance.
      *
-     * @param key
-     * @param header
-     * @param message
-     * @param tags
+     * @param key the unique key
+     * @param header the header value
+     * @param message the message
+     * @param tags the (optional) tags
      */
     public Document(final String key, final String header, final T message, final String... tags) {
         this.key = key;

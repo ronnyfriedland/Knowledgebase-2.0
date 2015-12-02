@@ -84,9 +84,8 @@ public class JCRTextDocument {
      */
     public JCRTextDocument(final String path, final String header, final String message, final List<String> tags) {
         this();
-        if (path.startsWith("/")) {
-        } else {
-            this.path = new StringBuilder().append("/").append(path).toString();
+        if (!path.startsWith("/")) {
+            this.path = "/" + path;
         }
         this.header = header;
         this.message = message;

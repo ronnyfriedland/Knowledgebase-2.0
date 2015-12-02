@@ -116,7 +116,7 @@ public class JackRabbitRepository implements IRepository {
      */
     @Override
     public String saveTextDocument(final Document<String> message) throws DataException {
-        String result = null;
+        String result;
         String path = "/" + message.getKey();
         try {
             if (ocm.objectExists(path)) {
@@ -200,7 +200,7 @@ public class JackRabbitRepository implements IRepository {
     /**
      * {@inheritDoc}
      *
-     * @see de.ronnyfriedland.knowledgebase.repository.IRepository#getMetadata()
+     * @see de.ronnyfriedland.knowledgebase.repository.IRepository#getMetadata(String id)
      */
     @Override
     public RepositoryDocument getMetadata(final String key) throws DataException {
@@ -257,8 +257,7 @@ public class JackRabbitRepository implements IRepository {
     }
 
     private Session createSession(final Repository repository) throws LoginException, RepositoryException {
-        Session session = repository.login(new SimpleCredentials(repositoryUsername, repositoryPassword));
-        return session;
+        return repository.login(new SimpleCredentials(repositoryUsername, repositoryPassword));
     }
 
     private void processNode(final RepositoryDocument parentDocument, final Node parentNode) throws RepositoryException {

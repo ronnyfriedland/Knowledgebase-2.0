@@ -101,10 +101,10 @@ public class XmlDocumentResource extends AbstractDocumentResource {
 
             StringBuilder filename = new StringBuilder("export");
             if (!StringUtils.isBlank(tag)) {
-                filename.append("_" + StringUtils.lowerCase(tag));
+                filename.append("_").append(StringUtils.lowerCase(tag));
             }
             if (!StringUtils.isBlank(search)) {
-                filename.append("_" + StringUtils.lowerCase(search));
+                filename.append("_").append(StringUtils.lowerCase(search));
             }
             filename.append(".xml");
 
@@ -121,7 +121,7 @@ public class XmlDocumentResource extends AbstractDocumentResource {
      *
      * @param importFile not empty if source is a xml file
      * @param importXml not empty if source is xml string
-     * @return
+     * @return xml data
      */
     @POST
     @Path("/import")
@@ -137,8 +137,6 @@ public class XmlDocumentResource extends AbstractDocumentResource {
                     xmlDocuments = (XmlDocumentList) unmarshaller.unmarshal(new StringReader(importFile));
                 } else if (null != importXml && !"".equals(importXml)) {
                     xmlDocuments = (XmlDocumentList) unmarshaller.unmarshal(new StringReader(importXml));
-                } else {
-
                 }
             } catch (JAXBException e) {
                 throw new DataException(e);
