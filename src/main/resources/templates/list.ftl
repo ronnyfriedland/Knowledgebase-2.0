@@ -86,6 +86,12 @@
       <div class="form-group"><label for="search">${locale("app.label.search")}</label> <input type="text" id="search" />&nbsp;<input class="btn btn-default" type="button" value="${locale("app.link.search")}" onClick="javascript:search(jQuery('#search').val());"/></div>
       <div class="form-group"><label for="search">${locale("app.label.filter")}</label> <a href="#" onClick="javascript:refresh();" style="text-decoration:line-through;"><span id="filter" /></a></div>
 
+      <div class="well">
+        <#list tags as tag>
+          <a class="tag" href="#" onClick="javascript:filter('${tag}');"><h3 class="label label-default">${tag}</h3></a>
+        </#list>
+      </div>
+
       <div class="panel panel-default">
         <div class="panel-heading">${locale("app.header.list")}</div>
         <div class="panel-body">

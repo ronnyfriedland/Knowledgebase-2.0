@@ -3,6 +3,7 @@ package de.ronnyfriedland.knowledgebase.resource.document;
 import java.net.URI;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 import javax.ws.rs.DELETE;
@@ -181,8 +182,16 @@ public class DocumentResource extends AbstractDocumentResource {
             Map<String, Object> attributes = new HashMap<>();
 
             Collection<Document<String>> documents = retrieveData(offset, limit, tag, search);
+            Collection<String> tags = new HashSet<>();
+            for (Document<String> document : documents) {
+                String[] documentTags = document.getTags();
+                for (String documentTag : documentTags) {
+                    tags.add(documentTag);
+                }
+            }
 
             attributes.put("messages", documents);
+            attributes.put("tags", tags);
 
             return Response.ok(processResult("list.ftl", attributes)).build();
         } catch (DataException e) {
