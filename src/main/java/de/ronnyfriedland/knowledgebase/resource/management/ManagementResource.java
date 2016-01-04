@@ -1,6 +1,12 @@
 package de.ronnyfriedland.knowledgebase.resource.management;
 
-import javax.ws.rs.*;
+import java.util.HashMap;
+
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -12,10 +18,6 @@ import org.springframework.stereotype.Component;
 import de.ronnyfriedland.knowledgebase.exception.DataException;
 import de.ronnyfriedland.knowledgebase.repository.IRepository;
 import de.ronnyfriedland.knowledgebase.resource.AbstractResource;
-
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author ronnyfriedland
@@ -35,11 +37,11 @@ public class ManagementResource extends AbstractResource {
      * @return the processed document template (empty)
      */
     @GET
-    @Path("/")
     @Produces(MediaType.TEXT_HTML)
     public Response initManagement() {
         return Response.ok(processResult("management.ftl", new HashMap<String, Object>())).build();
     }
+
     /**
      * Returns the content of the repositoy
      *

@@ -26,6 +26,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.request.RequestContextListener;
 
+import com.sun.jersey.api.core.ResourceConfig;
 import com.sun.jersey.spi.spring.container.servlet.SpringServlet;
 
 import de.ronnyfriedland.knowledgebase.configuration.Configuration;
@@ -62,6 +63,14 @@ public class Server implements Runnable {
             WebappContext ctx = new WebappContext("ctx", "/data");
             final ServletRegistration reg = ctx.addServlet("spring", new SpringServlet());
             reg.addMapping("/*");
+
+            reg.setInitParameter(ResourceConfig.PROPERTY_CONTAINER_REQUEST_FILTERS,
+                    "com.sun.jersey.api.container.filter.LoggingFilter"
+                            + (configuration.isAuthEnabled() ? ",de.ronnyfriedland.knowledgebase.server.SecurityFilter"
+                                    : ""));
+            reg.setInitParameter(ResourceConfig.PROPERTY_CONTAINER_RESPONSE_FILTERS,
+                    "com.sun.jersey.api.container.filter.LoggingFilter");
+
             ctx.addContextInitParameter("contextConfigLocation", "classpath:context.xml");
             ctx.addListener(ContextLoaderListener.class.getCanonicalName());
             ctx.addListener(RequestContextListener.class.getCanonicalName());

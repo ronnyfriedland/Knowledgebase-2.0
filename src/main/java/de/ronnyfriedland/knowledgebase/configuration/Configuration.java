@@ -11,6 +11,13 @@ public class Configuration {
     @Value("${server.port}")
     private int serverPort;
 
+    @Value("${server.auth.enabled}")
+    private boolean authEnabled;
+    @Value("${server.auth.username}")
+    private String authUsername;
+    @Value("${server.auth.password}")
+    private char[] authPassword;
+
     @Value("${server.ssl.enabled}")
     private boolean sslEnabled;
     @Value("${server.ssl.keystore}")
@@ -45,6 +52,18 @@ public class Configuration {
         default:
             return Locale.ENGLISH;
         }
+    }
+
+    public boolean isAuthEnabled() {
+        return authEnabled;
+    }
+
+    public String getAuthUsername() {
+        return authUsername;
+    }
+
+    public char[] getAuthPassword() {
+        return authPassword;
     }
 
     public boolean isSslEnabled() {
