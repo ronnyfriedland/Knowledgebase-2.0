@@ -3,12 +3,12 @@ package de.ronnyfriedland.knowledgebase.server;
 import java.security.Principal;
 
 import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.sun.jersey.api.container.MappableContainerException;
 import com.sun.jersey.core.util.Base64;
 import com.sun.jersey.spi.container.ContainerRequest;
 import com.sun.jersey.spi.container.ContainerRequestFilter;
@@ -33,8 +33,60 @@ public class SecurityFilter implements ContainerRequestFilter {
      */
     @Override
     public ContainerRequest filter(final ContainerRequest request) {
-        User user = authenticate(request);
-        request.setSecurityContext(new Authorizer(user));
+        final User user = authenticate(request);
+        request.setSecurityContext(new SecurityContext() {
+            private final Principal principal = new Principal() {
+                /**
+                 * {@inheritDoc}
+                 *
+                 * @see java.security.Principal#getName()
+                 */
+                @Override
+                public String getName() {
+                    return user.username;
+                }
+            };
+
+            /**
+             * {@inheritDoc}
+             *
+             * @see javax.ws.rs.core.SecurityContext#getUserPrincipal()
+             */
+            @Override
+            public Principal getUserPrincipal() {
+                return this.principal;
+            }
+
+            /**
+             * {@inheritDoc}
+             *
+             * @see javax.ws.rs.core.SecurityContext#isUserInRole(java.lang.String)
+             */
+            @Override
+            public boolean isUserInRole(final String role) {
+                return role.equals(user.role);
+            }
+
+            /**
+             * {@inheritDoc}
+             *
+             * @see javax.ws.rs.core.SecurityContext#isSecure()
+             */
+            @Override
+            public boolean isSecure() {
+                return configuration.isSslEnabled();
+            }
+
+            /**
+             * {@inheritDoc}
+             *
+             * @see javax.ws.rs.core.SecurityContext#getAuthenticationScheme()
+             */
+            @Override
+            public String getAuthenticationScheme() {
+                return SecurityContext.BASIC_AUTH;
+            }
+        });
         return request;
     }
 
@@ -42,65 +94,31 @@ public class SecurityFilter implements ContainerRequestFilter {
         // Extract authentication credentials
         String authentication = request.getHeaderValue(ContainerRequest.AUTHORIZATION);
         if (authentication == null) {
-            throw new MappableContainerException(new AuthenticationException("Authentication credentials are required"));
+            throw new WebApplicationException(Response.status(400).entity("Authentication credentials are required")
+                    .build());
         }
         // only basic auth is supported
         if (!authentication.startsWith("Basic ")) {
-            throw new MappableContainerException(new AuthenticationException("Authentication method not supported"));
+            throw new WebApplicationException(Response.status(405).entity("Authentication method not supported")
+                    .build());
         }
         authentication = authentication.substring("Basic ".length());
         String[] values = new String(Base64.base64Decode(authentication)).split(":");
         if (values.length < 2) {
-            throw new WebApplicationException(400); // Invalid syntax, expected "username:password"
+            throw new WebApplicationException(Response.status(400)
+                    .entity("Invalid syntax, expected 'username:password'").build());
         }
         String username = values[0];
         String password = values[1];
         if (username == null || password == null) {
-            throw new WebApplicationException(400);
+            throw new WebApplicationException(Response.status(400).entity("Username or password empty").build());
         }
 
         if (username.equals(configuration.getAuthUsername())
                 && password.equals(String.valueOf(configuration.getAuthPassword()))) {
             return new User(configuration.getAuthUsername(), "user");
         } else {
-            throw new MappableContainerException(new AuthenticationException("Invalid username or password"));
-        }
-    }
-
-    public class Authorizer implements SecurityContext {
-
-        private User user;
-        private Principal principal;
-
-        public Authorizer(final User user) {
-            this.user = user;
-            this.principal = new Principal() {
-
-                @Override
-                public String getName() {
-                    return user.username;
-                }
-            };
-        }
-
-        @Override
-        public Principal getUserPrincipal() {
-            return this.principal;
-        }
-
-        @Override
-        public boolean isUserInRole(final String role) {
-            return role.equals(user.role);
-        }
-
-        @Override
-        public boolean isSecure() {
-            return configuration.isSslEnabled();
-        }
-
-        @Override
-        public String getAuthenticationScheme() {
-            return SecurityContext.BASIC_AUTH;
+            throw new WebApplicationException(Response.status(401).entity("Invalid username or password").build());
         }
     }
 
