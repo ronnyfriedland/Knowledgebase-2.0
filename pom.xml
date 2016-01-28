@@ -300,6 +300,11 @@
             <artifactId>javax.servlet-api</artifactId>
             <version>${servlet.version}</version>
         </dependency>
+        <dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
+            <version>1.2</version>
+        </dependency>
         <!-- Test Artifacts -->
         <dependency>
             <groupId>org.springframework</groupId>
