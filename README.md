@@ -71,6 +71,11 @@ Java based content store to store text-based information in a blog style.
 
 ## Changelog:
 
+### v0.1.9
+
+- add basic auth support
+- sorted taglist on top of list page
+
 ### v0.1.8
 
 - add *nix start script
