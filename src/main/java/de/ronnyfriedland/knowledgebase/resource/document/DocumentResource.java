@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -35,6 +36,7 @@ import de.ronnyfriedland.knowledgebase.util.TextUtils;
 
 @Path("/")
 @Component
+@RolesAllowed("user")
 public class DocumentResource extends AbstractDocumentResource {
     private static final Logger LOG = LoggerFactory.getLogger(DocumentResource.class);
 

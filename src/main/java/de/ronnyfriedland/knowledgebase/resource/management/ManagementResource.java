@@ -2,6 +2,7 @@ package de.ronnyfriedland.knowledgebase.resource.management;
 
 import java.util.HashMap;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -24,6 +25,7 @@ import de.ronnyfriedland.knowledgebase.resource.AbstractResource;
  */
 @Path("/management")
 @Component
+@RolesAllowed("admin")
 public class ManagementResource extends AbstractResource {
 
     private static final Logger LOG = LoggerFactory.getLogger(ManagementResource.class);

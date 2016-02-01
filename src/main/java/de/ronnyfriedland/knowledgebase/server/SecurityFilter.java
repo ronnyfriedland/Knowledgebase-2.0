@@ -1,6 +1,8 @@
 package de.ronnyfriedland.knowledgebase.server;
 
 import java.security.Principal;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
@@ -64,7 +66,7 @@ public class SecurityFilter implements ContainerRequestFilter {
              */
             @Override
             public boolean isUserInRole(final String role) {
-                return role.equals(user.role);
+                return user.roles.contains(role);
             }
 
             /**
@@ -116,7 +118,7 @@ public class SecurityFilter implements ContainerRequestFilter {
 
         if (username.equals(configuration.getAuthUsername())
                 && password.equals(String.valueOf(configuration.getAuthPassword()))) {
-            return new User(configuration.getAuthUsername(), "user");
+            return new User(configuration.getAuthUsername(), configuration.isAuthAdmin());
         } else {
             throw new WebApplicationException(Response.status(401).entity("Invalid username or password").build());
         }
@@ -125,11 +127,15 @@ public class SecurityFilter implements ContainerRequestFilter {
     public class User {
 
         public String username;
-        public String role;
+        public Set<String> roles = new HashSet<>();
 
-        public User(final String username, final String role) {
+        public User(final String username, final boolean isAdmin) {
             this.username = username;
-            this.role = role;
+            this.roles.add(UserRoles.USER.getRoleName());
+            if (isAdmin) {
+                this.roles.add(UserRoles.ADMIN.getRoleName());
+            }
         }
+
     }
 }

@@ -9,6 +9,7 @@ import java.security.MessageDigest;
 import java.util.Collection;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -41,6 +42,7 @@ import de.ronnyfriedland.knowledgebase.util.TextUtils;
 
 @Path("/xml")
 @Component
+@RolesAllowed("user")
 public class XmlDocumentResource extends AbstractDocumentResource {
 
     private static final Logger LOG = LoggerFactory.getLogger(XmlDocumentResource.class);

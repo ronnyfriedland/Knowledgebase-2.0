@@ -17,6 +17,8 @@ public class Configuration {
     private String authUsername;
     @Value("${server.auth.password}")
     private char[] authPassword;
+    @Value("${server.auth.admin}")
+    private boolean authAdmin;
 
     @Value("${server.ssl.enabled}")
     private boolean sslEnabled;
@@ -64,6 +66,10 @@ public class Configuration {
 
     public char[] getAuthPassword() {
         return authPassword;
+    }
+
+    public boolean isAuthAdmin() {
+        return authAdmin;
     }
 
     public boolean isSslEnabled() {
