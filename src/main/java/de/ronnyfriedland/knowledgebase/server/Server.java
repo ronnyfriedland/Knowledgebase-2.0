@@ -60,6 +60,7 @@ public class Server implements Runnable {
             server.getServerConfiguration().addHttpHandler(
                     new CLStaticHttpHandler(Thread.currentThread().getContextClassLoader(),
                             configuration.getStaticContentLocation()), "/");
+
             WebappContext ctx = new WebappContext("ctx", "/data");
             final ServletRegistration reg = ctx.addServlet("spring", new SpringServlet());
             reg.addMapping("/*");
@@ -69,7 +70,7 @@ public class Server implements Runnable {
                             + (configuration.isAuthEnabled() ? ",de.ronnyfriedland.knowledgebase.server.SecurityFilter"
                                     : ""));
             reg.setInitParameter(ResourceConfig.PROPERTY_CONTAINER_RESPONSE_FILTERS,
-                    "com.sun.jersey.api.container.filter.LoggingFilter");
+                    "com.sun.jersey.api.container.filter.LoggingFilter,de.ronnyfriedland.knowledgebase.server.ErrorPageResponseFilter");
 
             reg.setInitParameter(ResourceConfig.PROPERTY_RESOURCE_FILTER_FACTORIES,
                     "com.sun.jersey.api.container.filter.RolesAllowedResourceFilterFactory");

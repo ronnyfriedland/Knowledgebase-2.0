@@ -57,7 +57,7 @@ public class DocumentResource extends AbstractDocumentResource {
         try {
             Document<String> document = repository.getTextDocument(key);
             if (null == document) {
-                return Response.status(404).entity("Not found").build();
+                return Response.status(404).entity("Document not found").build();
             }
             attributes.put("header", document.getHeader());
             attributes.put("message", document.getMessage());
@@ -83,7 +83,7 @@ public class DocumentResource extends AbstractDocumentResource {
         try {
             Document<String> document = repository.getTextDocument(key);
             if (null == document) {
-                return Response.status(404).entity("Not found").build();
+                return Response.status(404).entity("Document not found").build();
             }
             return Response.ok(document.getMessage()).build();
         } catch (DataException e) {
