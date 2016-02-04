@@ -30,6 +30,7 @@ import org.springframework.util.StringUtils;
 
 import de.ronnyfriedland.knowledgebase.entity.Document;
 import de.ronnyfriedland.knowledgebase.exception.DataException;
+import de.ronnyfriedland.knowledgebase.freemarker.TemplateProcessor;
 import de.ronnyfriedland.knowledgebase.repository.IRepository;
 import de.ronnyfriedland.knowledgebase.resource.AbstractDocumentResource;
 import de.ronnyfriedland.knowledgebase.util.TextUtils;
@@ -42,6 +43,9 @@ public class DocumentResource extends AbstractDocumentResource {
 
     @Autowired
     private IRepository repository;
+
+    @Autowired
+    private TemplateProcessor templateProcessor;
 
     /**
      * Retrieve an existing document for the given key.
@@ -63,7 +67,7 @@ public class DocumentResource extends AbstractDocumentResource {
             attributes.put("message", document.getMessage());
             attributes.put("tags", StringUtils.arrayToDelimitedString(document.getTags(), ","));
 
-            return Response.ok(processResult("document.ftl", attributes)).build();
+            return Response.ok(templateProcessor.getProcessedTemplate("document.ftl", attributes)).build();
         } catch (DataException e) {
             LOG.error("Error getting document", e);
             throw new WebApplicationException(Response.status(500).entity("Error getting document").build());
@@ -106,7 +110,7 @@ public class DocumentResource extends AbstractDocumentResource {
         attributes.put("message", "");
         attributes.put("tags", "");
 
-        return Response.ok(processResult("document.ftl", attributes)).build();
+        return Response.ok(templateProcessor.getProcessedTemplate("document.ftl", attributes)).build();
     }
 
     /**
@@ -118,7 +122,7 @@ public class DocumentResource extends AbstractDocumentResource {
     @Path("/import")
     @Produces(MediaType.TEXT_HTML)
     public Response importDocuments() {
-        return Response.ok(processResult("import.ftl", null)).build();
+        return Response.ok(templateProcessor.getProcessedTemplate("import.ftl", null)).build();
     }
 
     /**
@@ -200,7 +204,7 @@ public class DocumentResource extends AbstractDocumentResource {
             attributes.put("messages", documents);
             attributes.put("tags", tagList);
 
-            return Response.ok(processResult("list.ftl", attributes)).build();
+            return Response.ok(templateProcessor.getProcessedTemplate("list.ftl", attributes)).build();
         } catch (DataException e) {
             LOG.error("Error getting content", e);
             throw new WebApplicationException(Response.status(500).entity("Error getting document").build());

@@ -23,7 +23,6 @@
       </div>
       <div class="navbar-collapse">
         <ul class="nav navbar-nav">
-          <li><a href="/data">${locale("app.menu.list")}</a></li>
         </ul>
       </div><!--/.nav-collapse -->
     </div>
@@ -32,7 +31,7 @@
   <div class="container" role="main">
   
     <div class="panel panel-danger">
-      <div class="panel-heading">Oooooops</div>
+      <div class="panel-heading">${status}</div>
       <div class="panel-body">
 
       ${error}

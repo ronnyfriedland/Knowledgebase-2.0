@@ -1,4 +1,4 @@
-package de.ronnyfriedland.knowledgebase.server;
+package de.ronnyfriedland.knowledgebase.server.filter;
 
 import java.security.Principal;
 import java.util.HashSet;
@@ -16,6 +16,7 @@ import com.sun.jersey.spi.container.ContainerRequest;
 import com.sun.jersey.spi.container.ContainerRequestFilter;
 
 import de.ronnyfriedland.knowledgebase.configuration.Configuration;
+import de.ronnyfriedland.knowledgebase.server.UserRoles;
 
 /**
  * Basic Auth security filter.

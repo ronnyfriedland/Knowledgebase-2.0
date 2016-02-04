@@ -3,29 +3,28 @@
  * Riesaer Str. 5, 01129 Dresden, Germany
  * All rights reserved.
  */
-package de.ronnyfriedland.knowledgebase.server;
+package de.ronnyfriedland.knowledgebase.server.filter;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.sun.jersey.spi.container.ContainerRequest;
 import com.sun.jersey.spi.container.ContainerResponse;
 import com.sun.jersey.spi.container.ContainerResponseFilter;
 
-import de.ronnyfriedland.knowledgebase.resource.AbstractResource;
+import de.ronnyfriedland.knowledgebase.freemarker.TemplateProcessor;
 
 /**
  * @author rofr &lt;Ronny.Friedland@t-systems.com&gt;
  */
 @Component
-public class ErrorPageResponseFilter extends AbstractResource implements ContainerResponseFilter {
+public class ErrorPageResponseFilter implements ContainerResponseFilter {
 
-    @Override
-    protected String processResult(final String template, final Map<String, Object> attributes) {
-        return super.processResult(template, attributes);
-    }
+    @Autowired
+    private TemplateProcessor templateProcessor;
 
     /**
      * {@inheritDoc}
@@ -37,8 +36,9 @@ public class ErrorPageResponseFilter extends AbstractResource implements Contain
     public ContainerResponse filter(final ContainerRequest request, final ContainerResponse response) {
         if (200 < response.getStatus()) {
             Map<String, Object> attributes = new HashMap<>();
+            attributes.put("status", response.getStatus());
             attributes.put("error", response.getEntity());
-            response.setEntity(processResult("error.ftl", attributes));
+            response.setEntity(templateProcessor.getProcessedTemplate("error.ftl", attributes));
         }
         return response;
     }

@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import de.ronnyfriedland.knowledgebase.exception.DataException;
+import de.ronnyfriedland.knowledgebase.freemarker.TemplateProcessor;
 import de.ronnyfriedland.knowledgebase.repository.IRepository;
 import de.ronnyfriedland.knowledgebase.resource.AbstractResource;
 
@@ -33,6 +34,9 @@ public class ManagementResource extends AbstractResource {
     @Autowired
     private IRepository repository;
 
+    @Autowired
+    private TemplateProcessor templateProcessor;
+
     /**
      * Init
      *
@@ -41,7 +45,8 @@ public class ManagementResource extends AbstractResource {
     @GET
     @Produces(MediaType.TEXT_HTML)
     public Response initManagement() {
-        return Response.ok(processResult("management.ftl", new HashMap<String, Object>())).build();
+        return Response.ok(templateProcessor.getProcessedTemplate("management.ftl", new HashMap<String, Object>()))
+                .build();
     }
 
     /**
