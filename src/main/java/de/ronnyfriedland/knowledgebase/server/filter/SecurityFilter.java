@@ -94,6 +94,10 @@ public class SecurityFilter implements ContainerRequestFilter {
     }
 
     private User authenticate(final ContainerRequest request) {
+        if (!configuration.isAuthEnabled()) {
+            return new User("anonymous", true);
+        }
+
         // Extract authentication credentials
         String authentication = request.getHeaderValue(ContainerRequest.AUTHORIZATION);
         if (authentication == null) {
