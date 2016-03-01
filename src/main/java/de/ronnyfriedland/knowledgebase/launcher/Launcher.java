@@ -32,8 +32,7 @@ public class Launcher {
 
     private static final Logger LOG = LoggerFactory.getLogger(Launcher.class);
 
-    private static final TrayIcon trayIcon = new TrayIcon(new ImageIcon(Thread.currentThread().getContextClassLoader()
-            .getResource("public/images/icon.gif")).getImage());
+    private static final ExecutorService es = Executors.newFixedThreadPool(1);
 
     /**
      * The main method
@@ -60,8 +59,9 @@ public class Launcher {
              */
             @Override
             public void run() {
-                SystemTray tray = SystemTray.getSystemTray();
-                tray.remove(trayIcon);
+                if (null != es) {
+                    es.shutdown();
+                }
             }
         });
     }
@@ -73,7 +73,6 @@ public class Launcher {
         // register shutdown hook to close context
         context.registerShutdownHook();
 
-        ExecutorService es = Executors.newFixedThreadPool(1);
         try {
             Server server = context.getBean("server", Server.class);
             es.execute(server);
@@ -87,6 +86,8 @@ public class Launcher {
                     final String baseurl = String.format("http%s://localhost:%d", config.isSslEnabled() ? "s" : "",
                             config.getPort());
 
+                    final TrayIcon trayIcon = new TrayIcon(new ImageIcon(Thread.currentThread().getContextClassLoader()
+                            .getResource("public/images/icon.gif")).getImage());
                     trayIcon.setToolTip("Knowledgebase 2.0 - listen on port " + config.getPort());
                     trayIcon.setPopupMenu(new PopupMenu());
                     trayIcon.addActionListener(new ActionListener() {
@@ -106,6 +107,7 @@ public class Launcher {
 
                         @Override
                         public void actionPerformed(final ActionEvent e) {
+                            es.shutdown();
                             System.exit(1);
                         }
                     });
@@ -149,9 +151,6 @@ public class Launcher {
             }
         } finally {
             context.close();
-            if (null != es) {
-                es.shutdown();
-            }
         }
     }
 
