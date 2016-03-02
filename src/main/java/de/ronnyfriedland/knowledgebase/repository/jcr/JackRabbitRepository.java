@@ -92,14 +92,14 @@ public class JackRabbitRepository implements IRepository {
      * @see de.ronnyfriedland.knowledgebase.repository.IRepository#getTextDocument(java.lang.String)
      */
     @Override
-    public Document<String> getTextDocument(final String key) {
+    public Document<String> getTextDocument(final String key) throws DataException {
         Document<String> cachedDocument = cache.get(key);
         if (null == cachedDocument) {
             JCRTextDocument document = (JCRTextDocument) ocm.getObject("/" + key);
             if (null == document) {
                 return null; // not found - wrong path?
             }
-            return Document.fromJcrTextDocument(key, document);
+            return document.toDocument();
         } else {
             if (LOG.isTraceEnabled()) {
                 LOG.trace("using cached entry for key: '{}' -> '{}'.", key, cachedDocument);
@@ -121,16 +121,14 @@ public class JackRabbitRepository implements IRepository {
             if (ocm.objectExists(path)) {
                 ocm.checkout(path);
                 JCRTextDocument storedDocument = (JCRTextDocument) ocm.getObject(path);
-                storedDocument.setHeader(message.getHeader());
-                storedDocument.setMessage(message.getMessage());
-                storedDocument.setTags(message.getTags());
+                storedDocument.update(message);
                 ocm.update(storedDocument);
                 ocm.save();
                 ocm.checkin(path);
                 result = storedDocument.getUuid();
             } else {
                 JCRTextDocument jcrDocument = new JCRTextDocument(message.getKey(), message.getHeader(),
-                        message.getMessage(), message.getTags());
+                        message.getMessage(), message.isEncrypted(), message.getTags());
                 ocm.insert(jcrDocument);
                 ocm.save();
                 result = jcrDocument.getUuid();
@@ -217,7 +215,8 @@ public class JackRabbitRepository implements IRepository {
      * Executes the query (ordered by creationdate) with the given {@link Filter}.
      */
     @SuppressWarnings("unchecked")
-    private Collection<Document<String>> getDocumentsByQuery(final int offset, final int max, final Filter filter) {
+    private Collection<Document<String>> getDocumentsByQuery(final int offset, final int max, final Filter filter)
+            throws DataException {
         Collection<Document<String>> result = new ArrayList<>();
 
         QueryManager queryManager = ocm.getQueryManager();
@@ -234,7 +233,7 @@ public class JackRabbitRepository implements IRepository {
                     if (LOG.isTraceEnabled()) {
                         LOG.trace("Not found in cache: '{}'.", key);
                     }
-                    result.add(Document.fromJcrTextDocument(key, object));
+                    result.add(object.toDocument());
                 } else {
                     if (LOG.isTraceEnabled()) {
                         LOG.trace("using cached entry for key: '{}' -> '{}'.", key, cachedDocument);
@@ -248,7 +247,7 @@ public class JackRabbitRepository implements IRepository {
     }
 
     private ObjectContentManager getObjectContentManager(final Session session) throws LoginException,
-            RepositoryException {
+    RepositoryException {
         List<Class> classes = new ArrayList<>();
         classes.add(JCRTextDocument.class);
         Mapper mapper = new AnnotationMapperImpl(classes);
@@ -289,5 +288,4 @@ public class JackRabbitRepository implements IRepository {
     private void destroySession(final Session session) {
         session.logout();
     }
-
 }

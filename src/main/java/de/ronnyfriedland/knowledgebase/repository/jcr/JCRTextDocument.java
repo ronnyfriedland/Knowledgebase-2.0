@@ -1,16 +1,28 @@
 package de.ronnyfriedland.knowledgebase.repository.jcr;
 
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+
 import org.apache.jackrabbit.ocm.manager.collectionconverter.impl.ManageableCollectionImpl;
 import org.apache.jackrabbit.ocm.manager.collectionconverter.impl.MultiValueCollectionConverterImpl;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
+
+import de.ronnyfriedland.knowledgebase.entity.Document;
+import de.ronnyfriedland.knowledgebase.exception.DataException;
+import de.ronnyfriedland.knowledgebase.util.SecurityUtils;
 
 /**
  * Node implementation to store text based documents.
@@ -61,6 +73,8 @@ public class JCRTextDocument {
     private ManageableStringCollectionImpl tags;
     @Field
     private Date creationDate;
+    @Field
+    private boolean encrypted;
 
     /**
      * Creates a new {@link JCRTextDocument} instance.
@@ -69,9 +83,11 @@ public class JCRTextDocument {
      * @param header the header
      * @param message the message
      * @param tags the (optional) tags
+     * @throws DataException
      */
-    public JCRTextDocument(final String path, final String header, final String message, final String[] tags) {
-        this(path, header, message, Arrays.asList(tags));
+    public JCRTextDocument(final String path, final String header, final String message, final boolean encrypted,
+            final String[] tags) throws DataException {
+        this(path, header, message, encrypted, Arrays.asList(tags));
     }
 
     /**
@@ -81,16 +97,29 @@ public class JCRTextDocument {
      * @param header the header
      * @param message the message
      * @param tags the (optional) tags
+     * @throws DataException
      */
-    public JCRTextDocument(final String path, final String header, final String message, final List<String> tags) {
+    public JCRTextDocument(final String path, final String header, final String message, final boolean encrypted,
+            final List<String> tags) throws DataException {
         this();
         if (!path.startsWith("/")) {
             this.path = "/" + path;
         }
         this.header = header;
-        this.message = message;
         this.tags = new ManageableStringCollectionImpl(tags);
         this.creationDate = Calendar.getInstance().getTime();
+        this.encrypted = encrypted;
+
+        try {
+            if (this.encrypted) {
+                this.message = SecurityUtils.encryptStringSymmetric(message);
+            } else {
+                this.message = message;
+            }
+        } catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException | NoSuchProviderException
+                | InvalidAlgorithmParameterException | IllegalBlockSizeException | BadPaddingException e) {
+            throw new DataException("Error encrypting message", e);
+        }
     }
 
     /**
@@ -154,5 +183,62 @@ public class JCRTextDocument {
 
     public void setUuid(final String uuid) {
         this.uuid = uuid;
+    }
+
+    public void setEncrypted(final boolean encrypted) {
+        this.encrypted = encrypted;
+    }
+
+    public boolean isEncrypted() {
+        return encrypted;
+    }
+
+    /**
+     * Creates a {@link Document} based on the current data of this {@link JCRTextDocument}.
+     *
+     * @return the {@link Document}
+     * @throws DataException Error when decrypting an encrypted message
+     */
+    public Document<String> toDocument() throws DataException {
+        String[] tags;
+        JCRTextDocument.ManageableStringCollectionImpl jcrTags = getTags();
+        if (null != jcrTags) {
+            tags = new String[jcrTags.getSize()];
+            int i = 0;
+            for (String jcrTag : jcrTags.getObjects()) {
+                tags[i] = jcrTag.trim();
+                i++;
+            }
+        } else {
+            tags = new String[0];
+        }
+
+        String message = getMessage();
+        try {
+            if (isEncrypted()) {
+                message = SecurityUtils.decryptStringSymmetric(message);
+            }
+        } catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException | NoSuchProviderException
+                | InvalidAlgorithmParameterException | IllegalBlockSizeException | BadPaddingException e) {
+            throw new DataException("Error decrypting message", e);
+        }
+
+        return new Document<String>(getPath(), getHeader(), message, isEncrypted(), tags);
+    }
+
+    public void update(Document<String> update) throws DataException {
+        setHeader(update.getHeader());
+        try {
+            if (update.isEncrypted()) {
+                setMessage(SecurityUtils.encryptStringSymmetric(update.getMessage()));
+            } else {
+                setMessage(update.getMessage());
+            }
+        } catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException | IllegalBlockSizeException
+                | BadPaddingException | NoSuchProviderException | InvalidAlgorithmParameterException e) {
+            throw new DataException("Error encrypting message", e);
+        }
+        setEncrypted(update.isEncrypted());
+        setTags(update.getTags());
     }
 }

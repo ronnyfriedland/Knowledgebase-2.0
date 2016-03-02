@@ -1,6 +1,9 @@
 package de.ronnyfriedland.knowledgebase.util;
 
+import java.security.Security;
+
 import org.apache.commons.lang.StringUtils;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -25,6 +28,20 @@ public class TextUtilsTest {
 
         result = TextUtils.replaceInvalidChars(valid + invalid);
         Assert.assertEquals(valid + StringUtils.repeat("_", invalid.length()), result);
+    }
+
+    @Test
+    public void testEncryptDecrypt() throws Exception {
+        if (null == Security.getProvider(BouncyCastleProvider.PROVIDER_NAME)) {
+            Security.addProvider(new BouncyCastleProvider());
+        }
+
+        String testvalue = "Hello Knowledgebase 2.0";
+        String encrypted = TextUtils.encryptStringSymmetric(testvalue);
+        Assert.assertNotNull(encrypted);
+        String decrypted = TextUtils.decryptStringSymmetric(encrypted);
+        Assert.assertNotNull(decrypted);
+        Assert.assertEquals(testvalue, decrypted);
     }
 
 }

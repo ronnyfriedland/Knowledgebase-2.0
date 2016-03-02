@@ -65,6 +65,7 @@ public class DocumentResource extends AbstractDocumentResource {
             }
             attributes.put("header", document.getHeader());
             attributes.put("message", document.getMessage());
+            attributes.put("encrypted", document.isEncrypted());
             attributes.put("tags", StringUtils.arrayToDelimitedString(document.getTags(), ","));
 
             return Response.ok(templateProcessor.getProcessedTemplate("document.ftl", attributes)).build();
@@ -108,6 +109,7 @@ public class DocumentResource extends AbstractDocumentResource {
         Map<String, Object> attributes = new HashMap<>();
         attributes.put("header", "");
         attributes.put("message", "");
+        attributes.put("encrypted", false);
         attributes.put("tags", "");
 
         return Response.ok(templateProcessor.getProcessedTemplate("document.ftl", attributes)).build();
@@ -135,7 +137,7 @@ public class DocumentResource extends AbstractDocumentResource {
      */
     @POST
     public Response saveDocument(final @FormParam("header") String header, final @FormParam("tags") String tagString,
-            final @FormParam("message") String message) {
+            final @FormParam("encrypted") Boolean encrypted, final @FormParam("message") String message) {
         try {
 
             // remove invalid chars
@@ -146,7 +148,8 @@ public class DocumentResource extends AbstractDocumentResource {
                 tags = tagString.split(",");
             }
             // save document
-            repository.saveTextDocument(new Document<String>(key, header, message, tags));
+            repository.saveTextDocument(new Document<String>(key, header, message, null == encrypted ? false
+                    : encrypted, tags));
             // redirect to overview
             return Response.status(301).location(URI.create("/")).build();
         } catch (DataException e) {

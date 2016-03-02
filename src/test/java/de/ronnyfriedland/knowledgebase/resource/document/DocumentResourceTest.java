@@ -39,15 +39,16 @@ public class DocumentResourceTest {
         MockitoAnnotations.initMocks(this);
 
         Mockito.when(repository.getTextDocument("valid-id")).thenReturn(
-                new Document<String>("valid-id", "valid-id", "Hello World", "tag1", "tag2"));
+                new Document<String>("valid-id", "valid-id", "Hello World", false, "tag1", "tag2"));
         Mockito.when(repository.getTextDocument("invalid-id")).thenReturn(null);
         Mockito.when(repository.getTextDocument("exception-id")).thenThrow(new DataException(new RuntimeException()));
 
         Mockito.when(repository.listTextDocuments(0, 100, "tag1")).thenReturn(
-                Collections.singletonList(new Document<String>("valid-id", "valid-id", "Hello World", "tag1", "tag2")));
-        Mockito.when(repository.searchTextDocuments(0, 100, "valid-search")).thenReturn(
-                Collections.singletonList(new Document<String>("valid-search", "valid-search", "Hello World", "tag1",
+                Collections.singletonList(new Document<String>("valid-id", "valid-id", "Hello World", false, "tag1",
                         "tag2")));
+        Mockito.when(repository.searchTextDocuments(0, 100, "valid-search")).thenReturn(
+                Collections.singletonList(new Document<String>("valid-search", "valid-search", "Hello World", false,
+                        "tag1", "tag2")));
     }
 
     @Test
@@ -78,7 +79,7 @@ public class DocumentResourceTest {
     @Test
     public void testSaveDocument() {
         for (int i = 0; i < 2; i++) {
-            Response document = subject.saveDocument("valid-id", "tag1,tag2", "Hello World");
+            Response document = subject.saveDocument("valid-id", "tag1,tag2", false, "Hello World");
             Assert.assertNotNull(document);
             Assert.assertEquals(301, document.getStatus());
         }

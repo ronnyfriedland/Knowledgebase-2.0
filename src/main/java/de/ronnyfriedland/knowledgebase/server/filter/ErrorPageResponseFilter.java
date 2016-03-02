@@ -1,8 +1,3 @@
-/*
- * Copyright (c) 2016 T-Systems Multimedia Solutions GmbH
- * Riesaer Str. 5, 01129 Dresden, Germany
- * All rights reserved.
- */
 package de.ronnyfriedland.knowledgebase.server.filter;
 
 import java.util.HashMap;

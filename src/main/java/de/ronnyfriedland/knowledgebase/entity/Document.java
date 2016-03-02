@@ -4,8 +4,6 @@ import java.io.Serializable;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 
-import de.ronnyfriedland.knowledgebase.repository.jcr.JCRTextDocument;
-
 /**
  * @author ronnyfriedland
  */
@@ -19,6 +17,7 @@ public class Document<T> implements Serializable {
     private final String header;
     private final T message;
     private final String[] tags;
+    private final boolean encrypted;
 
     /**
      * Creates a new {@link Document} instance.
@@ -28,10 +27,12 @@ public class Document<T> implements Serializable {
      * @param message the message
      * @param tags the (optional) tags
      */
-    public Document(final String key, final String header, final T message, final String... tags) {
+    public Document(final String key, final String header, final T message, final boolean encrypted,
+            final String... tags) {
         this.key = key;
         this.header = header;
         this.message = message;
+        this.encrypted = encrypted;
 
         if (null != tags) {
             this.tags = new String[tags.length];
@@ -61,20 +62,8 @@ public class Document<T> implements Serializable {
         return tags;
     }
 
-    public static Document<String> fromJcrTextDocument(final String path, final JCRTextDocument jcrTextDocument) {
-        String[] tags;
-        JCRTextDocument.ManageableStringCollectionImpl jcrTags = jcrTextDocument.getTags();
-        if (null != jcrTags) {
-            tags = new String[jcrTags.getSize()];
-            int i = 0;
-            for (String jcrTag : jcrTags.getObjects()) {
-                tags[i] = jcrTag.trim();
-                i++;
-            }
-        } else {
-            tags = new String[0];
-        }
-        return new Document<String>(path, jcrTextDocument.getHeader(), jcrTextDocument.getMessage(), tags);
+    public boolean isEncrypted() {
+        return encrypted;
     }
 
     /**

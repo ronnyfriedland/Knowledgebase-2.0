@@ -23,6 +23,8 @@
         <h2.version>1.4.188</h2.version>
         <jcs.version>1.3</jcs.version>
         <common.codec.version>1.10</common.codec.version>
+        <bouncycastle.version>1.53</bouncycastle.version>
+        <javax.annotation.version>1.2</javax.annotation.version>
         <!-- Test -->
         <junit.version>4.12</junit.version>
         <mockito.version>1.10.19</mockito.version>
@@ -303,7 +305,12 @@
         <dependency>
             <groupId>javax.annotation</groupId>
             <artifactId>javax.annotation-api</artifactId>
-            <version>1.2</version>
+            <version>${javax.annotation.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk15on</artifactId>
+            <version>${bouncycastle.version}</version>
         </dependency>
         <!-- Test Artifacts -->
         <dependency>
