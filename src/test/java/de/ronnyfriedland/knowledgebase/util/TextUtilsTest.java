@@ -37,9 +37,9 @@ public class TextUtilsTest {
         }
 
         String testvalue = "Hello Knowledgebase 2.0";
-        String encrypted = TextUtils.encryptString(testvalue);
+        String encrypted = TextUtils.encryptStringSymmetric(testvalue);
         Assert.assertNotNull(encrypted);
-        String decrypted = TextUtils.decryptString(encrypted);
+        String decrypted = TextUtils.decryptStringSymmetric(encrypted);
         Assert.assertNotNull(decrypted);
         Assert.assertEquals(testvalue, decrypted);
     }

@@ -22,7 +22,7 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 
 import de.ronnyfriedland.knowledgebase.entity.Document;
 import de.ronnyfriedland.knowledgebase.exception.DataException;
-import de.ronnyfriedland.knowledgebase.util.TextUtils;
+import de.ronnyfriedland.knowledgebase.util.SecurityUtils;
 
 /**
  * Node implementation to store text based documents.
@@ -112,7 +112,7 @@ public class JCRTextDocument {
 
         try {
             if (this.encrypted) {
-                this.message = TextUtils.encryptString(message);
+                this.message = SecurityUtils.encryptStringSymmetric(message);
             } else {
                 this.message = message;
             }
@@ -216,7 +216,7 @@ public class JCRTextDocument {
         String message = getMessage();
         try {
             if (isEncrypted()) {
-                message = TextUtils.decryptString(message);
+                message = SecurityUtils.decryptStringSymmetric(message);
             }
         } catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException | NoSuchProviderException
                 | InvalidAlgorithmParameterException | IllegalBlockSizeException | BadPaddingException e) {
@@ -230,7 +230,7 @@ public class JCRTextDocument {
         setHeader(update.getHeader());
         try {
             if (update.isEncrypted()) {
-                setMessage(TextUtils.encryptString(update.getMessage()));
+                setMessage(SecurityUtils.encryptStringSymmetric(update.getMessage()));
             } else {
                 setMessage(update.getMessage());
             }
