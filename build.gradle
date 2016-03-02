@@ -1,0 +1,47 @@
+apply plugin: 'java'
+apply plugin: 'maven'
+
+group = 'de.ronnyfriedland'
+version = '0.1.10-SNAPSHOT'
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+repositories {
+    mavenLocal()
+}
+
+dependencies {
+    compile group: 'org.slf4j', name: 'slf4j-jdk14', version:'1.7.12'
+    compile group: 'org.slf4j', name: 'slf4j-api', version:'1.7.12'
+    compile group: 'org.springframework', name: 'spring-context', version:'4.2.2.RELEASE'
+    compile group: 'org.springframework', name: 'spring-core', version:'4.2.2.RELEASE'
+    compile group: 'org.springframework', name: 'spring-web', version:'4.2.2.RELEASE'
+    compile group: 'org.springframework.security', name: 'spring-security-config', version:'4.0.3.RELEASE'
+    compile group: 'javax.jcr', name: 'jcr', version:'2.0'
+    compile group: 'org.apache.jackrabbit', name: 'jackrabbit-spi', version:'2.11.0'
+    compile group: 'org.apache.jackrabbit', name: 'jackrabbit-core', version:'2.11.0'
+    compile group: 'org.apache.jackrabbit', name: 'jackrabbit-ocm', version:'1.5.3'
+    compile group: 'com.h2database', name: 'h2', version:'1.4.188'
+    compile group: 'org.apache.jcs', name: 'jcs', version:'1.3'
+    compile group: 'org.freemarker', name: 'freemarker', version:'2.3.23'
+    compile group: 'commons-codec', name: 'commons-codec', version:'1.10'
+    compile group: 'com.sun.jersey', name: 'jersey-json', version:'1.19'
+    compile group: 'com.sun.jersey.contribs', name: 'jersey-multipart', version:'1.19'
+    compile(group: 'com.sun.jersey.contribs', name: 'jersey-spring', version:'1.19') {
+        exclude(module: 'spring')
+        exclude(module: 'spring-core')
+        exclude(module: 'spring-web')
+        exclude(module: 'spring-beans')
+        exclude(module: 'spring-context')
+        exclude(module: 'spring-aop')
+    }
+    compile group: 'org.glassfish.grizzly', name: 'grizzly-http-server', version:'2.3.22'
+    compile group: 'org.glassfish.grizzly', name: 'grizzly-http-servlet', version:'2.3.22'
+    compile group: 'javax.servlet', name: 'javax.servlet-api', version:'3.1.0'
+    compile group: 'javax.annotation', name: 'javax.annotation-api', version:'1.2'
+    compile group: 'org.bouncycastle', name: 'bcprov-jdk15on', version:'1.53'
+    testCompile group: 'org.springframework', name: 'spring-test', version:'4.2.2.RELEASE'
+    testCompile group: 'junit', name: 'junit', version:'4.12'
+    testCompile group: 'org.mockito', name: 'mockito-core', version:'1.10.19'
+}
