@@ -89,7 +89,7 @@ public class Server implements Runnable {
     }
 
     private SSLEngineConfigurator getSslConfiguration() throws NoSuchAlgorithmException, KeyManagementException,
-            GeneralSecurityException, IOException, KeyStoreException, UnrecoverableKeyException {
+    GeneralSecurityException, IOException, KeyStoreException, UnrecoverableKeyException {
         SSLContext sslContext = SSLContext.getInstance("TLS");
         sslContext.init(getKeyManagers(), null, new SecureRandom());
 
@@ -104,7 +104,7 @@ public class Server implements Runnable {
     }
 
     private KeyManager[] getKeyManagers() throws GeneralSecurityException, IOException, NoSuchAlgorithmException,
-            KeyStoreException, UnrecoverableKeyException {
+    KeyStoreException, UnrecoverableKeyException {
         KeyStore ks = KeyStore.getInstance("JKS");
         ks.load(new FileInputStream(new File(configuration.getKeystore())), configuration.getKeystorePassword());
         KeyManagerFactory kmf = KeyManagerFactory.getInstance("SunX509");

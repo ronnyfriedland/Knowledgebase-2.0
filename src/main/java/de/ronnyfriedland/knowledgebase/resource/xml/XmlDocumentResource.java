@@ -149,10 +149,11 @@ public class XmlDocumentResource extends AbstractDocumentResource {
                 for (XmlDocument xmlDocument : xmlDocuments) {
                     String header = xmlDocument.header;
                     String message = xmlDocument.message;
+                    Boolean encrypted = xmlDocument.encrypted;
                     String[] tags = xmlDocument.tags;
 
                     repository.saveTextDocument(new Document<String>(TextUtils.replaceInvalidChars(header), header,
-                            message, tags));
+                            message, encrypted, tags));
                 }
             }
             // redirect to overview

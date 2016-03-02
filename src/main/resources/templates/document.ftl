@@ -81,6 +81,7 @@
               <div class="form-group"><label for="header">${locale("app.label.header")}</label><br/><input class="form-control" type="text" name="header" id="header" value="${header}"/></div>
               <div class="form-group"><label for="message">${locale("app.label.content")}</label><br/><textarea id="message" name="message">${message}</textarea></div>
               <div class="form-group"><label for="tags">${locale("app.label.tags")}</label><br/><input class="form-control" type="text" name="tags" id="tags" value="${tags}"/></div>
+              <div class="form-group"><label for="encrypted"><input type="checkbox" name="encrypted" id="encrypted" value="true" <#if (encrypted)>checked</#if> />&nbsp;${locale("app.label.encrypt")}</label></div>
               <input class="btn btn-default" type="submit" value="${locale("app.link.save")}" />
             </form>
           </div>

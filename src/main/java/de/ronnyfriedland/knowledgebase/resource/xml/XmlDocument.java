@@ -10,6 +10,8 @@ public class XmlDocument {
     public String header;
     @XmlElement(name = "message")
     public String message;
+    @XmlElement(name = "encrypted")
+    public Boolean encrypted;
     @XmlElementWrapper
     @XmlElement(name = "tag")
     public String[] tags;

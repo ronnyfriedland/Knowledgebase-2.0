@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.URI;
+import java.security.Security;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -16,6 +17,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -68,6 +70,10 @@ public class Launcher {
 
     private void init() {
         LOG.info("Starting Knowledgebase 2.0 ...");
+
+        if (null == Security.getProvider(BouncyCastleProvider.PROVIDER_NAME)) {
+            Security.addProvider(new BouncyCastleProvider());
+        }
 
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("context.xml");
         // register shutdown hook to close context
