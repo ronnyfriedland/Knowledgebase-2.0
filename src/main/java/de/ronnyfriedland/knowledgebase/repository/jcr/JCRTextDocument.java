@@ -73,7 +73,7 @@ public class JCRTextDocument {
     private ManageableStringCollectionImpl tags;
     @Field
     private Date creationDate;
-    @Field
+    @Field(jcrDefaultValue = "false")
     private boolean encrypted;
 
     /**
