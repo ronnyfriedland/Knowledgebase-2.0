@@ -26,6 +26,7 @@ import javax.xml.bind.Unmarshaller;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.output.WriterOutputStream;
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -149,7 +150,7 @@ public class XmlDocumentResource extends AbstractDocumentResource {
                 for (XmlDocument xmlDocument : xmlDocuments) {
                     String header = xmlDocument.header;
                     String message = xmlDocument.message;
-                    Boolean encrypted = xmlDocument.encrypted;
+                    Boolean encrypted = BooleanUtils.toBoolean(xmlDocument.encrypted);
                     String[] tags = xmlDocument.tags;
 
                     repository.saveTextDocument(new Document<String>(TextUtils.replaceInvalidChars(header), header,
