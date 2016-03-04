@@ -32,7 +32,7 @@ public class DocumentTest {
                 Collections.singletonList("  tag1 withwithspaces ")).toDocument();
         Assert.assertNotNull(subject);
         Assert.assertNotNull(subject.getKey());
-        Assert.assertEquals("/path", subject.getKey());
+        Assert.assertEquals("path", subject.getKey());
         Assert.assertNotNull(subject.getHeader());
         Assert.assertEquals("header", subject.getHeader());
         Assert.assertNotNull(subject.getMessage());
