@@ -102,7 +102,9 @@ public class JCRTextDocument {
     public JCRTextDocument(final String path, final String header, final String message, final boolean encrypted,
             final List<String> tags) throws DataException {
         this();
-        if (!path.startsWith("/")) {
+        if (path.startsWith("/")) {
+            this.path = path;
+        } else {
             this.path = "/" + path;
         }
         this.header = header;
@@ -213,6 +215,11 @@ public class JCRTextDocument {
             tags = new String[0];
         }
 
+        String path = getPath();
+        if (path.startsWith("/")) {
+            path = path.substring(1);
+        }
+
         String message = getMessage();
         try {
             if (isEncrypted()) {
@@ -223,10 +230,15 @@ public class JCRTextDocument {
             throw new DataException("Error decrypting message", e);
         }
 
-        return new Document<String>(getPath(), getHeader(), message, isEncrypted(), tags);
+        return new Document<String>(path, getHeader(), message, isEncrypted(), tags);
     }
 
     public void update(Document<String> update) throws DataException {
+        if (!update.getHeader().startsWith("/")) {
+            setPath("/" + update.getHeader());
+        } else {
+            setPath(update.getHeader());
+        }
         setHeader(update.getHeader());
         try {
             if (update.isEncrypted()) {
