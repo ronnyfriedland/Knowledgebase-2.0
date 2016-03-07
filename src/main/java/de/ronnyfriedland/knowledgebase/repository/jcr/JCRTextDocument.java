@@ -214,9 +214,9 @@ public class JCRTextDocument {
         } else {
             tags = new String[0];
         }
-
+        
         String path = getPath();
-        if (path.startsWith("/")) {
+        if(path.startsWith("/")) {
             path = path.substring(1);
         }
 
@@ -234,11 +234,6 @@ public class JCRTextDocument {
     }
 
     public void update(Document<String> update) throws DataException {
-        if (!update.getHeader().startsWith("/")) {
-            setPath("/" + update.getHeader());
-        } else {
-            setPath(update.getHeader());
-        }
         setHeader(update.getHeader());
         try {
             if (update.isEncrypted()) {
