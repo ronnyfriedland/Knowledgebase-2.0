@@ -1,15 +1,17 @@
-apply plugin: 'java'
-apply plugin: 'maven'
-
-group = 'de.ronnyfriedland'
-version = '0.1.10-SNAPSHOT'
-
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
+plugins {
+  id 'edu.sc.seis.launch4j' version '1.6.1'
+}
 
 repositories {
-    mavenLocal()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+        mavenCentral()
+        mavenLocal()
 }
+
+apply plugin: 'java'
+apply plugin: 'maven'
 
 dependencies {
     compile group: 'org.slf4j', name: 'slf4j-jdk14', version:'1.7.12'
@@ -44,4 +46,91 @@ dependencies {
     testCompile group: 'org.springframework', name: 'spring-test', version:'4.2.2.RELEASE'
     testCompile group: 'junit', name: 'junit', version:'4.12'
     testCompile group: 'org.mockito', name: 'mockito-core', version:'1.10.19'
+}
+
+group = 'de.ronnyfriedland'
+version = '0.1.10-SNAPSHOT'
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+// custom tasks
+
+import org.apache.tools.ant.filters.*
+
+task filter << {
+  copy {
+    from 'src/main/resources'
+    into 'build/resources/main'
+    filter ReplaceTokens, 
+      tokens: ['project.version': project.version]
+  }
+  copy {
+    from 'src/main/scripts'
+    into 'build/scripts/main'
+    filter ReplaceTokens, 
+      tokens: ['project.version': project.version]
+  }
+  copy {
+    from 'src/main/application'
+    into 'build/application/main'
+  }
+}
+
+task release << {
+  copy {
+    from 'build/application/main'
+    into 'build/release/conf'
+    include '**/*.properties', '**/*.xml'
+  }
+  copy {
+    from 'build/application/main'
+    into 'build/release/conf/ssl'
+    include '**/*.jks'
+  }
+  copy {
+    from 'build/scripts/main'
+    into 'build/release'
+  }
+  copy {
+    from 'build/libs'
+    into 'build/release'
+  }
+  copy {
+    from 'build/launch4j'
+    into 'build/release'
+    include '*.exe'
+  }
+  copy {
+    from configurations.compile
+    into 'build/release/lib'
+  }
+}
+
+task ziprelease(type: Zip) {
+    from 'build/release'
+    into('/')
+    destinationDir file('build')
+}
+
+jar {
+  manifest { 
+    attributes ('Implementation-Version': version,
+      'Main-Class': "de.ronnyfriedland.knowledgebase.launcher.Launcher",
+      'Class-Path': "conf/ " + configurations.runtime.files.collect {"lib/$it.name" }.join(' ')
+    )
+  }
+}
+
+launch4j {
+  outfile = 'KB-2.0.exe'
+  mainClassName = 'de.ronnyfriedland.knowledgebase.launcher.Launcher'
+  jar = project.tasks[JavaPlugin.JAR_TASK_NAME].archiveName
+  headerType = 'gui'
+  dontWrapJar = 'true'
+  mutexName = 'Knowledgebase 2.0'
+  initialHeapSize = 32
+  maxHeapSize = 128
+  jreMinVersion = '1.7.0'
+  copyright = 'GPL'
+  opt = '-XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=heapdump.hprof -Djava.util.logging.config.file=conf/logging.properties'
 }

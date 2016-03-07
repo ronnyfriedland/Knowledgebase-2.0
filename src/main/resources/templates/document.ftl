@@ -89,7 +89,7 @@
       </div>
     <div class="container">
       <footer>
-        <p>Version: ${project.version}</p>
+        <p>Version: @project.version@</p>
       </footer>
     </div>
   </body>
