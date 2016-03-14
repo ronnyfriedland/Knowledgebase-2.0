@@ -71,6 +71,12 @@ Java based content store to store text-based information in a blog style.
 
 ## Changelog:
 
+### v0.1.10
+
+- introduce gradle build
+- add custom error pages
+- introduce symmetric encryption of content
+
 ### v0.1.9
 
 - add basic auth support
