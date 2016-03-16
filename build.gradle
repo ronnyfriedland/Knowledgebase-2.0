@@ -131,6 +131,7 @@ launch4j {
   initialHeapSize = 32
   maxHeapSize = 128
   jreMinVersion = '1.7.0'
+  bundledJrePath = '%JAVA_HOME%/jre'
   copyright = 'GPL'
   opt = '-XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=heapdump.hprof -Djava.util.logging.config.file=conf/logging.properties'
 }
