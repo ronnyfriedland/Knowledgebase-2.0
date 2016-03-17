@@ -15,11 +15,13 @@ Java based content store to store text-based information in a blog style.
 * SSL support for HTTP
 * language support with message properties
 * management view to browse the whole repository
+* (symmetric) encryption support
 
 ## Requirements
 
 * Java 7/8 JRE
-* JCE Unlimited Strength Jurisdiction Policy Files (with current configuration using ssl)
+* JCE Unlimited Strength Jurisdiction Policy Files
+  * with current configuration using ssl, otherwise change ciphersuites and/or tls protocol version or disable ssl
 
 ## Screenshots
 
@@ -57,6 +59,7 @@ Java based content store to store text-based information in a blog style.
 - Bootstrap CSS/JS
 - Launch4j
 - CKEditor 4
+- BouncyCastle
 
 ## API:
 
