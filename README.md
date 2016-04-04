@@ -16,6 +16,7 @@ Java based content store to store text-based information in a blog style.
 * language support with message properties
 * management view to browse the whole repository
 * (symmetric) encryption support
+* supports Maven and Gradle builds
 
 ## Requirements
 
@@ -77,7 +78,6 @@ Java based content store to store text-based information in a blog style.
 ### v0.1.10
 
 - introduce gradle build
-  - to build release, just execute: ``gradle all``
 - add custom error pages
 - introduce symmetric encryption of content
 
