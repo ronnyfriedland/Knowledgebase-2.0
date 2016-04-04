@@ -77,7 +77,7 @@ Java based content store to store text-based information in a blog style.
 ### v0.1.10
 
 - introduce gradle build
-  - gradle clean build launch4j filter release ziprelease
+  - to build release, just execute: ``gradle all``
 - add custom error pages
 - introduce symmetric encryption of content
 
