@@ -30,9 +30,11 @@ public class ErrorPageResponseFilter implements ContainerResponseFilter {
     @Override
     public ContainerResponse filter(final ContainerRequest request, final ContainerResponse response) {
         if (200 < response.getStatus()) {
+            int status = response.getStatus();
+            Object entity = response.getEntity();
             Map<String, Object> attributes = new HashMap<>();
-            attributes.put("status", response.getStatus());
-            attributes.put("error", response.getEntity());
+            attributes.put("status", status);
+            attributes.put("error", null == entity ? "" : entity);
             response.setEntity(templateProcessor.getProcessedTemplate("error.ftl", attributes));
         }
         return response;
