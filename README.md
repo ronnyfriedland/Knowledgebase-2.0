@@ -75,6 +75,11 @@ Java based content store to store text-based information in a blog style.
 
 ## Changelog:
 
+### v0.1.11
+
+- gradle build fixes
+- add license
+
 ### v0.1.10
 
 - introduce gradle build
