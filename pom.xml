@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>de.ronnyfriedland</groupId>
     <artifactId>knowledgebase</artifactId>
-    <version>0.1.11-SNAPSHOT</version>
+    <version>0.1.11</version>
 
     <properties>
         <!-- Generic properties -->
@@ -149,7 +149,7 @@
                                 <fileVersion>0.0.3.0</fileVersion>
                                 <txtFileVersion>${project.version}</txtFileVersion>
                                 <fileDescription>Knowledgebase 2.0 executable</fileDescription>
-                                <copyright>GPL</copyright>
+                                <copyright>MIT</copyright>
                                 <productVersion>0.0.3.0</productVersion>
                                 <txtProductVersion>${project.version}</txtProductVersion>
                                 <productName>Knowledgebase 2.0</productName>
