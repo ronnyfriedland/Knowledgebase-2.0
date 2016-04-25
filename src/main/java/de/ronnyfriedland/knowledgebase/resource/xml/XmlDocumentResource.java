@@ -41,7 +41,7 @@ import de.ronnyfriedland.knowledgebase.repository.IRepository;
 import de.ronnyfriedland.knowledgebase.resource.AbstractDocumentResource;
 import de.ronnyfriedland.knowledgebase.util.TextUtils;
 
-@Path("/xml")
+@Path("/documents/xml")
 @Component
 @RolesAllowed("user")
 public class XmlDocumentResource extends AbstractDocumentResource {

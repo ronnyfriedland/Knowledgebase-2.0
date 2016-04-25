@@ -66,12 +66,12 @@ Java based content store to store text-based information in a blog style.
 
 | Context  | Description |
 | ------------- | ------------- |
-| /data  | list view  |
-| /data/add  | add document  |
-| /data/{id}  | edit document with 'id'  |
-| /data/xml/import  | import xml view |
-| /data/xml/export  | export current (filtered) data as xml  |
-| /data/management  | management view  |
+| /documents  | list view  |
+| /documents/add  | add document  |
+| /documents/{id}  | edit document with 'id'  |
+| /documents/xml/import  | import xml view |
+| /documents/xml/export  | export current (filtered) data as xml  |
+| /documents/management  | management view  |
 
 ## Changelog:
 

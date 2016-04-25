@@ -59,9 +59,9 @@ public class Server implements Runnable {
             server.addListener(listener);
             server.getServerConfiguration().addHttpHandler(
                     new CLStaticHttpHandler(Thread.currentThread().getContextClassLoader(),
-                            configuration.getStaticContentLocation()), "/");
+                            configuration.getStaticContentLocation()), "/", "/public");
 
-            WebappContext ctx = new WebappContext("ctx", "/data");
+            WebappContext ctx = new WebappContext("ctx", "/");
             final ServletRegistration reg = ctx.addServlet("spring", new SpringServlet());
             reg.addMapping("/*");
 

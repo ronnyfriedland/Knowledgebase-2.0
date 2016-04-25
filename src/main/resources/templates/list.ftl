@@ -6,19 +6,19 @@
     <meta name="description" content="Knowledgebase 2.0"/>
     <meta name="author" content="Ronny Friedland"/>
     <title>Knowledgebase 2.0</title>
-    <link rel="icon" href="/images/icon.gif" type="image/gif" />
+    <link rel="icon" href="/public/images/icon.gif" type="image/gif" />
 
-    <link rel="stylesheet" href="/bootstrap.min.css" />
-    <link rel="stylesheet" href="/bootstrap-theme.min.css"/>
-    <link rel="stylesheet" href="/bootstrap-lightbox.min.css"/>
-    <link rel="stylesheet" href="/knowledgebase.css"/>
+    <link rel="stylesheet" href="/public/bootstrap.min.css" />
+    <link rel="stylesheet" href="/public/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="/public/bootstrap-lightbox.min.css"/>
+    <link rel="stylesheet" href="/public/knowledgebase.css"/>
 
-    <script src="/jquery-1.11.2.min.js"></script>
-    <script src="/jquery.highlight.min.js"></script>
-    <script src="/jquery.confirm.min.js"></script>
-    <script src="/bootstrap.min.js"></script>
-    <script src="/bootstrap-lightbox.min.js"></script>
-    <script src="/knowledgebase.js"></script>
+    <script src="/public/jquery-1.11.2.min.js"></script>
+    <script src="/public/jquery.highlight.min.js"></script>
+    <script src="/public/jquery.confirm.min.js"></script>
+    <script src="/public/bootstrap.min.js"></script>
+    <script src="/public/bootstrap-lightbox.min.js"></script>
+    <script src="/public/knowledgebase.js"></script>
 
     <script type="text/javascript">
       var removeEntry = function(url){
@@ -74,9 +74,9 @@
         <div class="navbar-collapse">
           <ul class="nav navbar-nav">
             <li><a href="#" onClick="javascript:exportxml();">${locale("app.menu.export")}</a></li>
-            <li><a href="/data/import">${locale("app.menu.import")}</a></li>
-            <li><a href="/data/add">${locale("app.menu.add")}</a></li>
-            <li><a href="/data/management">${locale("app.menu.management")}</a></li>
+            <li><a href="/documents/import">${locale("app.menu.import")}</a></li>
+            <li><a href="/documents/add">${locale("app.menu.add")}</a></li>
+            <li><a href="/management">${locale("app.menu.management")}</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -125,10 +125,10 @@
                             <p class="list-group-item-text collapse in">
                               <div class="message">${message.message}</div>
                             </p>
-                            <form action="/data/${message.key}">
+                            <form action="/documents/${message.key}">
                                 <input class="btn btn-default" type="submit" value="${locale("app.link.edit")}" />
                                 <input class="btn btn-default" type="button"  data-toggle="modal" data-target="#lightbox" onclick="javascript:setModalText('${message.key}')" value="${locale("app.link.fullscreen")}" />
-                                <input class="btn btn-default confirm" type="button" value="${locale("app.link.delete")}" onclick="javascript:removeEntry('/data/${message.key}');" />
+                                <input class="btn btn-default confirm" type="button" value="${locale("app.link.delete")}" onclick="javascript:removeEntry('/documents/${message.key}');" />
                             </form>
                           </div>
                         </div>

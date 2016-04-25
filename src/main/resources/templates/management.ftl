@@ -6,17 +6,17 @@
     <meta name="description" content="Knowledgebase 2.0"/>
     <meta name="author" content="Ronny Friedland"/>
     <title>Knowledgebase 2.0</title>
-    <link rel="icon" href="/images/icon.gif" type="image/gif" />
+    <link rel="icon" href="/public/images/icon.gif" type="image/gif" />
 
-    <link rel="stylesheet" href="/bootstrap.min.css" />
-    <link rel="stylesheet" href="/bootstrap-theme.min.css"/>
-    <link rel="stylesheet" href="/knowledgebase.css"/>
-    <link rel="stylesheet" href="/jstree/themes/default/style.min.css" />
+    <link rel="stylesheet" href="/public/bootstrap.min.css" />
+    <link rel="stylesheet" href="/public/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="/public/knowledgebase.css"/>
+    <link rel="stylesheet" href="/public/jstree/themes/default/style.min.css" />
 
-    <script src="/jquery-1.11.2.min.js"></script>
-    <script src="/bootstrap.min.js"></script>
-    <script src="/knowledgebase.js"></script>
-    <script src="/jstree/jstree.min.js"></script>
+    <script src="/public/jquery-1.11.2.min.js"></script>
+    <script src="/public/bootstrap.min.js"></script>
+    <script src="/public/knowledgebase.js"></script>
+    <script src="/public/jstree/jstree.min.js"></script>
 
     <script type="text/javascript">
       jQuery( document ).ready(function() {
@@ -24,7 +24,7 @@
             'plugins' : ['themes','sort','types'],
             'core' : {
               'data' : {
-                'url' : '/data/management/metadata',
+                'url' : '/management/metadata',
                 'dataType' : 'json'
               },
               'sort' : function (a, b) {
@@ -34,7 +34,7 @@
          })
          .on('changed.jstree', function (e, data) {
             if(data && data.selected && data.selected.length) {
-                jQuery.get('/data/management/metadata/' + data.selected.join(':'), function (d) {
+                jQuery.get('/management/metadata/' + data.selected.join(':'), function (d) {
                     var text = "<table class='table table-striped'>";
                     jQuery.each(d.metadata, function(idx, obj) {
                         text += "<tr><td>";
@@ -57,12 +57,12 @@
       <div class="container">
         <div class="navbar-header">
           <div class="navbar-header">
-            <a class="navbar-brand" href="/data/management">${locale("app.name.management")}</a>
+            <a class="navbar-brand" href="/management">${locale("app.name.management")}</a>
           </div>
         </div>
         <div class="navbar-collapse">
           <ul class="nav navbar-nav">
-            <li><a href="/data">${locale("app.menu.list")}</a></li>
+            <li><a href="/documents">${locale("app.menu.list")}</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>

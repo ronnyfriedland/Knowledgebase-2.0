@@ -21,25 +21,25 @@ var limit = new Number(getQueryVariable('limit', '10'));
 /** Load page with current result limit */
 var load = function () {
     limit = limit + 10;
-    window.location.href='/data?limit='+limit+'&offset=0';
+    window.location.href='/documents?limit='+limit+'&offset=0';
 };
 /** Reload page with previous result limit */
 var refresh = function () {
-    window.location.href='/data?limit='+limit+'&offset=0';
+    window.location.href='/documents?limit='+limit+'&offset=0';
 };
 /** Filter the result by given tag */
 var filter = function (value) {
-    window.location.href='/data?limit='+limit+'&offset=0&tag='+value;
+    window.location.href='/documents?limit='+limit+'&offset=0&tag='+value;
 };
 /** Filter the result by given search string */
 var search = function (value) {
     if(value != "") {
-        window.location.href='/data?limit='+limit+'&offset=0&search='+value;
+        window.location.href='/documents?limit='+limit+'&offset=0&search='+value;
     } else {
         refresh();
     }
 };
 /** Export current result list as xml */
 var exportxml = function () {
-    window.location.href='/data/xml/export' + window.location.search;
+    window.location.href='/documents/xml/export' + window.location.search;
 };

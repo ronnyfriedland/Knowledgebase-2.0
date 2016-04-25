@@ -101,7 +101,7 @@ public class Launcher {
                         @Override
                         public void actionPerformed(final ActionEvent e) {
                             try {
-                                Desktop.getDesktop().browse(URI.create(baseurl + "/data"));
+                                Desktop.getDesktop().browse(URI.create(baseurl + "/documents"));
                             } catch (IOException e1) {
                                 JOptionPane.showMessageDialog(null, "Kann Browser mit Anwendung nicht öffnen.");
                             }
@@ -123,7 +123,7 @@ public class Launcher {
                         @Override
                         public void actionPerformed(final ActionEvent e) {
                             try {
-                                Desktop.getDesktop().browse(URI.create(baseurl + "/data/management"));
+                                Desktop.getDesktop().browse(URI.create(baseurl + "/documents/management"));
                             } catch (IOException e1) {
                                 JOptionPane.showMessageDialog(null, "Kann Browser mit Anwendung nicht öffnen.");
                             }
@@ -135,7 +135,7 @@ public class Launcher {
                         @Override
                         public void actionPerformed(final ActionEvent e) {
                             try {
-                                Desktop.getDesktop().browse(URI.create(baseurl + "/data"));
+                                Desktop.getDesktop().browse(URI.create(baseurl + "/documents"));
                             } catch (IOException e1) {
                                 JOptionPane.showMessageDialog(null, "Kann Browser mit Anwendung nicht öffnen.");
                             }
