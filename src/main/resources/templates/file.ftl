@@ -20,11 +20,11 @@
 
     <script type="text/javascript">
       jQuery( document ).ready(function() {
-        jQuery('#metadata').jstree({
+        jQuery('#file').jstree({
             'plugins' : ['themes','sort','types'],
             'core' : {
               'data' : {
-                'url' : '/management/metadata',
+                'url' : '/files/metadata',
                 'dataType' : 'json'
               },
               'sort' : function (a, b) {
@@ -34,20 +34,18 @@
          })
          .on('changed.jstree', function (e, data) {
             if(data && data.selected && data.selected.length) {
-                jQuery.get('/management/metadata/' + data.selected.join(':'), function (d) {
+                jQuery.get('/files/metadata/' + data.selected.join(':'), function (d) {
                     var text = "<table class='table table-striped'>";
                     jQuery.each(d.metadata, function(idx, obj) {
                         if(obj.key) {
                             text += "<tr><td>";
                             text += obj.key;
                             text += "</td>";
-                            text += "<td>";
-                            text += obj.value;
-                            text += "</td></tr>";
+                            text += "<td><a href='/files/"+obj.value+"/raw' target='blank'>download<a></td></tr>";
                         }
                     });
                     text += "</table>";
-                    jQuery('#metadatadetails').html(text);
+                    jQuery('#filedetails').html(text);
                 });
             }
           });
@@ -60,7 +58,7 @@
       <div class="container">
         <div class="navbar-header">
           <div class="navbar-header">
-            <a class="navbar-brand" href="/management">${locale("app.name.management")}</a>
+            <a class="navbar-brand" href="/files">${locale("app.name")}</a>
           </div>
         </div>
         <div class="navbar-collapse">
@@ -76,7 +74,7 @@
       <div class="col-sm-4">
         <div class="panel panel-default overflow_auto">
           <div class="panel-body">
-            <div id="metadata"></div>
+            <div id="file"></div>
           </div>
         </div>
       </div>
@@ -87,7 +85,7 @@
             Metadaten
           </div>
           <div class="panel-body">
-            <div id="metadatadetails"></div>
+            <div id="filedetails"></div>
           </div>
         </div>
       </div>

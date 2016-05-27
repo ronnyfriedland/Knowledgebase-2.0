@@ -38,15 +38,15 @@ public class DocumentResourceTest {
     public void init() throws Exception {
         MockitoAnnotations.initMocks(this);
 
-        Mockito.when(repository.getTextDocument("valid-id")).thenReturn(
+        Mockito.when(repository.getDocument("valid-id")).thenReturn(
                 new Document<String>("valid-id", "valid-id", "Hello World", false, "tag1", "tag2"));
-        Mockito.when(repository.getTextDocument("invalid-id")).thenReturn(null);
-        Mockito.when(repository.getTextDocument("exception-id")).thenThrow(new DataException(new RuntimeException()));
+        Mockito.when(repository.getDocument("invalid-id")).thenReturn(null);
+        Mockito.when(repository.getDocument("exception-id")).thenThrow(new DataException(new RuntimeException()));
 
-        Mockito.when(repository.listTextDocuments(0, 100, "tag1")).thenReturn(
+        Mockito.when(repository.listDocuments(0, 100, "tag1")).thenReturn(
                 Collections.singletonList(new Document<String>("valid-id", "valid-id", "Hello World", false, "tag1",
                         "tag2")));
-        Mockito.when(repository.searchTextDocuments(0, 100, "valid-search")).thenReturn(
+        Mockito.when(repository.searchDocuments(0, 100, "valid-search")).thenReturn(
                 Collections.singletonList(new Document<String>("valid-search", "valid-search", "Hello World", false,
                         "tag1", "tag2")));
     }

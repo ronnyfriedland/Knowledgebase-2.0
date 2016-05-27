@@ -39,10 +39,10 @@ public class XmlDocumentResourceTest {
     public void init() throws Exception {
         MockitoAnnotations.initMocks(this);
 
-        Mockito.when(repository.listTextDocuments(0, 100, "tag1")).thenReturn(
+        Mockito.when(repository.listDocuments(0, 100, "tag1")).thenReturn(
                 Collections.singletonList(new Document<String>("valid-id", "valid-id", "Hello World", false, "tag1",
                         "tag2")));
-        Mockito.when(repository.searchTextDocuments(0, 100, "valid-search")).thenReturn(
+        Mockito.when(repository.searchDocuments(0, 100, "valid-search")).thenReturn(
                 Collections.singletonList(new Document<String>("valid-search", "valid-search", "Hello World", false,
                         "tag1", "tag2")));
     }

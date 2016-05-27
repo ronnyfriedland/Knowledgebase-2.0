@@ -44,7 +44,7 @@ public class DocumentResource extends AbstractDocumentResource {
 
     @Autowired
     @Qualifier("jcr")
-    private IRepository repository;
+    private IRepository<String> repository;
 
     @Autowired
     private TemplateProcessor templateProcessor;
@@ -61,7 +61,7 @@ public class DocumentResource extends AbstractDocumentResource {
     public Response loadDocument(final @PathParam("key") String key) {
         Map<String, Object> attributes = new HashMap<>();
         try {
-            Document<String> document = repository.getTextDocument(key);
+            Document<String> document = repository.getDocument(key);
             if (null == document) {
                 return Response.status(404).entity("Document not found").build();
             }
@@ -88,7 +88,7 @@ public class DocumentResource extends AbstractDocumentResource {
     @Produces(MediaType.TEXT_HTML)
     public Response rawDocument(final @PathParam("key") String key) {
         try {
-            Document<String> document = repository.getTextDocument(key);
+            Document<String> document = repository.getDocument(key);
             if (null == document) {
                 return Response.status(404).entity("Document not found").build();
             }
@@ -150,7 +150,7 @@ public class DocumentResource extends AbstractDocumentResource {
                 tags = tagString.split(",");
             }
             // save document
-            repository.saveTextDocument(new Document<String>(key, header, message, null == encrypted ? false
+            repository.saveDocument(new Document<String>(key, header, message, null == encrypted ? false
                     : encrypted, tags));
             // redirect to overview
             return Response.status(301).location(URI.create("/")).build();

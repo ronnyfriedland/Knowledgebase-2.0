@@ -31,6 +31,7 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import com.sun.jersey.multipart.FormDataParam;
@@ -49,7 +50,8 @@ public class XmlDocumentResource extends AbstractDocumentResource {
     private static final Logger LOG = LoggerFactory.getLogger(XmlDocumentResource.class);
 
     @Autowired
-    private IRepository repository;
+    @Qualifier("jcr")
+    private IRepository<String> repository;
 
     private MessageDigest digest;
     private Marshaller marshaller;
@@ -153,7 +155,7 @@ public class XmlDocumentResource extends AbstractDocumentResource {
                     Boolean encrypted = BooleanUtils.toBoolean(xmlDocument.encrypted);
                     String[] tags = xmlDocument.tags;
 
-                    repository.saveTextDocument(new Document<String>(TextUtils.replaceInvalidChars(header), header,
+                    repository.saveDocument(new Document<String>(TextUtils.replaceInvalidChars(header), header,
                             message, encrypted, tags));
                 }
             }

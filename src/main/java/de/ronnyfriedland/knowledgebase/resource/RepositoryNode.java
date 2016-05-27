@@ -1,4 +1,4 @@
-package de.ronnyfriedland.knowledgebase.resource.management;
+package de.ronnyfriedland.knowledgebase.resource;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -14,7 +14,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * @author ronnyfriedland
  */
 @XmlRootElement(name = "repository")
-public class RepositoryDocument implements Serializable {
+public class RepositoryNode implements Serializable {
 
     /** the serialVersionUID */
     private static final long serialVersionUID = 3898017953412626058L;
@@ -23,13 +23,13 @@ public class RepositoryDocument implements Serializable {
     private String id;
 
     @XmlElement
-    private Collection<RepositoryDocument> children = new HashSet<RepositoryDocument>();
+    private Collection<RepositoryNode> children = new HashSet<RepositoryNode>();
 
     @XmlElement(name = "text")
     private String name;
 
     @XmlElement
-    private Collection<MetadataKeyValue> metadata = new HashSet<>();
+    private Collection<NodeAttributes> metadata = new HashSet<>();
 
     public void setId(final String id) {
         this.id = id;
@@ -39,19 +39,19 @@ public class RepositoryDocument implements Serializable {
         this.name = name;
     }
 
-    public void setChildren(final Collection<RepositoryDocument> children) {
+    public void setChildren(final Collection<RepositoryNode> children) {
         this.children = children;
     }
 
-    public void addChildren(final RepositoryDocument children) {
+    public void addChildren(final RepositoryNode children) {
         this.children.add(children);
     }
 
-    public void setMetadata(final Collection<MetadataKeyValue> metadata) {
+    public void setMetadata(final Collection<NodeAttributes> metadata) {
         this.metadata = metadata;
     }
 
-    public void addMetadata(final MetadataKeyValue value) {
+    public void addMetadata(final NodeAttributes value) {
         this.metadata.add(value);
     }
 
@@ -65,17 +65,17 @@ public class RepositoryDocument implements Serializable {
         return ToStringBuilder.reflectionToString(this);
     }
 
-    public static class MetadataKeyValue implements KeyValue {
+    public static class NodeAttributes implements KeyValue {
 
         @XmlElement
         private String key;
         @XmlElement
         private String value;
 
-        public MetadataKeyValue() {
+        public NodeAttributes() {
         }
 
-        public MetadataKeyValue(final String key, final String value) {
+        public NodeAttributes(final String key, final String value) {
             this.key = key;
             this.value = value;
         }

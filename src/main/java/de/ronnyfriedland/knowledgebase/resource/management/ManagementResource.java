@@ -14,12 +14,14 @@ import javax.ws.rs.core.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import de.ronnyfriedland.knowledgebase.exception.DataException;
 import de.ronnyfriedland.knowledgebase.freemarker.TemplateProcessor;
 import de.ronnyfriedland.knowledgebase.repository.IRepository;
 import de.ronnyfriedland.knowledgebase.resource.AbstractResource;
+import de.ronnyfriedland.knowledgebase.resource.RepositoryMetadata;
 
 /**
  * @author ronnyfriedland
@@ -32,7 +34,8 @@ public class ManagementResource extends AbstractResource {
     private static final Logger LOG = LoggerFactory.getLogger(ManagementResource.class);
 
     @Autowired
-    private IRepository repository;
+    @Qualifier("jcr")
+    private IRepository<String> repository;
 
     @Autowired
     private TemplateProcessor templateProcessor;
@@ -72,7 +75,7 @@ public class ManagementResource extends AbstractResource {
     @Path("/metadata/{key:.+}")
     public Response getRepositoryMetadata(final @PathParam("key") String key) {
         try {
-            RepositoryDocument metadata = repository.getMetadata(key);
+            RepositoryMetadata metadata = repository.getMetadata(key);
             return Response.ok(metadata).build();
         } catch (DataException e) {
             LOG.error("Error getting content", e);

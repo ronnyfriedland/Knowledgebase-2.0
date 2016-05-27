@@ -38,15 +38,15 @@ import de.ronnyfriedland.knowledgebase.cache.RepositoryCache;
 import de.ronnyfriedland.knowledgebase.entity.Document;
 import de.ronnyfriedland.knowledgebase.exception.DataException;
 import de.ronnyfriedland.knowledgebase.repository.IRepository;
-import de.ronnyfriedland.knowledgebase.resource.management.RepositoryDocument;
-import de.ronnyfriedland.knowledgebase.resource.management.RepositoryDocument.MetadataKeyValue;
+import de.ronnyfriedland.knowledgebase.resource.RepositoryMetadata;
+import de.ronnyfriedland.knowledgebase.resource.RepositoryMetadata.MetadataKeyValue;
 
 /**
  * @author ronnyfriedland
  */
 @org.springframework.stereotype.Repository
 @org.springframework.beans.factory.annotation.Qualifier("jcr")
-public class JackRabbitRepository implements IRepository {
+public class JackRabbitRepository implements IRepository<String> {
 
     private static final Logger LOG = LoggerFactory.getLogger(JackRabbitRepository.class);
 
@@ -89,10 +89,10 @@ public class JackRabbitRepository implements IRepository {
     /**
      * {@inheritDoc}
      *
-     * @see de.ronnyfriedland.knowledgebase.repository.IRepository#getTextDocument(java.lang.String)
+     * @see de.ronnyfriedland.knowledgebase.repository.IRepository#getDocument(java.lang.String)
      */
     @Override
-    public Document<String> getTextDocument(final String key) throws DataException {
+    public Document<String> getDocument(final String key) throws DataException {
         Document<String> cachedDocument = cache.get(key);
         if (null == cachedDocument) {
             JCRTextDocument document = (JCRTextDocument) ocm.getObject("/" + key);
@@ -111,10 +111,10 @@ public class JackRabbitRepository implements IRepository {
     /**
      * {@inheritDoc}
      *
-     * @see de.ronnyfriedland.knowledgebase.repository.IRepository#saveTextDocument(de.ronnyfriedland.knowledgebase.entity.Document)
+     * @see de.ronnyfriedland.knowledgebase.repository.IRepository#saveDocument(de.ronnyfriedland.knowledgebase.entity.Document)
      */
     @Override
-    public String saveTextDocument(final Document<String> message) throws DataException {
+    public String saveDocument(final Document<String> message) throws DataException {
         String result;
         String path = "/" + message.getKey();
         try {
@@ -146,10 +146,10 @@ public class JackRabbitRepository implements IRepository {
     /**
      * {@inheritDoc}
      *
-     * @see de.ronnyfriedland.knowledgebase.repository.IRepository#listTextDocuments(int, int, java.lang.String)
+     * @see de.ronnyfriedland.knowledgebase.repository.IRepository#listDocuments(int, int, java.lang.String)
      */
     @Override
-    public Collection<Document<String>> listTextDocuments(final int offset, final int max, final String tag)
+    public Collection<Document<String>> listDocuments(final int offset, final int max, final String tag)
             throws DataException {
 
         QueryManager queryManager = ocm.getQueryManager();
@@ -164,10 +164,10 @@ public class JackRabbitRepository implements IRepository {
     /**
      * {@inheritDoc}
      *
-     * @see de.ronnyfriedland.knowledgebase.repository.IRepository#searchTextDocuments(int, int, java.lang.String)
+     * @see de.ronnyfriedland.knowledgebase.repository.IRepository#searchDocuments(int, int, java.lang.String)
      */
     @Override
-    public Collection<Document<String>> searchTextDocuments(final int offset, final int max, final String search)
+    public Collection<Document<String>> searchDocuments(final int offset, final int max, final String search)
             throws DataException {
         QueryManager queryManager = ocm.getQueryManager();
         Filter filter = queryManager.createFilter(JCRTextDocument.class);
@@ -200,10 +200,10 @@ public class JackRabbitRepository implements IRepository {
      * @see de.ronnyfriedland.knowledgebase.repository.IRepository#getMetadata(String id)
      */
     @Override
-    public RepositoryDocument getMetadata(final String key) throws DataException {
+    public RepositoryMetadata getMetadata(final String key) throws DataException {
         try {
             Node node = ocm.getSession().getNode(key);
-            RepositoryDocument metadata = new RepositoryDocument();
+            RepositoryMetadata metadata = new RepositoryMetadata();
             processNode(metadata, node);
             return metadata;
         } catch (RepositoryException e) {
@@ -258,11 +258,11 @@ public class JackRabbitRepository implements IRepository {
         return repository.login(new SimpleCredentials(repositoryUsername, repositoryPassword));
     }
 
-    private void processNode(final RepositoryDocument parentDocument, final Node parentNode) throws RepositoryException {
+    private void processNode(final RepositoryMetadata parentDocument, final Node parentNode) throws RepositoryException {
         NodeIterator childs = parentNode.getNodes();
         while (childs.hasNext()) {
             Node child = childs.nextNode();
-            RepositoryDocument childMetadata = new RepositoryDocument();
+            RepositoryMetadata childMetadata = new RepositoryMetadata();
             parentDocument.addChildren(childMetadata);
             processNode(childMetadata, child);
         }

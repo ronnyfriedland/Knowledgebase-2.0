@@ -4,23 +4,23 @@ import java.util.Collection;
 
 import de.ronnyfriedland.knowledgebase.entity.Document;
 import de.ronnyfriedland.knowledgebase.exception.DataException;
-import de.ronnyfriedland.knowledgebase.resource.management.RepositoryDocument;
+import de.ronnyfriedland.knowledgebase.resource.RepositoryMetadata;
 
 /**
  * Defines the interface for repository access.
  *
  * @author ronnyfriedland
  */
-public interface IRepository {
+public interface IRepository<T> {
 
     /**
-     * Retrieves the (text-based) document by the given id
+     * Retrieves the document by the given id
      *
      * @param id the unique identifier of the document
      * @return the document
      * @throws DataException if an error occurs retrieving the document
      */
-    Document<String> getTextDocument(final String id) throws DataException;
+    Document<T> getDocument(final String id) throws DataException;
 
     /**
      * Saves the given document
@@ -29,7 +29,7 @@ public interface IRepository {
      * @return the unique identifier of the document
      * @throws DataException if an error occurs retrieving the document
      */
-    String saveTextDocument(final Document<String> message) throws DataException;
+    String saveDocument(final Document<T> message) throws DataException;
 
     /**
      * Retrieves all documents in the repository
@@ -40,7 +40,7 @@ public interface IRepository {
      * @return a list of documents
      * @throws DataException if an error occurs retrieving the documents
      */
-    Collection<Document<String>> listTextDocuments(final int offset, final int max, String tag) throws DataException;
+    Collection<Document<T>> listDocuments(final int offset, final int max, String tag) throws DataException;
 
     /**
      * Retrieves all documents in the repository based on the search string
@@ -51,7 +51,7 @@ public interface IRepository {
      * @return a list of documents
      * @throws DataException if an error occurs retrieving the documents
      */
-    Collection<Document<String>> searchTextDocuments(final int offset, final int max, String search)
+    Collection<Document<T>> searchDocuments(final int offset, final int max, String search)
             throws DataException;
 
     /**
@@ -69,5 +69,5 @@ public interface IRepository {
      * @return repository metadata
      * @throws DataException if an error occurs retrieving the documents
      */
-    RepositoryDocument getMetadata(final String id) throws DataException;
+    RepositoryMetadata getMetadata(final String id) throws DataException;
 }

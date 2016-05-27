@@ -8,6 +8,7 @@ package de.ronnyfriedland.knowledgebase.resource;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import de.ronnyfriedland.knowledgebase.entity.Document;
 import de.ronnyfriedland.knowledgebase.exception.DataException;
@@ -18,7 +19,8 @@ import de.ronnyfriedland.knowledgebase.repository.IRepository;
  */
 public abstract class AbstractDocumentResource extends AbstractResource {
     @Autowired
-    private IRepository repository;
+    @Qualifier("jcr")
+    private IRepository<String> repository;
 
     /**
      * Retrieve data based on input parameters.
@@ -41,9 +43,9 @@ public abstract class AbstractDocumentResource extends AbstractResource {
 
         Collection<Document<String>> documents;
         if (null != search) {
-            documents = repository.searchTextDocuments(offset, limit, search);
+            documents = repository.searchDocuments(offset, limit, search);
         } else {
-            documents = repository.listTextDocuments(offset, limit, tag);
+            documents = repository.listDocuments(offset, limit, tag);
         }
         return documents;
     }
