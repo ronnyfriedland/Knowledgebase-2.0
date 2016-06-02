@@ -11,45 +11,14 @@
     <link rel="stylesheet" href="/public/bootstrap.min.css" />
     <link rel="stylesheet" href="/public/bootstrap-theme.min.css"/>
     <link rel="stylesheet" href="/public/knowledgebase.css"/>
-    <link rel="stylesheet" href="/public/jstree/themes/default/style.min.css" />
 
     <script src="/public/jquery-1.11.2.min.js"></script>
     <script src="/public/bootstrap.min.js"></script>
     <script src="/public/knowledgebase.js"></script>
-    <script src="/public/jstree/jstree.min.js"></script>
 
     <script type="text/javascript">
       jQuery( document ).ready(function() {
-        jQuery('#file').jstree({
-            'plugins' : ['themes','sort','types'],
-            'core' : {
-              'data' : {
-                'url' : '/files/metadata',
-                'dataType' : 'json'
-              },
-              'sort' : function (a, b) {
-                return this.get_text(a) > this.get_text(b) ? 1 : -1;
-              }
-            }
-         })
-         .on('changed.jstree', function (e, data) {
-            if(data && data.selected && data.selected.length) {
-                jQuery.get('/files/metadata/' + data.selected.join(':'), function (d) {
-                    var text = "<table class='table table-striped'>";
-                    jQuery.each(d.metadata, function(idx, obj) {
-                        if(obj.key) {
-                            text += "<tr><td>";
-                            text += obj.key;
-                            text += "</td>";
-                            text += "<td><a href='/files/"+obj.value+"/raw' target='blank'>download<a></td></tr>";
-                        }
-                    });
-                    text += "</table>";
-                    jQuery('#filedetails').html(text);
-                });
-            }
-          });
-        });
+      });
     </script>
   </head>
   <body role="document">
@@ -71,24 +40,32 @@
 
     <div class="container">
 
-      <div class="col-sm-4">
-        <div class="panel panel-default overflow_auto">
-          <div class="panel-body">
-            <div id="file"></div>
-          </div>
-        </div>
-      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">${locale("app.header.list")}</div>
+        <div class="panel-body">
+          <#if (files?size > 0) >
+            <div class="container-fluid scroll">
+            
+             <div class="row">
 
-      <div class="col-sm-8">
-        <div class="panel panel-default overflow_auto">
-          <div class="panel-heading">
-            Metadaten
-          </div>
-          <div class="panel-body">
-            <div id="filedetails"></div>
-          </div>
+              <#list files as file>
+
+                    <div class="col-lg-4">
+                      <p><b>${file.key}</b></p>
+                      <p>${file.header}</p>
+                      <p>
+                        <a role="button" href="/files/${file.header}" class="btn btn-default">open</a>
+                        <a role="button" href="/files/${file.header}/raw" class="btn btn-default">download</a>
+                      </p>
+                    </div>
+
+              </#list>
+
+             </div>
+
+            </div>
+          </#if>
         </div>
-      </div>
 
     </div>
 

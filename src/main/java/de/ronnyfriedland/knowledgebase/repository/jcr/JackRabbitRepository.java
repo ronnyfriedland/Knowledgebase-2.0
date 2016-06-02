@@ -46,7 +46,7 @@ import de.ronnyfriedland.knowledgebase.resource.RepositoryMetadata.MetadataKeyVa
  */
 @org.springframework.stereotype.Repository
 @org.springframework.beans.factory.annotation.Qualifier("jcr")
-public class JackRabbitRepository implements IRepository<String> {
+public class JackRabbitRepository implements IRepository<Document<String>> {
 
     private static final Logger LOG = LoggerFactory.getLogger(JackRabbitRepository.class);
 

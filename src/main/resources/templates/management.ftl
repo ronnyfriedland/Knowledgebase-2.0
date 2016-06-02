@@ -24,7 +24,7 @@
             'plugins' : ['themes','sort','types'],
             'core' : {
               'data' : {
-                'url' : '/management/metadata',
+                'url' : '/documents/management/metadata',
                 'dataType' : 'json'
               },
               'sort' : function (a, b) {
@@ -34,7 +34,7 @@
          })
          .on('changed.jstree', function (e, data) {
             if(data && data.selected && data.selected.length) {
-                jQuery.get('/management/metadata/' + data.selected.join(':'), function (d) {
+                jQuery.get('/documents/management/metadata/' + data.selected.join(':'), function (d) {
                     var text = "<table class='table table-striped'>";
                     jQuery.each(d.metadata, function(idx, obj) {
                         if(obj.key) {
@@ -60,7 +60,7 @@
       <div class="container">
         <div class="navbar-header">
           <div class="navbar-header">
-            <a class="navbar-brand" href="/management">${locale("app.name.management")}</a>
+            <a class="navbar-brand" href="/documents/management">${locale("app.name.management")}</a>
           </div>
         </div>
         <div class="navbar-collapse">

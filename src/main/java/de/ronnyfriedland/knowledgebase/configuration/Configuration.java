@@ -35,6 +35,12 @@ public class Configuration {
     @Value("${server.staticcontent.location}")
     private String staticContentLocation;
 
+    @Value("${server.files.root}")
+    private String filesRootDirectory;
+
+    @Value("${server.documents.root}")
+    private String documentsRoot;
+
     @Value("${server.locale}")
     private String locale;
 
@@ -94,5 +100,13 @@ public class Configuration {
 
     public String getStaticContentLocation() {
         return staticContentLocation;
+    }
+
+    public String getFilesRootDirectory() {
+        return filesRootDirectory;
+    }
+
+    public String getDocumentsRoot() {
+        return documentsRoot;
     }
 }

@@ -45,13 +45,13 @@ import de.ronnyfriedland.knowledgebase.util.TextUtils;
 @Path("/documents/xml")
 @Component
 @RolesAllowed("user")
-public class XmlDocumentResource extends AbstractDocumentResource {
+public class XmlDocumentResource extends AbstractDocumentResource<Document<String>> {
 
     private static final Logger LOG = LoggerFactory.getLogger(XmlDocumentResource.class);
 
     @Autowired
     @Qualifier("jcr")
-    private IRepository<String> repository;
+    private IRepository<Document<String>> repository;
 
     private MessageDigest digest;
     private Marshaller marshaller;
@@ -165,6 +165,16 @@ public class XmlDocumentResource extends AbstractDocumentResource {
             LOG.error("Error saving content", e);
             throw new WebApplicationException(Response.status(500).entity("Error importing document").build());
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see de.ronnyfriedland.knowledgebase.resource.AbstractDocumentResource#getRepository()
+     */
+    @Override
+    protected IRepository<Document<String>> getRepository() {
+        return repository;
     }
 
 }

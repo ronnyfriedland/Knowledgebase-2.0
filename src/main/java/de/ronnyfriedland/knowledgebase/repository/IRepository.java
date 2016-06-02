@@ -2,7 +2,6 @@ package de.ronnyfriedland.knowledgebase.repository;
 
 import java.util.Collection;
 
-import de.ronnyfriedland.knowledgebase.entity.Document;
 import de.ronnyfriedland.knowledgebase.exception.DataException;
 import de.ronnyfriedland.knowledgebase.resource.RepositoryMetadata;
 
@@ -20,7 +19,7 @@ public interface IRepository<T> {
      * @return the document
      * @throws DataException if an error occurs retrieving the document
      */
-    Document<T> getDocument(final String id) throws DataException;
+    T getDocument(final String id) throws DataException;
 
     /**
      * Saves the given document
@@ -29,7 +28,7 @@ public interface IRepository<T> {
      * @return the unique identifier of the document
      * @throws DataException if an error occurs retrieving the document
      */
-    String saveDocument(final Document<T> message) throws DataException;
+    String saveDocument(final T message) throws DataException;
 
     /**
      * Retrieves all documents in the repository
@@ -40,7 +39,7 @@ public interface IRepository<T> {
      * @return a list of documents
      * @throws DataException if an error occurs retrieving the documents
      */
-    Collection<Document<T>> listDocuments(final int offset, final int max, String tag) throws DataException;
+    Collection<T> listDocuments(final int offset, final int max, String tag) throws DataException;
 
     /**
      * Retrieves all documents in the repository based on the search string
@@ -51,7 +50,7 @@ public interface IRepository<T> {
      * @return a list of documents
      * @throws DataException if an error occurs retrieving the documents
      */
-    Collection<Document<T>> searchDocuments(final int offset, final int max, String search)
+    Collection<T> searchDocuments(final int offset, final int max, String search)
             throws DataException;
 
     /**

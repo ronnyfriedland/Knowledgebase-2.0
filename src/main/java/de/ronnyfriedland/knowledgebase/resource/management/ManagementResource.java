@@ -17,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import de.ronnyfriedland.knowledgebase.configuration.Configuration;
+import de.ronnyfriedland.knowledgebase.entity.Document;
 import de.ronnyfriedland.knowledgebase.exception.DataException;
 import de.ronnyfriedland.knowledgebase.freemarker.TemplateProcessor;
 import de.ronnyfriedland.knowledgebase.repository.IRepository;
@@ -26,7 +28,7 @@ import de.ronnyfriedland.knowledgebase.resource.RepositoryMetadata;
 /**
  * @author ronnyfriedland
  */
-@Path("/management")
+@Path("/documents/management")
 @Component
 @RolesAllowed("admin")
 public class ManagementResource extends AbstractResource {
@@ -35,10 +37,13 @@ public class ManagementResource extends AbstractResource {
 
     @Autowired
     @Qualifier("jcr")
-    private IRepository<String> repository;
+    private IRepository<Document<String>> repository;
 
     @Autowired
     private TemplateProcessor templateProcessor;
+
+    @Autowired
+    private Configuration configuration;
 
     /**
      * Init
@@ -61,7 +66,7 @@ public class ManagementResource extends AbstractResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/metadata")
     public Response getRepositoryMetadata() {
-        return getRepositoryMetadata("/");
+        return getRepositoryMetadata(configuration.getDocumentsRoot());
     }
 
     /**

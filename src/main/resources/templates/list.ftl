@@ -73,10 +73,11 @@
         </div>
         <div class="navbar-collapse">
           <ul class="nav navbar-nav">
+            <li><a href="/files">${locale("app.menu.files")}</a></li>
             <li><a href="#" onClick="javascript:exportxml();">${locale("app.menu.export")}</a></li>
             <li><a href="/documents/import">${locale("app.menu.import")}</a></li>
             <li><a href="/documents/add">${locale("app.menu.add")}</a></li>
-            <li><a href="/management">${locale("app.menu.management")}</a></li>
+            <li><a href="/documents/management">${locale("app.menu.management")}</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>

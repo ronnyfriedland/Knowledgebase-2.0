@@ -39,12 +39,12 @@ import de.ronnyfriedland.knowledgebase.util.TextUtils;
 @Path("/documents")
 @Component
 @RolesAllowed("user")
-public class DocumentResource extends AbstractDocumentResource {
+public class DocumentResource extends AbstractDocumentResource<Document<String>> {
     private static final Logger LOG = LoggerFactory.getLogger(DocumentResource.class);
 
     @Autowired
     @Qualifier("jcr")
-    private IRepository<String> repository;
+    private IRepository<Document<String>> repository;
 
     @Autowired
     private TemplateProcessor templateProcessor;
@@ -214,5 +214,15 @@ public class DocumentResource extends AbstractDocumentResource {
             LOG.error("Error getting content", e);
             throw new WebApplicationException(Response.status(500).entity("Error getting document").build());
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @see de.ronnyfriedland.knowledgebase.resource.AbstractDocumentResource#getRepository()
+     */
+    @Override
+    protected IRepository<Document<String>> getRepository() {
+        return repository;
     }
 }

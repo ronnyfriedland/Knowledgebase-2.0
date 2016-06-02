@@ -7,21 +7,13 @@ package de.ronnyfriedland.knowledgebase.resource;
 
 import java.util.Collection;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-
-import de.ronnyfriedland.knowledgebase.entity.Document;
 import de.ronnyfriedland.knowledgebase.exception.DataException;
 import de.ronnyfriedland.knowledgebase.repository.IRepository;
 
 /**
  * @author rofr &lt;Ronny.Friedland@t-systems.com&gt;
  */
-public abstract class AbstractDocumentResource extends AbstractResource {
-    @Autowired
-    @Qualifier("jcr")
-    private IRepository<String> repository;
-
+public abstract class AbstractDocumentResource<T> extends AbstractResource {
     /**
      * Retrieve data based on input parameters.
      *
@@ -32,7 +24,7 @@ public abstract class AbstractDocumentResource extends AbstractResource {
      * @return list of documents
      * @throws DataException if an error occurs retrieving the documents
      */
-    protected Collection<Document<String>> retrieveData(Integer offset, Integer limit, final String tag,
+    protected Collection<T> retrieveData(Integer offset, Integer limit, final String tag,
             final String search) throws DataException {
         if (null == offset) {
             offset = 0;
@@ -41,12 +33,14 @@ public abstract class AbstractDocumentResource extends AbstractResource {
             limit = 10;
         }
 
-        Collection<Document<String>> documents;
+        Collection<T> documents;
         if (null != search) {
-            documents = repository.searchDocuments(offset, limit, search);
+            documents = getRepository().searchDocuments(offset, limit, search);
         } else {
-            documents = repository.listDocuments(offset, limit, tag);
+            documents = getRepository().listDocuments(offset, limit, tag);
         }
         return documents;
     }
+
+    protected abstract IRepository<T> getRepository();
 }
