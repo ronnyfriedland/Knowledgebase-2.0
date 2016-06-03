@@ -21,10 +21,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import de.ronnyfriedland.knowledgebase.configuration.Configuration;
+import de.ronnyfriedland.knowledgebase.entity.FileDocument;
 import de.ronnyfriedland.knowledgebase.exception.DataException;
 import de.ronnyfriedland.knowledgebase.freemarker.TemplateProcessor;
 import de.ronnyfriedland.knowledgebase.repository.IRepository;
-import de.ronnyfriedland.knowledgebase.repository.fs.entity.FileDocument;
 import de.ronnyfriedland.knowledgebase.resource.AbstractDocumentResource;
 import de.ronnyfriedland.knowledgebase.resource.RepositoryMetadata;
 
@@ -64,6 +64,7 @@ public class FileResource extends AbstractDocumentResource<FileDocument<byte[]>>
             attributes.put("message", document.getMessage());
             attributes.put("encrypted", document.isEncrypted());
             attributes.put("files", document.getChildren());
+            attributes.put("parent", document.getParent());
 
             return Response.ok(templateProcessor.getProcessedTemplate("file.ftl", attributes)).build();
         } catch (DataException e) {

@@ -38,6 +38,15 @@
       </div>
     </nav>
 
+
+    <div class="container">
+        <#if parent??>
+          <a class="label label-default" href="/files/${parent.key}">${parent.key}</a>
+        </#if>
+    </div>
+    
+    <br/>
+
     <div class="container">
 
       <div class="panel panel-default">
@@ -50,14 +59,20 @@
 
               <#list files as file>
 
-                    <div class="col-lg-4">
-                      <p><b>${file.key}</b></p>
-                      <p>${file.header}</p>
-                      <p>
-                        <a role="button" href="/files/${file.header}" class="btn btn-default">open</a>
-                        <a role="button" href="/files/${file.header}/raw" class="btn btn-default">download</a>
-                      </p>
+                <div class="col-sm-4">
+                    <div class="panel panel-warning">
+                      <div class="panel-heading">
+                        <p><b><a href="/files/${file.header}">${file.key}</a></b></p>
+                      </div>
+                      <div class="panel-body">
+                        <!--<p>${file.header}</p>-->
+                        <p>
+                            <a role="button" href="/files/${file.header}/raw" class="btn btn-default">download</a>
+                        </p>
+                      </div>
                     </div>
+
+                </div>
 
               </#list>
 

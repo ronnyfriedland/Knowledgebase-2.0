@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -14,9 +15,9 @@ import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import de.ronnyfriedland.knowledgebase.configuration.Configuration;
+import de.ronnyfriedland.knowledgebase.entity.FileDocument;
 import de.ronnyfriedland.knowledgebase.exception.DataException;
 import de.ronnyfriedland.knowledgebase.repository.IRepository;
-import de.ronnyfriedland.knowledgebase.repository.fs.entity.FileDocument;
 import de.ronnyfriedland.knowledgebase.resource.RepositoryMetadata;
 import de.ronnyfriedland.knowledgebase.resource.RepositoryMetadata.MetadataKeyValue;
 
@@ -47,8 +48,8 @@ public class FileSystemRepository implements IRepository<FileDocument<byte[]>> {
             }
 
             FileDocument<byte[]> result = new FileDocument<byte[]>(file.getName(), file.getAbsolutePath().replaceAll(
-                    "\\\\", "/"),
-                    documentBytes, false);
+                    "\\\\", "/"), documentBytes, false);
+            result.setParent(new FileDocument<byte[]>(file.getParent().replaceAll("\\\\", "/"), null, null, false));
 
             if (file.isDirectory()) {
                 File[] files = file.listFiles();
@@ -58,6 +59,8 @@ public class FileSystemRepository implements IRepository<FileDocument<byte[]>> {
                                     null, false));
                 }
             }
+
+            Collections.sort(new ArrayList<FileDocument<byte[]>>(result.getChildren()));
 
             return result;
         } catch (IOException e) {
@@ -95,6 +98,7 @@ public class FileSystemRepository implements IRepository<FileDocument<byte[]>> {
 
             FileDocument<byte[]> result = new FileDocument<byte[]>(root.getName(), root.getAbsolutePath().replaceAll(
                     "\\\\", "/"), null, false);
+            result.setParent(new FileDocument<byte[]>(root.getParent().replaceAll("\\\\", "/"), null, null, false));
 
             if (root.isDirectory()) {
                 final AtomicInteger count = new AtomicInteger(0);
@@ -115,6 +119,7 @@ public class FileSystemRepository implements IRepository<FileDocument<byte[]>> {
                     result.addChild(new FileDocument<byte[]>(file.getName(), file.getAbsolutePath().replaceAll("\\\\",
                             "/"), null, false));
                 }
+                Collections.sort(new ArrayList<FileDocument<byte[]>>(result.getChildren()));
             }
 
             return result.getChildren();

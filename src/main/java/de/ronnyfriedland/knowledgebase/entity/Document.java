@@ -7,7 +7,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 /**
  * @author ronnyfriedland
  */
-public class Document<T> implements Serializable {
+public class Document<T> implements Serializable, Comparable<Document<T>> {
 
     /** the serialVersionUID */
     private static final long serialVersionUID = -2596270543790245689L;
@@ -74,6 +74,16 @@ public class Document<T> implements Serializable {
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @see java.lang.Comparable#compareTo(java.lang.Object)
+     */
+    @Override
+    public int compareTo(Document<T> o) {
+        return getKey().compareTo(o.getKey());
     }
 
 }

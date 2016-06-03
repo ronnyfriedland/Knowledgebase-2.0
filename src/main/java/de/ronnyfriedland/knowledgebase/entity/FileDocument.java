@@ -1,16 +1,15 @@
-package de.ronnyfriedland.knowledgebase.repository.fs.entity;
+package de.ronnyfriedland.knowledgebase.entity;
 
 import java.util.Collection;
-import java.util.HashSet;
-
-import de.ronnyfriedland.knowledgebase.entity.Document;
+import java.util.LinkedHashSet;
 
 public class FileDocument<T> extends Document<T> {
 
     /** the serialVersion uid */
     private static final long serialVersionUID = -4637079531110457673L;
 
-    private final Collection<FileDocument<T>> children = new HashSet<>();
+    private FileDocument<T> parent;
+    private Collection<FileDocument<T>> children = new LinkedHashSet<>();
 
     /**
      * Creates a new {@link FileDocument} instance.
@@ -23,6 +22,14 @@ public class FileDocument<T> extends Document<T> {
     public FileDocument(final String key, final String header, final T message, final boolean encrypted,
             final String... tags) {
         super(key, header, message, encrypted, tags);
+    }
+
+    public void setParent(FileDocument<T> parent) {
+        this.parent = parent;
+    }
+
+    public FileDocument<T> getParent() {
+        return parent;
     }
 
     public Collection<FileDocument<T>> getChildren() {
