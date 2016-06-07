@@ -74,10 +74,10 @@
         <div class="navbar-collapse">
           <ul class="nav navbar-nav">
             <li><a href="/files">${locale("app.menu.files")}</a></li>
-            <li><a href="#" onClick="javascript:exportxml();">${locale("app.menu.export")}</a></li>
-            <li><a href="/documents/import">${locale("app.menu.import")}</a></li>
-            <li><a href="/documents/add">${locale("app.menu.add")}</a></li>
-            <li><a href="/documents/management">${locale("app.menu.management")}</a></li>
+            <li><a href="#" onClick="javascript:exportxml();">${locale("app.menu.documents.export")}</a></li>
+            <li><a href="/documents/import">${locale("app.menu.documents.import")}</a></li>
+            <li><a href="/documents/add">${locale("app.menu.documents.add")}</a></li>
+            <li><a href="/documents/management">${locale("app.menu.documents.management")}</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -94,7 +94,7 @@
       </div>
 
       <div class="panel panel-default">
-        <div class="panel-heading">${locale("app.header.list")}</div>
+        <div class="panel-heading">${locale("app.header.documents.list")}</div>
         <div class="panel-body">
           <#if (messages?size > 0) >
             <div class="container-fluid scroll">

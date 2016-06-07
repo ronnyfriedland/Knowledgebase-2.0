@@ -67,7 +67,7 @@
         </div>
         <div class="navbar-collapse">
           <ul class="nav navbar-nav">
-          <li><a href="/documents">${locale("app.menu.list")}</a></li>
+          <li><a href="/documents">${locale("app.menu.documents")}</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -75,7 +75,7 @@
 
     <div class="container">
       <div class="panel panel-default">
-        <div class="panel-heading">${locale("app.header.add")}</div>
+        <div class="panel-heading">${locale("app.header.documents.add")}</div>
           <div class="panel-body">
             <form role="form" id="documentForm" action="/documents" method="post">
               <div class="form-group"><label for="header">${locale("app.label.header")}</label><br/><input class="form-control" type="text" name="header" id="header" value="${header}"/></div>

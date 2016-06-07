@@ -65,7 +65,7 @@
         </div>
         <div class="navbar-collapse">
           <ul class="nav navbar-nav">
-            <li><a href="/documents">${locale("app.menu.list")}</a></li>
+            <li><a href="/documents">${locale("app.menu.documents")}</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>

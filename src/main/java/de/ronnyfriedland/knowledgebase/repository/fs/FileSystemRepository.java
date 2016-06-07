@@ -3,17 +3,24 @@ package de.ronnyfriedland.knowledgebase.repository.fs;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import de.ronnyfriedland.knowledgebase.cache.RepositoryCache;
 import de.ronnyfriedland.knowledgebase.configuration.Configuration;
 import de.ronnyfriedland.knowledgebase.entity.FileDocument;
 import de.ronnyfriedland.knowledgebase.exception.DataException;
@@ -29,8 +36,15 @@ import de.ronnyfriedland.knowledgebase.resource.RepositoryMetadata.MetadataKeyVa
 @org.springframework.beans.factory.annotation.Qualifier("fs")
 public class FileSystemRepository implements IRepository<FileDocument<byte[]>> {
 
+    private static final Logger LOG = LoggerFactory.getLogger(FileSystemRepository.class);
+
+    private SimpleDateFormat df = new SimpleDateFormat("MM.dd.yyyy HH:mm:ss");
+
     @Autowired
     private Configuration configuration;
+
+    @Autowired
+    private RepositoryCache<FileDocument<byte[]>> cache;
 
     /**
      * {@inheritDoc}
@@ -38,34 +52,51 @@ public class FileSystemRepository implements IRepository<FileDocument<byte[]>> {
      * @see de.ronnyfriedland.knowledgebase.repository.IRepository#getDocument(java.lang.String)
      */
     @Override
-    public FileDocument<byte[]> getDocument(String id) throws DataException {
-        try {
-            File file = Paths.get(id).toFile();
-            byte[] documentBytes = null;
-
-            if (file.isFile()) {
-                documentBytes = IOUtils.toByteArray(new FileInputStream(file));
+    public FileDocument<byte[]> getDocument(String key) throws DataException {
+        FileDocument<byte[]> cachedDocument = cache.get(key);
+        if (null == cachedDocument) {
+            if (LOG.isTraceEnabled()) {
+                LOG.trace("Not found in cache: '{}'.", key);
             }
+            try {
+                File file = Paths.get(key).toFile();
+                byte[] documentBytes = null;
 
-            FileDocument<byte[]> result = new FileDocument<byte[]>(file.getName(), file.getAbsolutePath().replaceAll(
-                    "\\\\", "/"), documentBytes, false);
-            result.setParent(new FileDocument<byte[]>(file.getParent().replaceAll("\\\\", "/"), null, null, false));
-
-            if (file.isDirectory()) {
-                File[] files = file.listFiles();
-                for (File child : files) {
-                    result.getChildren().add(
-                            new FileDocument<byte[]>(child.getName(), child.getAbsolutePath().replaceAll("\\\\", "/"),
-                                    null, false));
+                if (file.isFile()) {
+                    documentBytes = IOUtils.toByteArray(new FileInputStream(file));
                 }
+
+                FileDocument<byte[]> result = new FileDocument<byte[]>(key, file.getAbsolutePath()
+                        .replaceAll("\\\\", "/"), documentBytes, false);
+                if (!configuration.getFilesRootDirectory().equalsIgnoreCase(key)) {
+                    result.setParent(new FileDocument<byte[]>(file.getParent().replaceAll("\\\\", "/"), null, null,
+                            false));
+                }
+
+                if (file.isDirectory()) {
+                    File[] files = file.listFiles();
+                    for (File child : files) {
+                        result.getChildren().add(
+                                new FileDocument<byte[]>(child.getName(), child.getAbsolutePath().replaceAll("\\\\",
+                                        "/"), null, false));
+                    }
+                    Collections.sort(new ArrayList<FileDocument<byte[]>>(result.getChildren()));
+                }
+                if (LOG.isTraceEnabled()) {
+                    LOG.trace("Put entry to cache: '{}'.", result);
+                }
+                cache.put(key, result);
+                return result;
+            } catch (IOException e) {
+                throw new DataException(e);
             }
-
-            Collections.sort(new ArrayList<FileDocument<byte[]>>(result.getChildren()));
-
-            return result;
-        } catch (IOException e) {
-            throw new DataException(e);
+        } else {
+            if (LOG.isTraceEnabled()) {
+                LOG.trace("using cached entry for key: '{}' -> '{}'.", key, cachedDocument);
+            }
+            return cachedDocument;
         }
+
     }
 
     /**
@@ -75,7 +106,17 @@ public class FileSystemRepository implements IRepository<FileDocument<byte[]>> {
      */
     @Override
     public String saveDocument(FileDocument<byte[]> message) throws DataException {
-        throw new IllegalStateException("Not yet implemented!");
+        try {
+            File file = Paths.get(message.getHeader()).toFile();
+            if (file.getParentFile().exists()) {
+                try (FileOutputStream fos = new FileOutputStream(file)) {
+                    fos.write(message.getMessage());
+                }
+            }
+        } catch (IOException e) {
+            throw new DataException(e);
+        }
+        return message.getKey();
     }
 
     /**
@@ -86,45 +127,60 @@ public class FileSystemRepository implements IRepository<FileDocument<byte[]>> {
     @Override
     public Collection<FileDocument<byte[]>> listDocuments(final int offset, final int max, final String tag)
             throws DataException {
-        try {
-            String rootDirectory = configuration.getFilesRootDirectory();
-            File root = Paths.get(rootDirectory).toFile();
+        File root = Paths.get(configuration.getFilesRootDirectory()).toFile();
 
-            if (root.isFile()) {
-                byte[] documentBytes = IOUtils.toByteArray(new FileInputStream(root));
-                return Collections.singleton(new FileDocument<byte[]>(root.getName(), root.getAbsolutePath()
-                        .replaceAll("\\\\", "/"), documentBytes, false));
+        FileDocument<byte[]> cachedDocument = cache.get(configuration.getFilesRootDirectory());
+        if (null == cachedDocument) {
+            if (LOG.isTraceEnabled()) {
+                LOG.trace("Not found in cache: '{}'.", root.getAbsolutePath());
             }
-
-            FileDocument<byte[]> result = new FileDocument<byte[]>(root.getName(), root.getAbsolutePath().replaceAll(
-                    "\\\\", "/"), null, false);
-            result.setParent(new FileDocument<byte[]>(root.getParent().replaceAll("\\\\", "/"), null, null, false));
-
-            if (root.isDirectory()) {
-                final AtomicInteger count = new AtomicInteger(0);
-                File[] files = root.listFiles(new FileFilter() {
-                    /**
-                     * {@inheritDoc}
-                     *
-                     * @see java.io.FileFilter#accept(java.io.File)
-                     */
-                    @Override
-                    public boolean accept(File pathname) {
-                        int current = count.getAndIncrement();
-                        return current >= offset && current < max;
-                    }
-                });
-
-                for (File file : files) {
-                    result.addChild(new FileDocument<byte[]>(file.getName(), file.getAbsolutePath().replaceAll("\\\\",
-                            "/"), null, false));
+            try {
+                if (root.isFile()) {
+                    byte[] documentBytes = IOUtils.toByteArray(new FileInputStream(root));
+                    return Collections.singleton(new FileDocument<byte[]>(root.getName(), root.getAbsolutePath()
+                            .replaceAll("\\\\", "/"), documentBytes, false));
                 }
-                Collections.sort(new ArrayList<FileDocument<byte[]>>(result.getChildren()));
+
+                FileDocument<byte[]> result = new FileDocument<byte[]>(root.getName(), root.getAbsolutePath()
+                        .replaceAll("\\\\", "/"), null, false);
+                result.setParent(new FileDocument<byte[]>(root.getParent().replaceAll("\\\\", "/"), null, null, false));
+
+                if (root.isDirectory()) {
+                    final AtomicInteger count = new AtomicInteger(0);
+                    File[] files = root.listFiles(new FileFilter() {
+                        /**
+                         * {@inheritDoc}
+                         *
+                         * @see java.io.FileFilter#accept(java.io.File)
+                         */
+                        @Override
+                        public boolean accept(File pathname) {
+                            int current = count.getAndIncrement();
+                            return current >= offset && current < max;
+                        }
+                    });
+
+                    for (File file : files) {
+                        result.addChild(new FileDocument<byte[]>(file.getName(), file.getAbsolutePath().replaceAll(
+                                "\\\\", "/"), null, false));
+                    }
+                    Collections.sort(new ArrayList<FileDocument<byte[]>>(result.getChildren()));
+                }
+                if (LOG.isTraceEnabled()) {
+                    LOG.trace("Put entry to cache: '{}'.", result);
+                }
+                cache.put(configuration.getFilesRootDirectory(), result);
+                return result.getChildren();
+            } catch (IOException e) {
+                throw new DataException(e);
             }
 
-            return result.getChildren();
-        } catch (IOException e) {
-            throw new DataException(e);
+        } else {
+            if (LOG.isTraceEnabled()) {
+                LOG.trace("using cached entry for key: '{}' -> '{}'.", configuration.getFilesRootDirectory(),
+                        cachedDocument);
+            }
+            return cachedDocument.getChildren();
         }
     }
 
@@ -144,8 +200,16 @@ public class FileSystemRepository implements IRepository<FileDocument<byte[]>> {
      * @see de.ronnyfriedland.knowledgebase.repository.IRepository#removeDocument(java.lang.String)
      */
     @Override
-    public void removeDocument(String id) throws DataException {
-        throw new IllegalStateException("Not yet implemented!");
+    public void removeDocument(String key) throws DataException {
+        File file = Paths.get(key).toFile();
+        if (file.exists()) {
+            file.delete();
+            if (LOG.isTraceEnabled()) {
+                LOG.trace("Remove entry with parent from cache: '{}'.", key);
+            }
+        }
+        cache.remove(key);
+        cache.remove(key.substring(0, key.lastIndexOf("/")));
     }
 
     /**
@@ -155,45 +219,23 @@ public class FileSystemRepository implements IRepository<FileDocument<byte[]>> {
      */
     @Override
     public RepositoryMetadata getMetadata(String id) throws DataException {
-        Path root = Paths.get(id);
-
         RepositoryMetadata result = new RepositoryMetadata();
-        result.setId(id);
-        result.setName(id);
-        File[] files = root.toFile().listFiles(new FileFilter() {
+        try {
+            Path root = Paths.get(id);
+            BasicFileAttributes attr = Files.readAttributes(root, BasicFileAttributes.class);
 
-            @Override
-            public boolean accept(File pathname) {
-                return pathname.isFile();
-            }
-        });
+            result.setId(id);
+            result.setName(root.toFile().getAbsolutePath());
 
-        for (File file2 : files) {
-            result.addMetadata(new MetadataKeyValue(file2.getName(), file2.getAbsolutePath().replaceAll("\\\\", "/")));
+            result.addMetadata(new MetadataKeyValue("creationdate", df.format(attr.creationTime().toMillis())));
+            result.addMetadata(new MetadataKeyValue("lastmodifieddate", df.format(attr.lastModifiedTime().toMillis())));
+            result.addMetadata(new MetadataKeyValue("size", String.valueOf(attr.size() / 1024) + " kb"));
+
+        } catch (IOException e) {
+            throw new DataException(e);
         }
 
-        processNode(root.toFile(), result);
         return result;
-    }
-
-    private void processNode(File root, RepositoryMetadata result) {
-        File[] children = root.listFiles(new FileFilter() {
-
-            @Override
-            public boolean accept(File pathname) {
-                return pathname.isDirectory();
-            }
-        });
-        if (null != children) {
-            for (File file : children) {
-                RepositoryMetadata child = new RepositoryMetadata();
-                processNode(file, child);
-
-                child.setId(file.getPath().replaceAll("\\\\", "/"));
-                child.setName(file.getName());
-                result.addChildren(child);
-            }
-        }
     }
 
 }

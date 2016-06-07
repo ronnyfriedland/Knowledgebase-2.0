@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.security.RolesAllowed;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -13,6 +14,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,9 +62,12 @@ public class FileResource extends AbstractDocumentResource<FileDocument<byte[]>>
             if (null == document) {
                 return Response.status(404).entity("Document not found").build();
             }
+            if (null != document.getMessage()) {
+                return Response.status(301).location(UriBuilder.fromPath(String.format("/files/%s/raw", key)).build())
+                        .build();
+            }
+
             attributes.put("header", document.getHeader());
-            attributes.put("message", document.getMessage());
-            attributes.put("encrypted", document.isEncrypted());
             attributes.put("files", document.getChildren());
             attributes.put("parent", document.getParent());
 
@@ -90,6 +95,7 @@ public class FileResource extends AbstractDocumentResource<FileDocument<byte[]>>
 
             Collection<FileDocument<byte[]>> documents = retrieveData(offset, limit, tag, null);
 
+            attributes.put("header", configuration.getFilesRootDirectory());
             attributes.put("files", documents);
 
             return Response.ok(templateProcessor.getProcessedTemplate("file.ftl", attributes)).build();
@@ -119,6 +125,25 @@ public class FileResource extends AbstractDocumentResource<FileDocument<byte[]>>
         } catch (DataException e) {
             LOG.error("Error getting document", e);
             throw new WebApplicationException(Response.status(500).entity("Error getting document").build());
+        }
+    }
+
+    /**
+     * Deletes an existing file
+     *
+     * @param key the unique key of the file
+     * @return response object
+     */
+    @DELETE
+    @Path("/{key:.+}")
+    public Response deleteDocument(final @PathParam("key") String key) {
+        try {
+            repository.removeDocument(key);
+
+            return Response.ok().build();
+        } catch (DataException e) {
+            LOG.error("Error deleting document", e);
+            throw new WebApplicationException(Response.status(500).entity("Error deleting document").build());
         }
     }
 

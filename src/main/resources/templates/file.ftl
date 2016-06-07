@@ -13,12 +13,31 @@
     <link rel="stylesheet" href="/public/knowledgebase.css"/>
 
     <script src="/public/jquery-1.11.2.min.js"></script>
+    <script src="/public/jquery.confirm.min.js"></script>
     <script src="/public/bootstrap.min.js"></script>
     <script src="/public/knowledgebase.js"></script>
 
     <script type="text/javascript">
-      jQuery( document ).ready(function() {
-      });
+      var removeEntry = function(url){
+        jQuery.confirm({
+          text: "${locale("app.label.delete.confirm.text")}",
+          title: "${locale("app.label.delete.confirm.title")}",
+          confirm: function(button) {
+            jQuery.ajax({
+              url: url,
+              type: 'DELETE',
+              async:false
+            });
+            window.location.reload();
+          },
+          confirmButton: "${locale("app.label.yes")}",
+          cancelButton: "${locale("app.label.no")}",
+          post: true,
+          confirmButtonClass: "btn-danger",
+          cancelButtonClass: "btn-default",
+          dialogClass: "modal-dialog modal-lg"
+        });
+      };
     </script>
   </head>
   <body role="document">
@@ -32,7 +51,7 @@
         </div>
         <div class="navbar-collapse">
           <ul class="nav navbar-nav">
-            <li><a href="/documents">${locale("app.menu.list")}</a></li>
+            <li><a href="/documents">${locale("app.menu.documents")}</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -50,26 +69,51 @@
     <div class="container">
 
       <div class="panel panel-default">
-        <div class="panel-heading">${locale("app.header.list")}</div>
+        <div class="panel-heading">${locale("app.header.files.list")} ${header}</div>
         <div class="panel-body">
           <#if (files?size > 0) >
             <div class="container-fluid scroll">
             
              <div class="row">
 
+              <#if message??>
+              ${header} <a role="button" href="/files/${header}/raw" class="btn btn-default">download</a>
+              </#if>
+              
               <#list files as file>
 
                 <div class="col-sm-4">
                     <div class="panel panel-warning">
                       <div class="panel-heading">
-                        <p><b><a href="/files/${file.header}">${file.key}</a></b></p>
+                        <div class="small">
+                            <a href="/files/${file.header}">${file.key}</a> 
+                            <span onclick="javascript:removeEntry('/files/${file.header}');">
+                                <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"> </span>
+                            </span>
+                        </div>
                       </div>
-                      <div class="panel-body">
-                        <!--<p>${file.header}</p>-->
-                        <p>
-                            <a role="button" href="/files/${file.header}/raw" class="btn btn-default">download</a>
-                        </p>
+                      <div class="panel-body" id="body_${file?index}">
                       </div>
+                      <script type="text/javascript">
+                        jQuery(function () { 
+                            jQuery.get('/files/metadata/${file.header}', function (d) {
+                                var text = "<div class='table-responsive'><table class='table table-striped small'>";
+                                jQuery.each(d.metadata, function(idx, obj) {
+                                    if(obj.key) {
+                                        text += "<tr><td>";
+                                        text += obj.key;
+                                        text += "</td>";
+                                        text += "<td>";
+                                        text += obj.value;
+                                        text += "</td></tr>";
+                                    }
+                                });
+                                text += "</table></div>";
+                                jQuery("#body_${file?index}").html(text);
+                            });
+                        });
+                        </script>  
+                      
                     </div>
 
                 </div>
@@ -79,6 +123,7 @@
              </div>
 
             </div>
+
           </#if>
         </div>
 

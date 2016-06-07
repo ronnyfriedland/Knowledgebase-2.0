@@ -23,9 +23,9 @@
       </div>
       <div class="navbar-collapse">
         <ul class="nav navbar-nav">
-          <li><a href="/documents">${locale("app.menu.list")}</a></li>
-          <li><a href="/documents/add">${locale("app.menu.add")}</a></li>
-          <li><a href="/documents/management">${locale("app.menu.management")}</a></li>
+          <li><a href="/documents">${locale("app.menu.documents")}</a></li>
+          <li><a href="/documents/add">${locale("app.menu.documents.add")}</a></li>
+          <li><a href="/documents/management">${locale("app.menu.documents.management")}</a></li>
         </ul>
       </div><!--/.nav-collapse -->
     </div>
@@ -38,7 +38,7 @@
     </div>
   
     <div class="panel panel-default">
-      <div class="panel-heading">${locale("app.header.import")}</div>
+      <div class="panel-heading">${locale("app.header.documents.import")}</div>
       <div class="panel-body">
 
         <form role="form" id="importForm" action="/documents/xml/import" method="post" enctype="multipart/form-data">
