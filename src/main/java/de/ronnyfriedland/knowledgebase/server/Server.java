@@ -73,6 +73,7 @@ public class Server implements Runnable {
 
             reg.setInitParameter(ResourceConfig.PROPERTY_RESOURCE_FILTER_FACTORIES,
                     "com.sun.jersey.api.container.filter.RolesAllowedResourceFilterFactory");
+            reg.setInitParameter("com.sun.jersey.config.feature.logging.DisableEntitylogging", "true");
 
             ctx.addContextInitParameter("contextConfigLocation", "classpath:context.xml");
             ctx.addListener(ContextLoaderListener.class.getCanonicalName());
