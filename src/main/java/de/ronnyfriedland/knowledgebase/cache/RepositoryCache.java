@@ -35,10 +35,7 @@ public class RepositoryCache<T> {
 
     public void remove(final String key) {
         try {
-            T result = get(key);
-            if (null != result) {
-                cache.remove(result);
-            }
+            cache.remove(key);
         } catch (CacheException e) {
             // ignore
         }
