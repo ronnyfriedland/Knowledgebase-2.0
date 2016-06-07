@@ -99,7 +99,9 @@ public class JackRabbitRepository implements IRepository<Document<String>> {
             if (null == document) {
                 return null; // not found - wrong path?
             }
-            return document.toDocument();
+            Document<String> result = document.toDocument();
+            cache.put(key, result);
+            return result;
         } else {
             if (LOG.isTraceEnabled()) {
                 LOG.trace("using cached entry for key: '{}' -> '{}'.", key, cachedDocument);
@@ -233,11 +235,14 @@ public class JackRabbitRepository implements IRepository<Document<String>> {
                     if (LOG.isTraceEnabled()) {
                         LOG.trace("Not found in cache: '{}'.", key);
                     }
-                    result.add(object.toDocument());
+                    Document<String> doc = object.toDocument();
+                    cache.put(key, doc);
+                    result.add(doc);
                 } else {
                     if (LOG.isTraceEnabled()) {
                         LOG.trace("using cached entry for key: '{}' -> '{}'.", key, cachedDocument);
                     }
+                    // cache.put(key, document);
                     result.add(cachedDocument);
                 }
             }
