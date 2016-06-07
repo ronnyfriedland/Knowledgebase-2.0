@@ -100,6 +100,9 @@ public class JackRabbitRepository implements IRepository<Document<String>> {
                 return null; // not found - wrong path?
             }
             Document<String> result = document.toDocument();
+            if (LOG.isTraceEnabled()) {
+                LOG.trace("Put entry to cache: '{}'.", result);
+            }
             cache.put(key, result);
             return result;
         } else {
@@ -190,6 +193,9 @@ public class JackRabbitRepository implements IRepository<Document<String>> {
                 ocm.remove("/" + key);
                 ocm.save();
             }
+            if (LOG.isTraceEnabled()) {
+                LOG.trace("Remove entry from cache: '{}'.", key);
+            }
             cache.remove(key);
         } catch (ObjectContentManagerException e) {
             throw new DataException("Error accessing path.", e);
@@ -236,13 +242,12 @@ public class JackRabbitRepository implements IRepository<Document<String>> {
                         LOG.trace("Not found in cache: '{}'.", key);
                     }
                     Document<String> doc = object.toDocument();
+                    if (LOG.isTraceEnabled()) {
+                        LOG.trace("Put entry to cache: '{}'.", doc);
+                    }
                     cache.put(key, doc);
                     result.add(doc);
                 } else {
-                    if (LOG.isTraceEnabled()) {
-                        LOG.trace("using cached entry for key: '{}' -> '{}'.", key, cachedDocument);
-                    }
-                    // cache.put(key, document);
                     result.add(cachedDocument);
                 }
             }
