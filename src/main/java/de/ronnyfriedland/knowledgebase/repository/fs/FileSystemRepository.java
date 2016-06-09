@@ -1,7 +1,6 @@
 package de.ronnyfriedland.knowledgebase.repository.fs;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -13,7 +12,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
@@ -44,7 +42,7 @@ public class FileSystemRepository implements IRepository<FileDocument<byte[]>> {
     private Configuration configuration;
 
     @Autowired
-    private RepositoryCache<FileDocument<byte[]>> cache;
+    private RepositoryCache<FileDocument<byte[]>> fileCache;
 
     /**
      * {@inheritDoc}
@@ -53,7 +51,7 @@ public class FileSystemRepository implements IRepository<FileDocument<byte[]>> {
      */
     @Override
     public FileDocument<byte[]> getDocument(String key) throws DataException {
-        FileDocument<byte[]> cachedDocument = cache.get(key);
+        FileDocument<byte[]> cachedDocument = fileCache.get(key);
         if (null == cachedDocument) {
             if (LOG.isTraceEnabled()) {
                 LOG.trace("Not found in cache: '{}'.", key);
@@ -85,7 +83,7 @@ public class FileSystemRepository implements IRepository<FileDocument<byte[]>> {
                 if (LOG.isTraceEnabled()) {
                     LOG.trace("Put entry to cache: '{}'.", result);
                 }
-                cache.put(key, result);
+                fileCache.put(key, result);
                 return result;
             } catch (IOException e) {
                 throw new DataException(e);
@@ -127,61 +125,7 @@ public class FileSystemRepository implements IRepository<FileDocument<byte[]>> {
     @Override
     public Collection<FileDocument<byte[]>> listDocuments(final int offset, final int max, final String tag)
             throws DataException {
-        File root = Paths.get(configuration.getFilesRootDirectory()).toFile();
-
-        FileDocument<byte[]> cachedDocument = cache.get(configuration.getFilesRootDirectory());
-        if (null == cachedDocument) {
-            if (LOG.isTraceEnabled()) {
-                LOG.trace("Not found in cache: '{}'.", root.getAbsolutePath());
-            }
-            try {
-                if (root.isFile()) {
-                    byte[] documentBytes = IOUtils.toByteArray(new FileInputStream(root));
-                    return Collections.singleton(new FileDocument<byte[]>(root.getName(), root.getAbsolutePath()
-                            .replaceAll("\\\\", "/"), documentBytes, false));
-                }
-
-                FileDocument<byte[]> result = new FileDocument<byte[]>(root.getName(), root.getAbsolutePath()
-                        .replaceAll("\\\\", "/"), null, false);
-                result.setParent(new FileDocument<byte[]>(root.getParent().replaceAll("\\\\", "/"), null, null, false));
-
-                if (root.isDirectory()) {
-                    final AtomicInteger count = new AtomicInteger(0);
-                    File[] files = root.listFiles(new FileFilter() {
-                        /**
-                         * {@inheritDoc}
-                         *
-                         * @see java.io.FileFilter#accept(java.io.File)
-                         */
-                        @Override
-                        public boolean accept(File pathname) {
-                            int current = count.getAndIncrement();
-                            return current >= offset && current < max;
-                        }
-                    });
-
-                    for (File file : files) {
-                        result.addChild(new FileDocument<byte[]>(file.getName(), file.getAbsolutePath().replaceAll(
-                                "\\\\", "/"), null, false));
-                    }
-                    Collections.sort(new ArrayList<FileDocument<byte[]>>(result.getChildren()));
-                }
-                if (LOG.isTraceEnabled()) {
-                    LOG.trace("Put entry to cache: '{}'.", result);
-                }
-                cache.put(configuration.getFilesRootDirectory(), result);
-                return result.getChildren();
-            } catch (IOException e) {
-                throw new DataException(e);
-            }
-
-        } else {
-            if (LOG.isTraceEnabled()) {
-                LOG.trace("using cached entry for key: '{}' -> '{}'.", configuration.getFilesRootDirectory(),
-                        cachedDocument);
-            }
-            return cachedDocument.getChildren();
-        }
+        throw new IllegalStateException("Not yet implemented!");
     }
 
     /**
@@ -208,8 +152,8 @@ public class FileSystemRepository implements IRepository<FileDocument<byte[]>> {
                 LOG.trace("Remove entry with parent from cache: '{}'.", key);
             }
         }
-        cache.remove(key);
-        cache.remove(key.substring(0, key.lastIndexOf("/")));
+        fileCache.remove(key);
+        fileCache.remove(key.substring(0, key.lastIndexOf("/")));
     }
 
     /**

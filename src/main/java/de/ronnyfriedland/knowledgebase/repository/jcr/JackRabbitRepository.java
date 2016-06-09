@@ -63,7 +63,7 @@ public class JackRabbitRepository implements IRepository<Document<String>> {
     private char[] repositoryPassword;
 
     @Autowired
-    private RepositoryCache<Document<String>> cache;
+    private RepositoryCache<Document<String>> documentCache;
 
     private ObjectContentManager ocm;
 
@@ -93,7 +93,7 @@ public class JackRabbitRepository implements IRepository<Document<String>> {
      */
     @Override
     public Document<String> getDocument(final String key) throws DataException {
-        Document<String> cachedDocument = cache.get(key);
+        Document<String> cachedDocument = documentCache.get(key);
         if (null == cachedDocument) {
             JCRTextDocument document = (JCRTextDocument) ocm.getObject("/" + key);
             if (null == document) {
@@ -101,9 +101,9 @@ public class JackRabbitRepository implements IRepository<Document<String>> {
             }
             Document<String> result = document.toDocument();
             if (LOG.isTraceEnabled()) {
-                LOG.trace("Put entry to cache: '{}'.", result);
+                LOG.trace("Put entry to documentCache: '{}'.", result);
             }
-            cache.put(key, result);
+            documentCache.put(key, result);
             return result;
         } else {
             if (LOG.isTraceEnabled()) {
@@ -139,9 +139,9 @@ public class JackRabbitRepository implements IRepository<Document<String>> {
                 result = jcrDocument.getUuid();
             }
             if (LOG.isTraceEnabled()) {
-                LOG.trace("Put entry to cache: '{}'.", message);
+                LOG.trace("Put entry to documentCache: '{}'.", message);
             }
-            cache.put(message.getKey(), message);
+            documentCache.put(message.getKey(), message);
         } catch (VersionException e) {
             throw new DataException(e);
         }
@@ -194,9 +194,9 @@ public class JackRabbitRepository implements IRepository<Document<String>> {
                 ocm.save();
             }
             if (LOG.isTraceEnabled()) {
-                LOG.trace("Remove entry from cache: '{}'.", key);
+                LOG.trace("Remove entry from documentCache: '{}'.", key);
             }
-            cache.remove(key);
+            documentCache.remove(key);
         } catch (ObjectContentManagerException e) {
             throw new DataException("Error accessing path.", e);
         }
@@ -236,16 +236,16 @@ public class JackRabbitRepository implements IRepository<Document<String>> {
         for (JCRTextDocument object : objects) {
             if (count >= offset && count < max) { // should be replaced by query paging support
                 String key = object.getPath().substring(1);
-                Document<String> cachedDocument = cache.get(key);
+                Document<String> cachedDocument = documentCache.get(key);
                 if (null == cachedDocument) {
                     if (LOG.isTraceEnabled()) {
-                        LOG.trace("Not found in cache: '{}'.", key);
+                        LOG.trace("Not found in documentCache: '{}'.", key);
                     }
                     Document<String> doc = object.toDocument();
                     if (LOG.isTraceEnabled()) {
-                        LOG.trace("Put entry to cache: '{}'.", doc);
+                        LOG.trace("Put entry to documentCache: '{}'.", doc);
                     }
-                    cache.put(key, doc);
+                    documentCache.put(key, doc);
                     result.add(doc);
                 } else {
                     result.add(cachedDocument);

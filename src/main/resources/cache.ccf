@@ -1,4 +1,3 @@
-# DEFAULT CACHE REGION
 jcs.default=DC
 jcs.default.cacheattributes=org.apache.jcs.engine.CompositeCacheAttributes
 jcs.default.cacheattributes.MaxObjects=1000
@@ -13,3 +12,8 @@ jcs.default.elementattributes.IdleTime=1800
 jcs.default.elementattributes.IsSpool=true
 jcs.default.elementattributes.IsRemote=true
 jcs.default.elementattributes.IsLateral=true
+
+jcs.documents=DC
+
+jcs.files=DC
+jcs.files.elementattributes.MaxLife=1800

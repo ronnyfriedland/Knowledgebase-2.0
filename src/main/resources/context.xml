@@ -15,4 +15,12 @@
     <property name="basename" value="locale/messages" />
   </bean>
 
+  <bean id="documentCache" class="de.ronnyfriedland.knowledgebase.cache.RepositoryCache">
+    <constructor-arg value="documents"/>
+  </bean>
+
+  <bean id="fileCache" class="de.ronnyfriedland.knowledgebase.cache.RepositoryCache">
+    <constructor-arg value="files"/>
+  </bean>
+
 </beans>

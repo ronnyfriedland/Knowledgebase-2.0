@@ -107,10 +107,10 @@ public class DocumentResource extends AbstractDocumentResource<Document<String>>
     @GET
     @Path("/add")
     @Produces(MediaType.TEXT_HTML)
-    public Response initDocument() {
+    public Response initDocument(final @QueryParam("header") String header, final @QueryParam("message") String message) {
         Map<String, Object> attributes = new HashMap<>();
-        attributes.put("header", "");
-        attributes.put("message", "");
+        attributes.put("header", null == header ? "" : header);
+        attributes.put("message", null == message ? "" : message);
         attributes.put("encrypted", false);
         attributes.put("tags", "");
 

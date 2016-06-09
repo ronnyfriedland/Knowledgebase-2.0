@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="/public/bootstrap.min.css" />
     <link rel="stylesheet" href="/public/bootstrap-theme.min.css"/>
     <link rel="stylesheet" href="/public/knowledgebase.css"/>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
 
     <script src="/public/jquery-1.11.2.min.js"></script>
     <script src="/public/jquery.confirm.min.js"></script>
@@ -76,10 +77,6 @@
             
              <div class="row">
 
-              <#if message??>
-              ${header} <a role="button" href="/files/${header}/raw" class="btn btn-default">download</a>
-              </#if>
-              
               <#list files as file>
 
                 <div class="col-sm-4">
@@ -87,8 +84,8 @@
                       <div class="panel-heading">
                         <div class="small">
                             <a href="/files/${file.header}">${file.key}</a> 
-                            <span onclick="javascript:removeEntry('/files/${file.header}');">
-                                <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"> </span>
+                            <span onclick="javascript:removeEntry('/files/${file.header}');" style="cursor:pointer">
+                                &nbsp;&nbsp;<span class="glyphicon glyphicon-remove-sign" aria-hidden="true" />
                             </span>
                         </div>
                       </div>
@@ -113,7 +110,6 @@
                             });
                         });
                         </script>  
-                      
                     </div>
 
                 </div>
@@ -121,6 +117,12 @@
               </#list>
 
              </div>
+
+            <#if document??>
+                <a href="/documents/${document.key}">${document.header}</a>
+            <#else>
+                <a href="/documents/add?header=${header}">add</a>
+            </#if>
 
             </div>
 

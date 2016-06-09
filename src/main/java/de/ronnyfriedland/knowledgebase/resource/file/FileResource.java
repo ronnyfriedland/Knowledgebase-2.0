@@ -1,6 +1,5 @@
 package de.ronnyfriedland.knowledgebase.resource.file;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,12 +22,14 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import de.ronnyfriedland.knowledgebase.configuration.Configuration;
+import de.ronnyfriedland.knowledgebase.entity.Document;
 import de.ronnyfriedland.knowledgebase.entity.FileDocument;
 import de.ronnyfriedland.knowledgebase.exception.DataException;
 import de.ronnyfriedland.knowledgebase.freemarker.TemplateProcessor;
 import de.ronnyfriedland.knowledgebase.repository.IRepository;
 import de.ronnyfriedland.knowledgebase.resource.AbstractDocumentResource;
 import de.ronnyfriedland.knowledgebase.resource.RepositoryMetadata;
+import de.ronnyfriedland.knowledgebase.util.TextUtils;
 
 @Path("/files")
 @Component
@@ -38,7 +39,11 @@ public class FileResource extends AbstractDocumentResource<FileDocument<byte[]>>
 
     @Autowired
     @Qualifier("fs")
-    private IRepository<FileDocument<byte[]>> repository;
+    private IRepository<FileDocument<byte[]>> fileRepository;
+
+    @Autowired
+    @Qualifier("jcr")
+    private IRepository<Document<String>> documentRepository;
 
     @Autowired
     private TemplateProcessor templateProcessor;
@@ -58,7 +63,7 @@ public class FileResource extends AbstractDocumentResource<FileDocument<byte[]>>
     public Response loadDocument(final @PathParam("key") String key) {
         Map<String, Object> attributes = new HashMap<>();
         try {
-            FileDocument<byte[]> document = repository.getDocument(key);
+            FileDocument<byte[]> document = fileRepository.getDocument(key);
             if (null == document) {
                 return Response.status(404).entity("Document not found").build();
             }
@@ -70,6 +75,11 @@ public class FileResource extends AbstractDocumentResource<FileDocument<byte[]>>
             attributes.put("header", document.getHeader());
             attributes.put("files", document.getChildren());
             attributes.put("parent", document.getParent());
+
+            Document<String> refDoc = documentRepository.getDocument(TextUtils.replaceInvalidChars(key));
+            if (null != refDoc) {
+                attributes.put("document", refDoc);
+            }
 
             return Response.ok(templateProcessor.getProcessedTemplate("file.ftl", attributes)).build();
         } catch (DataException e) {
@@ -90,19 +100,11 @@ public class FileResource extends AbstractDocumentResource<FileDocument<byte[]>>
     @Produces(MediaType.TEXT_HTML)
     public Response loadDocument(@QueryParam("offset") final Integer offset, @QueryParam("limit") final Integer limit,
             final @QueryParam("tag") String tag) {
-        try {
-            Map<String, Object> attributes = new HashMap<>();
-
-            Collection<FileDocument<byte[]>> documents = retrieveData(offset, limit, tag, null);
-
-            attributes.put("header", configuration.getFilesRootDirectory());
-            attributes.put("files", documents);
-
-            return Response.ok(templateProcessor.getProcessedTemplate("file.ftl", attributes)).build();
-        } catch (DataException e) {
-            LOG.error("Error getting content", e);
-            throw new WebApplicationException(Response.status(500).entity("Error getting document").build());
-        }
+        return Response
+                .status(301)
+                .location(
+                        UriBuilder.fromPath(String.format("/files/%s", configuration.getFilesRootDirectory())).build())
+                .build();
     }
 
     /**
@@ -116,7 +118,7 @@ public class FileResource extends AbstractDocumentResource<FileDocument<byte[]>>
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
     public Response rawFile(final @PathParam("key") String key) {
         try {
-            FileDocument<byte[]> document = repository.getDocument(key);
+            FileDocument<byte[]> document = fileRepository.getDocument(key);
             if (null == document) {
                 return Response.status(404).entity("Document not found").build();
             }
@@ -138,7 +140,7 @@ public class FileResource extends AbstractDocumentResource<FileDocument<byte[]>>
     @Path("/{key:.+}")
     public Response deleteDocument(final @PathParam("key") String key) {
         try {
-            repository.removeDocument(key);
+            fileRepository.removeDocument(key);
 
             return Response.ok().build();
         } catch (DataException e) {
@@ -148,10 +150,10 @@ public class FileResource extends AbstractDocumentResource<FileDocument<byte[]>>
     }
 
     /**
-     * Returns the content of the repository
+     * Returns the content of the fileRepository
      *
-     * @param key the id of the repository element
-     * @return the content of the repository
+     * @param key the id of the fileRepository element
+     * @return the content of the fileRepository
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -161,17 +163,17 @@ public class FileResource extends AbstractDocumentResource<FileDocument<byte[]>>
     }
 
     /**
-     * Returns the content of the repository
+     * Returns the content of the fileRepository
      *
-     * @param key the id of the repository element
-     * @return the content of the repository
+     * @param key the id of the fileRepository element
+     * @return the content of the fileRepository
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/metadata/{key:.+}")
     public Response getRepositoryMetadata(final @PathParam("key") String key) {
         try {
-            RepositoryMetadata metadata = repository.getMetadata(key);
+            RepositoryMetadata metadata = fileRepository.getMetadata(key);
             return Response.ok(metadata).build();
         } catch (DataException e) {
             LOG.error("Error getting content", e);
@@ -186,6 +188,6 @@ public class FileResource extends AbstractDocumentResource<FileDocument<byte[]>>
      */
     @Override
     protected IRepository<FileDocument<byte[]>> getRepository() {
-        return repository;
+        return fileRepository;
     }
 }
