@@ -117,18 +117,6 @@ public class Launcher {
                             System.exit(1);
                         }
                     });
-                    MenuItem menuItemManagement = new MenuItem("Management");
-                    menuItemManagement.addActionListener(new ActionListener() {
-
-                        @Override
-                        public void actionPerformed(final ActionEvent e) {
-                            try {
-                                Desktop.getDesktop().browse(URI.create(baseurl + "/documents/management"));
-                            } catch (IOException e1) {
-                                JOptionPane.showMessageDialog(null, "Kann Browser mit Anwendung nicht öffnen.");
-                            }
-                        }
-                    });
                     MenuItem menuItemBase = new MenuItem("Knowledgebase");
                     menuItemBase.addActionListener(new ActionListener() {
 
@@ -143,7 +131,6 @@ public class Launcher {
                     });
                     PopupMenu popup = new PopupMenu();
                     popup.add(menuItemBase);
-                    popup.add(menuItemManagement);
                     popup.addSeparator();
                     popup.add(menuItemExit);
 
