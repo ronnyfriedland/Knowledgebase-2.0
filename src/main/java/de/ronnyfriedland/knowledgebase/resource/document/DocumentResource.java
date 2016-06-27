@@ -107,12 +107,13 @@ public class DocumentResource extends AbstractDocumentResource<Document<String>>
     @GET
     @Path("/add")
     @Produces(MediaType.TEXT_HTML)
-    public Response initDocument(final @QueryParam("header") String header, final @QueryParam("message") String message) {
+    public Response initDocument(final @QueryParam("header") String header,
+            final @QueryParam("message") String message, final @QueryParam("tags") String tags) {
         Map<String, Object> attributes = new HashMap<>();
         attributes.put("header", null == header ? "" : header);
         attributes.put("message", null == message ? "" : message);
+        attributes.put("tags", null == tags ? "" : tags);
         attributes.put("encrypted", false);
-        attributes.put("tags", "");
 
         return Response.ok(templateProcessor.getProcessedTemplate("document.ftl", attributes)).build();
     }

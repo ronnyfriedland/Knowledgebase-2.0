@@ -71,7 +71,7 @@ public class DocumentResourceTest {
 
     @Test
     public void testInitDocument() {
-        Response document = subject.initDocument(null, null);
+        Response document = subject.initDocument(null, null, null);
         Assert.assertNotNull(document);
         Assert.assertEquals(200, document.getStatus());
     }

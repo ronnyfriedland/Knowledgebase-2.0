@@ -141,7 +141,7 @@
                     <span class="glyphicon glyphicon-pencil" aria-hidden="true" />
                 </a>
              <#else>
-                <a href="/documents/add?header=${header}">
+                <a href="/documents/add?header=${header}&tags=filesystem">
                     <span class="glyphicon glyphicon-file" aria-hidden="true" />
                 </a>
             </#if>
