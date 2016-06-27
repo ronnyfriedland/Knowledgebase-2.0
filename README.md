@@ -66,14 +66,19 @@ Java based content store to store text-based information in a blog style.
 
 | Context  | Description |
 | ------------- | ------------- |
-| /documents  | list view  |
+| /documents  | list documents  |
 | /documents/add  | add document  |
 | /documents/{id}  | edit document with 'id'  |
 | /documents/xml/import  | import xml view |
 | /documents/xml/export  | export current (filtered) data as xml  |
 | /documents/management  | management view  |
+| /files  | list file  |
 
 ## Changelog:
+
+### v0.1.12
+
+- list files in filesystem
 
 ### v0.1.11
 
