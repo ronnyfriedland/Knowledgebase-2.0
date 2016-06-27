@@ -43,3 +43,8 @@ var search = function (value) {
 var exportxml = function () {
     window.location.href='/documents/xml/export' + window.location.search;
 };
+
+/** Enable tooltips */
+jQuery(document).ready(function(){
+	jQuery('[data-toggle="tooltip"]').tooltip();
+});

@@ -17,7 +17,7 @@
     <script src="/public/jquery.confirm.min.js"></script>
     <script src="/public/bootstrap.min.js"></script>
     <script src="/public/knowledgebase.js"></script>
-
+    
     <script type="text/javascript">
       var removeEntry = function(url){
         jQuery.confirm({
@@ -79,13 +79,18 @@
 
               <#list files as file>
 
-                <div class="col-sm-4">
+                <div class="col-sm-4">  
                     <div class="panel panel-warning">
                       <div class="panel-heading">
                         <div class="small">
-                            <a href="/files/${file.header}">${file.key}</a> 
+                            <#if (file.key?length > 25)>
+                              <a href="/files/${file.header}" data-toggle="tooltip" title="${file.key}">${file.key?substring(0,25)}...</a>
+                            <#else>
+                              <a href="/files/${file.header}">${file.key}</a> 
+                            </#if>
+
                             <span onclick="javascript:removeEntry('/files/${file.header}');" style="cursor:pointer">
-                                &nbsp;&nbsp;<span class="glyphicon glyphicon-remove-sign" aria-hidden="true" />
+                                &nbsp;&nbsp;<span class="glyphicon glyphicon-trash" aria-hidden="true" />
                             </span>
                         </div>
                       </div>
@@ -109,7 +114,7 @@
                                 jQuery("#body_${file?index}").html(text);
                             });
                         });
-                        </script>  
+                        </script>
                     </div>
 
                 </div>
@@ -118,13 +123,26 @@
 
              </div>
 
-            <#if document??>
-                <a href="/documents/${document.key}">${document.header}</a>
-            <#else>
-                <a href="/documents/add?header=${header}">add</a>
+             <#if document??>
+                <div class="alert alert-warning">
+                    <script type="text/javascript">
+                            jQuery(function () { 
+                                jQuery.get('/documents/${document.key}/raw', function (d) {
+                                    jQuery('.alert').html(d);
+                                });
+                            });
+                    </script>
+                </div>
+                <a href="/documents/${document.key}">
+                    <span class="glyphicon glyphicon-pencil" aria-hidden="true" />
+                </a>
+             <#else>
+                <a href="/documents/add?header=${header}">
+                    <span class="glyphicon glyphicon-file" aria-hidden="true" />
+                </a>
             </#if>
 
-            </div>
+           </div>
 
           </#if>
         </div>
