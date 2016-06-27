@@ -36,7 +36,7 @@ public class FileSystemRepository implements IRepository<FileDocument<byte[]>> {
 
     private static final Logger LOG = LoggerFactory.getLogger(FileSystemRepository.class);
 
-    private SimpleDateFormat df = new SimpleDateFormat("MM.dd.yyyy HH:mm:ss");
+    private SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
 
     @Autowired
     private Configuration configuration;
