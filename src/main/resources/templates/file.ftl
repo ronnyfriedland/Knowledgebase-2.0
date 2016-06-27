@@ -127,6 +127,7 @@
 
              <#if document??>
                 <div class="alert alert-warning">
+                  <div class="container">
                     <script type="text/javascript">
                             jQuery(function () { 
                                 jQuery.get('/documents/${document.key}/raw', function (d) {
@@ -134,6 +135,7 @@
                                 });
                             });
                     </script>
+                  </div>
                 </div>
                 <a href="/documents/${document.key}">
                     <span class="glyphicon glyphicon-pencil" aria-hidden="true" />
