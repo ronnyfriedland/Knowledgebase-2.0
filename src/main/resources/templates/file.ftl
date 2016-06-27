@@ -83,8 +83,10 @@
                     <div class="panel panel-warning">
                       <div class="panel-heading">
                         <div class="small">
-                            <#if (file.key?length > 25)>
-                              <a href="/files/${file.header}" data-toggle="tooltip" title="${file.key}">${file.key?substring(0,25)}...</a>
+                            <#if (file.key?length > 35)>
+                              <span data-toggle="tooltip" title="${file.key}">
+                                <a href="/files/${file.header}">${file.key?substring(0,35)}...</a>
+                              </span>
                             <#else>
                               <a href="/files/${file.header}">${file.key}</a> 
                             </#if>

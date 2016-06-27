@@ -108,7 +108,9 @@
                         <div id="header_${message.key}" class="panel-heading">
                           <div class="panel-title" >
                             <#if (message.header?length > 100)>
-                              <a class="header" data-toggle="collapse" href="#body_${message.key}">${message.header?substring(0,50)}...</a>
+                              <span data-toggle="tooltip" title="${message.header}">
+                                <a class="header" data-toggle="collapse" href="#body_${message.key}">${message.header?substring(0,100)}...</a>
+                              </span>
                             <#else>
                               <a class="header" data-toggle="collapse" href="#body_${message.key}">${message.header}</a>
                             </#if>
