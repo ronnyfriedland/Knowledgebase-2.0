@@ -49,7 +49,7 @@ dependencies {
 }
 
 group = 'de.ronnyfriedland'
-version = '0.1.12-SNAPSHOT'
+version = '0.1.13-SNAPSHOT'
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
@@ -91,6 +91,11 @@ task release << {
     from 'build/application/main'
     into 'build/release/conf/ssl'
     include '**/*.jks'
+  }
+  copy {
+    from 'build/application/locale'
+    into 'build/release/conf/locale'
+    include '**/*.properties'
   }
   copy {
     from 'build/scripts/main'
@@ -142,7 +147,7 @@ launch4j {
 }
 
 def buildAliases = [
-   'all' : ['clean', 'processResources', 'processAppResources', 'build', 'release', 'zipRelease'],
+   'all' : ['clean', 'processResources', 'processAppResources', 'build', 'launch4j', 'release', 'zipRelease'],
    'rebuild' : ['clean', 'build']
 ]
 
