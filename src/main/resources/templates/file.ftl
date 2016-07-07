@@ -99,15 +99,9 @@
                       <div class="panel-body" id="body_${file?index}">
                       </div>
                       <script type="text/javascript">
-                        function SortByKey(a, b) {
-                          var aName = a.key.toLowerCase();
-                          var bName = b.key.toLowerCase(); 
-                          return ((aName < bName) ? -1 : ((aName > bName) ? 1 : 0));
-                        }
-                        
                         jQuery(function () { 
                             jQuery.get('/files/metadata/${file.header}', function (d) {
-                                d.metadata.sort(SortByKey);
+                                d.metadata.sort(sortByKeyAttribute);
                                 var text = "<div class='table-responsive'><table class='table table-striped small'>";
                                 jQuery.each(d.metadata, function(idx, obj) {
                                     if(obj.key) {

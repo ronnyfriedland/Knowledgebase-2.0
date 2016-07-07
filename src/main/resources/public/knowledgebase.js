@@ -44,6 +44,13 @@ var exportxml = function () {
     window.location.href='/documents/xml/export' + window.location.search;
 };
 
+/** Sort the given complex values by attribute 'key' */
+var sortByKeyAttribute = function(a, b) {
+    var aName = a.key.toLowerCase();
+    var bName = b.key.toLowerCase(); 
+    return ((aName < bName) ? -1 : ((aName > bName) ? 1 : 0));
+}
+
 /** Enable tooltips */
 jQuery(document).ready(function(){
 	jQuery('[data-toggle="tooltip"]').tooltip();

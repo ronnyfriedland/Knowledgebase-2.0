@@ -35,6 +35,7 @@
          .on('changed.jstree', function (e, data) {
             if(data && data.selected && data.selected.length) {
                 jQuery.get('/documents/management/metadata/' + data.selected.join(':'), function (d) {
+                    d.metadata.sort(sortByKeyAttribute);
                     var text = "<table class='table table-striped'>";
                     jQuery.each(d.metadata, function(idx, obj) {
                         if(obj.key) {
