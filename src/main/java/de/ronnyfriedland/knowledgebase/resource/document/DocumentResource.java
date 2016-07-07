@@ -169,6 +169,7 @@ public class DocumentResource extends AbstractDocumentResource<Document<String>>
      */
     @DELETE
     @Path("/{key}")
+    @RolesAllowed("admin")
     public Response deleteDocument(final @PathParam("key") String key) {
         try {
             repository.removeDocument(key);

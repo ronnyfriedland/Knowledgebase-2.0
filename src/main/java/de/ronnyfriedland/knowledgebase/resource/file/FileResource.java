@@ -104,7 +104,7 @@ public class FileResource extends AbstractDocumentResource<FileDocument<byte[]>>
                 .status(301)
                 .location(
                         UriBuilder.fromPath(String.format("/files/%s", configuration.getFilesRootDirectory())).build())
-                .build();
+                        .build();
     }
 
     /**
@@ -138,6 +138,7 @@ public class FileResource extends AbstractDocumentResource<FileDocument<byte[]>>
      */
     @DELETE
     @Path("/{key:.+}")
+    @RolesAllowed("admin")
     public Response deleteDocument(final @PathParam("key") String key) {
         try {
             fileRepository.removeDocument(key);
