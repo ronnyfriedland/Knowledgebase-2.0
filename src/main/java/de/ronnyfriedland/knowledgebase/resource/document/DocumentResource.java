@@ -140,7 +140,8 @@ public class DocumentResource extends AbstractDocumentResource<Document<String>>
      */
     @POST
     public Response saveDocument(final @FormParam("header") String header, final @FormParam("tags") String tagString,
-            final @FormParam("encrypted") Boolean encrypted, final @FormParam("message") String message) {
+            final @FormParam("encrypted") Boolean encrypted, final @FormParam("message") String message,
+            final @QueryParam("redirect") String redirect) {
         try {
 
             // remove invalid chars
@@ -154,7 +155,7 @@ public class DocumentResource extends AbstractDocumentResource<Document<String>>
             repository.saveDocument(new Document<String>(key, header, message, null == encrypted ? false
                     : encrypted, tags));
             // redirect to overview
-            return Response.status(301).location(URI.create("/")).build();
+            return Response.status(301).location(URI.create(null != redirect ? redirect : "/")).build();
         } catch (DataException e) {
             LOG.error("Error saving content", e);
             throw new WebApplicationException(Response.status(500).entity("Error saving document").build());
