@@ -6,7 +6,7 @@ package de.ronnyfriedland.knowledgebase.util;
  */
 public final class TextUtils {
     public static String replaceInvalidChars(final String value) {
-        return value.replaceAll("[\\W&&[^-]]", "_");
+        return value.replaceAll("[\\W&&[^-]]", "_").toLowerCase();
     }
 
 }
