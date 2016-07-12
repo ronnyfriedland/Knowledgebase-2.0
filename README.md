@@ -22,7 +22,7 @@ Java based content store to store text-based information in a blog style.
 
 * Java 7/8 JRE
 * JCE Unlimited Strength Jurisdiction Policy Files
-  * with current configuration using ssl, otherwise change ciphersuites and/or tls protocol version or disable ssl
+  * with current configuration using Oracle JDK, otherwise change ciphersuites and/or tls protocol version or disable ssl
 
 ## Screenshots
 
@@ -37,11 +37,6 @@ Java based content store to store text-based information in a blog style.
 ### Management view
 
 ![Browse repository](src/main/resources/public/images/management.png)
-
-
-## TODOs:
-
-- unit testing (ongoing)
 
 
 ## Technology:
@@ -72,9 +67,22 @@ Java based content store to store text-based information in a blog style.
 | /documents/xml/import  | import xml view |
 | /documents/xml/export  | export current (filtered) data as xml  |
 | /documents/management  | management view  |
-| /files  | list file  |
+| /files  | list files  |
+| /files/{id}  | list file with 'id' |
 
 ## Changelog:
+
+### v0.9.1
+
+- minor improvements in list views
+- delete operations only permitted to role ADMIN
+- add possibility to redirect to a certain page after saving document - used to redirect to file list view after saving directory document
+
+### v0.9.0
+
+- introduce semantic versioning concept
+- format logfile entries
+- move message properties out of bundled jar to config directory
 
 ### v0.1.12
 
