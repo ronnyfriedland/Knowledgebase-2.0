@@ -13,7 +13,9 @@
     <script src="/public/jquery-1.11.2.min.js"></script>
     <script src="/public/jquery.validate.min.js"></script>
     <script src="/public/bootstrap.min.js"></script>
+    <script src="/public/knowledgebase.js"></script>
     <script src="/public/ckeditor/ckeditor.js"></script>
+    
     <script type="text/javascript">
         jQuery( document ).ready(function() {
             CKEDITOR.replace( 'message', {
@@ -54,6 +56,15 @@
                     header: "&nbsp;<div class='alert alert-danger' role='alert'>${locale("app.error.header.missing")}</div>",
                 }
             });
+            
+            // forward redirect to save resource
+            action = jQuery("#documentForm").attr('action');
+            redirect = getQueryVariable("redirect", "");
+            console.log(action);
+            console.log(redirect);
+            if("" != header.val()) {
+                jQuery("#documentForm").attr('action', action + "?redirect=" + redirect);
+            }
         });
     </script>
   </head>

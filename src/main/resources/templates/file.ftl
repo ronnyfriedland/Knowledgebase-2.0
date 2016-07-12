@@ -138,11 +138,11 @@
                     </script>
                   </div>
                 </div>
-                <a href="/documents/${document.key}">
+                <a href="/documents/${document.key}?redirect=/files/${header}">
                     <span class="glyphicon glyphicon-pencil" aria-hidden="true" />
                 </a>
              <#else>
-                <a href="/documents/add?header=${header}&tags=filesystem">
+                <a href="/documents/add?header=${header}&tags=filesystem&redirect=/files/${header}">
                     <span class="glyphicon glyphicon-file" aria-hidden="true" />
                 </a>
             </#if>
