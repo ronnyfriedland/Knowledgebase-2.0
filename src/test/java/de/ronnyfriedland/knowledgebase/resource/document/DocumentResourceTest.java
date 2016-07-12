@@ -79,7 +79,7 @@ public class DocumentResourceTest {
     @Test
     public void testSaveDocument() {
         for (int i = 0; i < 2; i++) {
-            Response document = subject.saveDocument("valid-id", "tag1,tag2", false, "Hello World");
+            Response document = subject.saveDocument("valid-id", "tag1,tag2", false, "Hello World", null);
             Assert.assertNotNull(document);
             Assert.assertEquals(301, document.getStatus());
         }
