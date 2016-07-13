@@ -139,7 +139,7 @@ launch4j {
   dontWrapJar = 'true'
   mutexName = 'Knowledgebase 2.0'
   initialHeapSize = 32
-  maxHeapSize = 128
+  maxHeapSize = 256
   jreMinVersion = '1.7.0'
   bundledJrePath = '%JAVA_HOME%/jre'
   copyright = 'MIT'
