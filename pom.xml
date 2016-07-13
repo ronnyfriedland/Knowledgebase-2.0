@@ -139,7 +139,7 @@
                                 <minVersion>1.7.0</minVersion>
                                 <opts>
                                     <opt>-Xms32m</opt>
-                                    <opt>-Xmx256m</opt>
+                                    <opt>-Xmx512m</opt>
                                     <opt>-XX:+HeapDumpOnOutOfMemoryError</opt>
                                     <opt>-XX:HeapDumpPath=heapdump.hprof</opt>
                                     <opt>-Djava.util.logging.config.file=conf/logging.properties</opt>
