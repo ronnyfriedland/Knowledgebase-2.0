@@ -19,7 +19,6 @@
             <value>file:conf/locale/messages_en.properties</value>
         </list>
     </property>
-    <property name="basename" value="file:conf/locale/messages" />
     <property name="defaultEncoding" value="UTF-8"/>
     <property name="useCodeAsDefaultMessage" value="true" />
   </bean>
