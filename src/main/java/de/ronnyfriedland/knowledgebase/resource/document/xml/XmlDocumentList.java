@@ -1,4 +1,4 @@
-package de.ronnyfriedland.knowledgebase.resource.xml;
+package de.ronnyfriedland.knowledgebase.resource.document.xml;
 
 import java.util.ArrayList;
 import java.util.Collections;

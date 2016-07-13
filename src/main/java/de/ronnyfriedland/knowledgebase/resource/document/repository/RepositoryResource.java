@@ -1,4 +1,4 @@
-package de.ronnyfriedland.knowledgebase.resource.management;
+package de.ronnyfriedland.knowledgebase.resource.document.repository;
 
 import java.util.HashMap;
 
@@ -28,12 +28,12 @@ import de.ronnyfriedland.knowledgebase.resource.RepositoryMetadata;
 /**
  * @author ronnyfriedland
  */
-@Path("/documents/management")
+@Path("/documents/repository")
 @Component
 @RolesAllowed("admin")
-public class ManagementResource extends AbstractResource {
+public class RepositoryResource extends AbstractResource {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ManagementResource.class);
+    private static final Logger LOG = LoggerFactory.getLogger(RepositoryResource.class);
 
     @Autowired
     @Qualifier("jcr")
@@ -52,8 +52,8 @@ public class ManagementResource extends AbstractResource {
      */
     @GET
     @Produces(MediaType.TEXT_HTML)
-    public Response initManagement() {
-        return Response.ok(templateProcessor.getProcessedTemplate("management.ftl", new HashMap<String, Object>()))
+    public Response initRepository() {
+        return Response.ok(templateProcessor.getProcessedTemplate("repository.ftl", new HashMap<String, Object>()))
                 .build();
     }
 

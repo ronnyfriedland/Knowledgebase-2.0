@@ -14,7 +14,7 @@ public class TextUtilsTest {
      */
     @Test
     public void testReplaceInvalidChars() {
-        String valid = "abcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWQYZ-_";
+        String valid = "abcdefghijklmnopqrstuvwxyz1234567890-_";
         String invalid = "!\"§$%&/()=?`@*':;,.#+<>|äöüß";
 
         String result = TextUtils.replaceInvalidChars(valid);

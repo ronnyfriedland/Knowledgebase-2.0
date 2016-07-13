@@ -1,4 +1,4 @@
-package de.ronnyfriedland.knowledgebase.resource.xml;
+package de.ronnyfriedland.knowledgebase.resource.document.xml;
 
 import java.io.IOException;
 import java.io.StringReader;

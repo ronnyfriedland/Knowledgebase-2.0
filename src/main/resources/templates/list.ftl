@@ -77,7 +77,7 @@
             <li><a href="#" onClick="javascript:exportxml();">${locale("app.menu.documents.export")}</a></li>
             <li><a href="/documents/import">${locale("app.menu.documents.import")}</a></li>
             <li><a href="/documents/add">${locale("app.menu.documents.add")}</a></li>
-            <li><a href="/documents/management">${locale("app.menu.documents.management")}</a></li>
+            <li><a href="/documents/repository">${locale("app.menu.documents.repository")}</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>

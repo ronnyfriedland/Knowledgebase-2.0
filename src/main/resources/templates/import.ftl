@@ -25,7 +25,7 @@
         <ul class="nav navbar-nav">
           <li><a href="/documents">${locale("app.menu.documents")}</a></li>
           <li><a href="/documents/add">${locale("app.menu.documents.add")}</a></li>
-          <li><a href="/documents/management">${locale("app.menu.documents.management")}</a></li>
+          <li><a href="/documents/repository">${locale("app.menu.documents.repository")}</a></li>
         </ul>
       </div><!--/.nav-collapse -->
     </div>

@@ -17,6 +17,7 @@ import org.mockito.MockitoAnnotations;
 
 import de.ronnyfriedland.knowledgebase.entity.Document;
 import de.ronnyfriedland.knowledgebase.repository.IRepository;
+import de.ronnyfriedland.knowledgebase.resource.document.xml.XmlDocumentResource;
 
 public class XmlDocumentResourceTest {
 
