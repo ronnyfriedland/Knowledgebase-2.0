@@ -114,7 +114,7 @@ public class Launcher {
                         @Override
                         public void actionPerformed(final ActionEvent e) {
                             es.shutdown();
-                            System.exit(1);
+                            System.exit(0);
                         }
                     });
                     MenuItem menuItemBase = new MenuItem("Knowledgebase");
