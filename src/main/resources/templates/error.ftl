@@ -19,7 +19,7 @@
   <nav class="navbar navbar-default">
     <div class="container">
       <div class="navbar-header">
-        <p class="navbar-brand">${locale("app.name")}</p>
+        <a class="navbar-brand" href="/">${locale("app.name")}</a>
       </div>
       <div class="navbar-collapse">
         <ul class="nav navbar-nav">
