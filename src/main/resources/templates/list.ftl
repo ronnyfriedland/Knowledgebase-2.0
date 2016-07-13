@@ -104,7 +104,11 @@
                 <div class="row">
                   <div class="col-md-10">
                     <div class="list-group">
-                      <div class="panel panel-success">
+                      <#if (message.encrypted)>
+                        <div class="panel panel-warning">
+                      <#else>
+                        <div class="panel panel-success">
+                      </#if>
                         <div id="header_${message.key}" class="panel-heading">
                           <div class="panel-title" >
                             <#if (message.header?length > 100)>
@@ -123,7 +127,7 @@
                             </#if>
                           </div>
                         </div>
-                        <div id="body_${message.key}" class="panel-collapse collapse in">
+                        <div id="body_${message.key}" class="panel-collapse collapse" aria-expanded="false">
                           <div class="panel-body">
                             <p class="list-group-item-text collapse in">
                               <div class="message">${message.message}</div>
@@ -136,11 +140,6 @@
                           </div>
                         </div>
                       </div>
-                      <#if (message_index > 0) >
-                        <script type="text/javascript">
-                          jQuery(function () { jQuery('#body_${message.key}').collapse('hide')});
-                        </script>  
-                      </#if>
                     </div>
                   </div>
                 </div>
