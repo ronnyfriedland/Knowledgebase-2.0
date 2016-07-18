@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="/public/bootstrap-theme.min.css"/>
     <link rel="stylesheet" href="/public/bootstrap-lightbox.min.css"/>
     <link rel="stylesheet" href="/public/knowledgebase.css"/>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" />
 
     <script src="/public/jquery-1.11.2.min.js"></script>
     <script src="/public/jquery.highlight.min.js"></script>
@@ -104,11 +105,7 @@
                 <div class="row">
                   <div class="col-md-10">
                     <div class="list-group">
-                      <#if (message.encrypted)>
-                        <div class="panel panel-warning">
-                      <#else>
-                        <div class="panel panel-success">
-                      </#if>
+                      <div class="panel panel-success">
                         <div id="header_${message.key}" class="panel-heading">
                           <div class="panel-title" >
                             <#if (message.header?length > 100)>
@@ -117,6 +114,9 @@
                               </span>
                             <#else>
                               <a class="header" data-toggle="collapse" href="#body_${message.key}">${message.header}</a>
+                            </#if>
+                            <#if (message.encrypted)>
+                              <span class="glyphicon glyphicon-lock" aria-hidden="true" />
                             </#if>
                           </div>
                           <div>

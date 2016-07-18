@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="/public/bootstrap.min.css" />
     <link rel="stylesheet" href="/public/bootstrap-theme.min.css"/>
     <link rel="stylesheet" href="/public/knowledgebase.css"/>
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" />
 
     <script src="/public/jquery-1.11.2.min.js"></script>
     <script src="/public/jquery.confirm.min.js"></script>
