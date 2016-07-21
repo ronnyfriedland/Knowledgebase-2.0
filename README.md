@@ -77,6 +77,7 @@ Java based content store to store text-based information in a blog style.
 - minor improvements in list views
 - delete operations only permitted to role ADMIN
 - add possibility to redirect to a certain page after saving document - used to redirect to file list view after saving directory document
+- fix *nix startup script
 
 ### v0.9.0
 
