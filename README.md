@@ -38,6 +38,23 @@ Java based content store to store text-based information in a blog style.
 
 ![Browse repository](src/main/resources/public/images/management.png)
 
+## Installation
+
+### From binaries
+
+You just need to extract the binary zip of the latest release.
+
+### From sources
+
+Checkout the git repository and use Apache Maven > 3.x or Gradle > 2.9 to build from source.
+
+## Startup
+
+On Windows systems there is an executable which starts the Knowledgebase application in the current directory.
+
+If you are using an *nix operating system you can either use the ``knowledgebase.sh`` directly or create a 
+symlink ``ln -s <current_directory>/knowledgebase.sh /etc/init.d/knowledgebase``. 
+If you want to autostart the the application use ``update-rc.d knowledgebase defaults``
 
 ## Technology:
 
