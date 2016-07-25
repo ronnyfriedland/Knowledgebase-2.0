@@ -26,17 +26,21 @@ Java based content store to store text-based information in a blog style.
 
 ## Screenshots
 
-### List all entries
+### List all documents
 
 ![List of entries](src/main/resources/public/images/list.png)
 
-### Add a new entry
+### Add a new document
 
 ![Add new entry](src/main/resources/public/images/add.png)
 
-### Management view
+### Repository view
 
-![Browse repository](src/main/resources/public/images/management.png)
+![Browse repository](src/main/resources/public/images/repository.png)
+
+### List all files
+
+![List of files](src/main/resources/public/images/files.png)
 
 ## Installation
 

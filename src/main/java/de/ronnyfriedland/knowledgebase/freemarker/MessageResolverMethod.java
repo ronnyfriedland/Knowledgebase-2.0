@@ -24,6 +24,11 @@ class MessageResolverMethod implements TemplateMethodModelEx {
     @Autowired
     private Configuration configuration;
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @see freemarker.template.TemplateMethodModelEx#exec(java.util.List)
+     */
     @Override
     public Object exec(final List arguments) throws TemplateModelException {
         if (arguments.size() != 1) {
