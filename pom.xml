@@ -228,8 +228,9 @@
                             <dockerDirectory>src/main/docker</dockerDirectory>
                             <resources>
                                 <resource>
-                                    <directory>${project.build.directory}</directory>
-                                    <include>zip</include>
+                                    <targetPath>/opt</targetPath>
+                                    <directory>${project.build.directory}/zip</directory>
+                                    <include>knowledgebase.zip</include>
                                 </resource>
                             </resources>
                         </configuration>

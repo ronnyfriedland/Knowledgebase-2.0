@@ -6,14 +6,10 @@ RUN apt-get update \
         && apt-get install -y openjdk-7-jre unzip \
         && apt-get clean
 
-RUN mkdir -p /opt/knowledgebase
+ADD opt/knowledgebase.zip /opt
 
-RUN cp -r zip/* /opt/knowledgebase
+RUN unzip /opt/knowledgebase.zip -d /opt/knowledgebase
 
-RUN ln -s /opt/knowledgebase/knowledgebase.sh /etc/init.d/knowledgebase
-
-RUN update-rc.d knowledgebase defaults
-
-RUN service knowledgebase start
+RUN /opt/knowledgebase/knowledgebase.sh start
 
 EXPOSE 15566
