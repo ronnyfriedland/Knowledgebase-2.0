@@ -48,12 +48,12 @@
                 <artifactId>maven-resources-plugin</artifactId>
                 <version>2.6</version>
                 <configuration>
-                  <delimiters>
-                    <!-- enable maven's standard delimiters -->
-                    <delimiter>${*}</delimiter>
-                    <!-- enable your @delimiters@ -->
-                    <delimiter>@</delimiter>
-                  </delimiters>
+                    <delimiters>
+                        <!-- enable maven's standard delimiters -->
+                        <delimiter>${*}</delimiter>
+                        <!-- enable your @delimiters@ -->
+                        <delimiter>@</delimiter>
+                    </delimiters>
                 </configuration>
             </plugin>
             <plugin>
@@ -148,7 +148,8 @@
                             <versionInfo>
                                 <fileVersion>0.0.3.0</fileVersion>
                                 <txtFileVersion>${project.version}</txtFileVersion>
-                                <fileDescription>Knowledgebase 2.0 executable</fileDescription>
+                                <fileDescription>Knowledgebase 2.0
+                                    executable</fileDescription>
                                 <copyright>MIT</copyright>
                                 <productVersion>0.0.3.0</productVersion>
                                 <txtProductVersion>${project.version}</txtProductVersion>
@@ -177,8 +178,65 @@
                     </descriptors>
                     <outputDirectory>target/zip</outputDirectory>
                     <appendAssemblyId>false</appendAssemblyId>
+                    <finalName>knowledgebase</finalName>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>0.4.11</version>
+                <configuration>
+                    <imageName>${project.artifactId}</imageName>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>clean-docker-image</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>removeImage</goal>
+                        </goals>
+                        <configuration>
+                            <imageTags>
+                                <imageTag>${project.version}</imageTag>
+                                <imageTag>latest</imageTag>
+                            </imageTags>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>remove-docker-image</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>removeImage</goal>
+                        </goals>
+                        <configuration>
+                            <imageTags>
+                                <imageTag>${project.version}</imageTag>
+                                <imageTag>latest</imageTag>
+                            </imageTags>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>build-docker-image</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                        <configuration>
+                            <imageTags>
+                                <imageTag>${project.version}</imageTag>
+                            </imageTags>
+                            <dockerDirectory>src/main/docker</dockerDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${project.build.directory}</directory>
+                                    <include>zip</include>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
     </build>
 
@@ -210,9 +268,9 @@
             <version>${spring.version}</version>
         </dependency>
         <dependency>
-          <groupId>org.springframework.security</groupId>
-          <artifactId>spring-security-config</artifactId>
-          <version>${spring.security.version}</version>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>${spring.security.version}</version>
         </dependency>
         <dependency>
             <groupId>javax.jcr</groupId>

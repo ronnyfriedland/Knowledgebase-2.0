@@ -120,6 +120,7 @@ task zipRelease(type: Zip) {
     from 'build/release'
     into('/')
     destinationDir file('build')
+    archiveName 'knowledgebase.zip'
 }
 
 jar {
