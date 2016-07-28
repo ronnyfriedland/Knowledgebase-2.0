@@ -1,9 +1,9 @@
-FROM azul/zulu-openjdk:7
+FROM debian:jessie
 
 MAINTAINER Ronny Friedland &lt;mail@ronnyfriedland.de&gt;
 
 RUN apt-get update \
-        && apt-get install -y unzip \
+        && apt-get install -y openjdk-7-jre unzip \
         && apt-get clean
 
 RUN mkdir -p /opt/knowledgebase
