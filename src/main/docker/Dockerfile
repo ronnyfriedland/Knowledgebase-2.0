@@ -10,6 +10,4 @@ ADD opt/knowledgebase.zip /opt
 
 RUN unzip /opt/knowledgebase.zip -d /opt/knowledgebase
 
-RUN /opt/knowledgebase/knowledgebase.sh start
-
 EXPOSE 15566
