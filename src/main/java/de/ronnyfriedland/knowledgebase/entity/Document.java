@@ -82,7 +82,7 @@ public class Document<T> implements Serializable, Comparable<Document<T>> {
      * @see java.lang.Comparable#compareTo(java.lang.Object)
      */
     @Override
-    public int compareTo(Document<T> o) {
+    public int compareTo(final Document<T> o) {
         return getKey().compareTo(o.getKey());
     }
 

@@ -9,7 +9,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -36,7 +35,7 @@ public class FileSystemRepository implements IRepository<FileDocument<byte[]>> {
 
     private static final Logger LOG = LoggerFactory.getLogger(FileSystemRepository.class);
 
-    private SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+    private final SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
 
     @Autowired
     private Configuration configuration;
@@ -50,7 +49,7 @@ public class FileSystemRepository implements IRepository<FileDocument<byte[]>> {
      * @see de.ronnyfriedland.knowledgebase.repository.IRepository#getDocument(java.lang.String)
      */
     @Override
-    public FileDocument<byte[]> getDocument(String key) throws DataException {
+    public FileDocument<byte[]> getDocument(final String key) throws DataException {
         FileDocument<byte[]> cachedDocument = fileCache.get(key);
         if (null == cachedDocument) {
             if (LOG.isTraceEnabled()) {
@@ -78,7 +77,7 @@ public class FileSystemRepository implements IRepository<FileDocument<byte[]>> {
                                 new FileDocument<byte[]>(child.getName(), child.getAbsolutePath().replaceAll("\\\\",
                                         "/"), null, false));
                     }
-                    Collections.sort(new ArrayList<FileDocument<byte[]>>(result.getChildren()));
+                    Collections.sort(result.getChildren());
                 }
                 if (LOG.isTraceEnabled()) {
                     LOG.trace("Put entry to cache: '{}'.", result);
@@ -103,7 +102,7 @@ public class FileSystemRepository implements IRepository<FileDocument<byte[]>> {
      * @see de.ronnyfriedland.knowledgebase.repository.IRepository#saveDocument(de.ronnyfriedland.knowledgebase.entity.Document)
      */
     @Override
-    public String saveDocument(FileDocument<byte[]> message) throws DataException {
+    public String saveDocument(final FileDocument<byte[]> message) throws DataException {
         try {
             File file = Paths.get(message.getHeader()).toFile();
             if (file.getParentFile().exists()) {
@@ -134,7 +133,7 @@ public class FileSystemRepository implements IRepository<FileDocument<byte[]>> {
      * @see de.ronnyfriedland.knowledgebase.repository.IRepository#searchDocuments(int, int, java.lang.String)
      */
     @Override
-    public Collection<FileDocument<byte[]>> searchDocuments(int offset, int max, String search) throws DataException {
+    public Collection<FileDocument<byte[]>> searchDocuments(final int offset, final int max, final String search) throws DataException {
         throw new IllegalStateException("Not yet implemented!");
     }
 
@@ -144,7 +143,7 @@ public class FileSystemRepository implements IRepository<FileDocument<byte[]>> {
      * @see de.ronnyfriedland.knowledgebase.repository.IRepository#removeDocument(java.lang.String)
      */
     @Override
-    public void removeDocument(String key) throws DataException {
+    public void removeDocument(final String key) throws DataException {
         File file = Paths.get(key).toFile();
         if (file.exists()) {
             file.delete();
@@ -162,7 +161,7 @@ public class FileSystemRepository implements IRepository<FileDocument<byte[]>> {
      * @see de.ronnyfriedland.knowledgebase.repository.IRepository#getMetadata(java.lang.String)
      */
     @Override
-    public RepositoryMetadata getMetadata(String id) throws DataException {
+    public RepositoryMetadata getMetadata(final String id) throws DataException {
         RepositoryMetadata result = new RepositoryMetadata();
         try {
             Path root = Paths.get(id);

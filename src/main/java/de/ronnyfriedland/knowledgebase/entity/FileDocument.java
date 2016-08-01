@@ -1,7 +1,7 @@
 package de.ronnyfriedland.knowledgebase.entity;
 
-import java.util.Collection;
-import java.util.LinkedHashSet;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FileDocument<T> extends Document<T> {
 
@@ -9,7 +9,7 @@ public class FileDocument<T> extends Document<T> {
     private static final long serialVersionUID = -4637079531110457673L;
 
     private FileDocument<T> parent;
-    private Collection<FileDocument<T>> children = new LinkedHashSet<>();
+    private final List<FileDocument<T>> children = new ArrayList<>();
 
     /**
      * Creates a new {@link FileDocument} instance.
@@ -24,7 +24,7 @@ public class FileDocument<T> extends Document<T> {
         super(key, header, message, encrypted, tags);
     }
 
-    public void setParent(FileDocument<T> parent) {
+    public void setParent(final FileDocument<T> parent) {
         this.parent = parent;
     }
 
@@ -32,7 +32,7 @@ public class FileDocument<T> extends Document<T> {
         return parent;
     }
 
-    public Collection<FileDocument<T>> getChildren() {
+    public List<FileDocument<T>> getChildren() {
         return children;
     }
 
