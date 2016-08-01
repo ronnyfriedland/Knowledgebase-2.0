@@ -52,6 +52,9 @@ You just need to extract the binary zip of the latest release.
 
 Checkout the git repository and use Apache Maven > 3.x or Gradle > 2.9 to build from source.
 
+When building from source there is the possibility to create a Docker container running the Knowledgebase 2.0 application.
+You can easily create it using Maven goal ``mvn clean package -Pdocker`` and start the container typing ``docker run -itd knowledgebase``
+
 ## Startup
 
 On Windows systems there is an executable which starts the Knowledgebase application in the current directory.
@@ -77,6 +80,7 @@ If you want to autostart the the application use ``update-rc.d knowledgebase def
 - Launch4j
 - CKEditor 4
 - BouncyCastle
+- Docker
 
 ## API:
 
@@ -99,6 +103,7 @@ If you want to autostart the the application use ``update-rc.d knowledgebase def
 - delete operations only permitted to role ADMIN
 - add possibility to redirect to a certain page after saving document - used to redirect to file list view after saving directory document
 - fix *nix startup script
+- provide Docker container (profile/task 'docker')
 
 ### v0.9.0
 
