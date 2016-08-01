@@ -1,7 +1,5 @@
 plugins {
   id 'edu.sc.seis.launch4j' version '1.6.1'
-  id 'com.bmuschko' version '3.0.1'
-  
 }
 
 repositories {
@@ -147,22 +145,6 @@ launch4j {
   bundledJrePath = '%JAVA_HOME%/jre'
   copyright = 'MIT'
   opt = '-XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=heapdump.hprof -Djava.util.logging.config.file=conf/logging.properties'
-}
-
-docker {
-    url = 'http://localhost:2376'
-}
-
-task createDockerfile(type: Dockerfile) {
-    destFile = project.file('build/mydockerfile/Dockerfile')
-    from 'ubuntu:12.04'
-    maintainer 'Benjamin Muschko "benjamin.muschko@gmail.com"'
-}
-
-task buildImage(type: DockerBuildImage) {
-    dependsOn createDockerfile
-    inputDir = createDockerfile.destFile.parentFile
-    tag = 'bmuschko/myimage'
 }
 
 def buildAliases = [
