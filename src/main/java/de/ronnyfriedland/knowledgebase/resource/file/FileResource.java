@@ -75,6 +75,7 @@ public class FileResource extends AbstractDocumentResource<FileDocument<byte[]>>
             attributes.put("header", document.getHeader());
             attributes.put("files", document.getChildren());
             attributes.put("parent", document.getParent());
+            attributes.put("root", configuration.getFilesRootDirectory());
 
             Document<String> refDoc = documentRepository.getDocument(TextUtils.replaceInvalidChars(key));
             if (null != refDoc) {

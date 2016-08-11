@@ -8,6 +8,7 @@ public class FileDocument<T> extends Document<T> {
     /** the serialVersion uid */
     private static final long serialVersionUID = -4637079531110457673L;
 
+    private FileDocument<T> root;
     private FileDocument<T> parent;
     private final List<FileDocument<T>> children = new ArrayList<>();
 
@@ -22,6 +23,14 @@ public class FileDocument<T> extends Document<T> {
     public FileDocument(final String key, final String header, final T message, final boolean encrypted,
             final String... tags) {
         super(key, header, message, encrypted, tags);
+    }
+
+    public void setRoot(final FileDocument<T> root) {
+        this.root = root;
+    }
+
+    public FileDocument<T> getRoot() {
+        return root;
     }
 
     public void setParent(final FileDocument<T> parent) {

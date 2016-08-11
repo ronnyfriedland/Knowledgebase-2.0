@@ -58,19 +58,22 @@
       </div>
     </nav>
 
-
-    <div class="container">
-        <#if parent??>
-          <a class="label label-default" href="/files/${parent.key}">${parent.key}</a>
-        </#if>
-    </div>
-    
-    <br/>
-
     <div class="container">
 
       <div class="panel panel-default">
-        <div class="panel-heading">${locale("app.header.files.list")} ${header}</div>
+        <div class="panel-heading">${locale("app.header.files.list")}
+            <#assign path = "">
+            <#list header?split("/") as x>
+                <#assign path = "${path}/${x}">
+                <#if path?length < root?length>
+                    ${x}
+                <#else>
+                    <a class="label label-default" href="/files${path}">${x}</a>
+                </#if>
+                /
+            </#list>
+
+        </div>
         <div class="panel-body">
           <#if (files?size > 0) >
             <div class="container-fluid scroll">
