@@ -17,6 +17,7 @@ Java based content store to store text-based information in a blog style.
 * management view to browse the whole repository
 * (symmetric) encryption support
 * supports Maven and Gradle builds
+* Provides Docker container
 
 ## Requirements
 
@@ -53,7 +54,7 @@ You just need to extract the binary zip of the latest release.
 Checkout the git repository and use Apache Maven > 3.x or Gradle > 2.9 to build from source.
 
 When building from source there is the possibility to create a Docker container running the Knowledgebase 2.0 application.
-You can easily create it using Maven goal ``mvn clean package -Pdocker`` and start the container typing ``docker run -itd knowledgebase``
+You can easily create it using Maven goal ``mvn clean package -Pdocker`` and start the container typing ``docker run -t knowledgebase``
 
 ## Startup
 
@@ -103,7 +104,7 @@ If you want to autostart the the application use ``update-rc.d knowledgebase def
 - delete operations only permitted to role ADMIN
 - add possibility to redirect to a certain page after saving document - used to redirect to file list view after saving directory document
 - fix *nix startup script
-- provide Docker container (profile/task 'docker')
+- provide Docker container in Maven build (profile 'docker')
 
 ### v0.9.0
 
