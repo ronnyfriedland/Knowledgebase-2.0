@@ -15,6 +15,6 @@ RUN ln -s /opt/knowledgebase/knowledgebase.sh /etc/init.d/knowledgebase
 RUN update-rc.d knowledgebase defaults
 
 # Run service
-CMD service knowledgebase start
+CMD service knowledgebase start && read _
 
 EXPOSE 15566
