@@ -70,7 +70,6 @@
                 <#else>
                     <a class="label label-default" href="/files${path}">${x}</a>
                 </#if>
-                /
             </#list>
 
         </div>
