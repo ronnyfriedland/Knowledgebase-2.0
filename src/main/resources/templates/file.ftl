@@ -64,6 +64,7 @@
         <div class="panel-heading">${locale("app.header.files.list")}
             <#assign path = "">
             <#list header?split("/") as x>
+                /
                 <#assign path = "${path}/${x}">
                 <#if path?length < root?length>
                     ${x}

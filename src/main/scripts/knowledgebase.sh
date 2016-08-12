@@ -8,7 +8,7 @@
 # Description:       Starts/Stops the knowledgebase web application
 ### END INIT INFO
 
-SCRIPT="java -Xms32m -Xmx512m -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=heapdump.hprof -Djava.util.logging.config.file=conf/logging.properties -jar knowledgebase-0.9.1-SNAPSHOT.jar 2>&1"
+SCRIPT="java -Xms32m -Xmx512m -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=heapdump.hprof -Djava.util.logging.config.file=conf/logging.properties -jar knowledgebase-${project.version}.jar 2>&1"
 PIDFILE=knowledgebase.pid
 
 cd $(dirname $(readlink -f $0))
