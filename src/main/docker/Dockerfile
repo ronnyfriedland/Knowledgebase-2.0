@@ -1,5 +1,8 @@
 FROM debian:jessie
 
+ENV http_proxy http://192.168.221.110:8080/
+ENV https_proxy https://192.168.221.110:8080/
+
 MAINTAINER Ronny Friedland &lt;mail@ronnyfriedland.de&gt;
 
 RUN apt-get update \
