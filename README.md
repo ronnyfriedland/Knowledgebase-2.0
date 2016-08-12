@@ -98,6 +98,11 @@ If you want to autostart the the application use ``update-rc.d knowledgebase def
 
 ## Changelog:
 
+### v0.9.2
+
+- fixes wrong version in *nix startup script
+- minor fix in file view
+
 ### v0.9.1
 
 - minor improvements in list views
