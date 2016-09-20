@@ -98,6 +98,10 @@ If you want to autostart the the application use ``update-rc.d knowledgebase def
 
 ## Changelog:
 
+### v0.9.3
+
+- add validation: max length of header is 1000 characters now
+
 ### v0.9.2
 
 - fixes wrong version in *nix startup script
