@@ -8,5 +8,7 @@ jackrabbit/
 /test-output/
 build
 /target/
-/target/
-/target/
+.gradle
+.build
+*.iml
+.idea
