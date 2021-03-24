@@ -1,12 +1,9 @@
-FROM debian:jessie
-
-ENV http_proxy http://192.168.221.110:8080/
-ENV https_proxy https://192.168.221.110:8080/
+FROM debian:buster
 
 MAINTAINER Ronny Friedland &lt;mail@ronnyfriedland.de&gt;
 
 RUN apt-get update \
-        && apt-get install -y openjdk-7-jre unzip \
+        && apt-get install -y openjdk-11-jre unzip \
         && apt-get clean
 
 # Unzip application
