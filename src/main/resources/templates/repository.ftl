@@ -8,15 +8,14 @@
     <title>Knowledgebase 2.0</title>
     <link rel="icon" href="/public/images/icon.gif" type="image/gif" />
 
-    <link rel="stylesheet" href="/public/bootstrap.min.css" />
-    <link rel="stylesheet" href="/public/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="/public/META-INF/resources/webjars/bootstrap/4.6.0/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/public/META-INF/resources/webjars/jstree/3.3.8/dist/themes/default/style.min.css" />
     <link rel="stylesheet" href="/public/knowledgebase.css"/>
-    <link rel="stylesheet" href="/public/jstree/themes/default/style.min.css" />
 
-    <script src="/public/jquery-1.11.2.min.js"></script>
-    <script src="/public/bootstrap.min.js"></script>
+    <script src="/public/META-INF/resources/webjars/jquery/3.6.0/dist/jquery.min.js"></script>
+    <script src="/public/META-INF/resources/webjars/bootstrap/4.6.0/dist/js/bootstrap.min.js"></script>
+    <script src="/public/META-INF/resources/webjars/jstree/3.3.8/dist/jstree.min.js"></script>
     <script src="/public/knowledgebase.js"></script>
-    <script src="/public/jstree/jstree.min.js"></script>
 
     <script type="text/javascript">
       jQuery( document ).ready(function() {
@@ -57,16 +56,12 @@
   </head>
   <body role="document">
 
-    <nav class="navbar navbar-default">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container">
-        <div class="navbar-header">
-          <div class="navbar-header">
-            <a class="navbar-brand" href="/documents/repository">${locale("app.name.repository")}</a>
-          </div>
-        </div>
-        <div class="navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li><a href="/documents">${locale("app.menu.documents")}</a></li>
+        <a class="navbar-brand" href="/">${locale("app.name")}</a>
+        <div class="collapse navbar-collapse">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item"><a class="nav-link" href="/documents">${locale("app.menu.documents")}</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -74,24 +69,23 @@
 
     <div class="container">
 
-      <div class="col-sm-4">
-        <div class="panel panel-default overflow_auto">
-          <div class="panel-body">
-            <div id="metadata"></div>
-          </div>
-        </div>
-      </div>
+      <div class="card">
+        <div class="card-body">
+            <div class="card-text">
+                <div id="metadata"></div>
+             </div>
+         </div>
+       </div>
 
-      <div class="col-sm-8">
-        <div class="panel panel-default overflow_auto">
-          <div class="panel-heading">
-            Metadaten
-          </div>
-          <div class="panel-body">
-            <div id="metadatadetails"></div>
-          </div>
-        </div>
-      </div>
+
+      <div class="card">
+        <div class="card-body">
+            <div class="card-header bg-light">Metadaten</div>
+            <div class="card-text">
+                <div id="metadatadetails"></div>
+             </div>
+         </div>
+       </div>
 
     </div>
 

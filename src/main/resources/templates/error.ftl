@@ -9,34 +9,34 @@
     <title>Knowledgebase 2.0</title>
     <link rel="icon" href="/public/images/icon.gif" type="image/gif" />
 
-    <link rel="stylesheet" href="/public/bootstrap.min.css">
-    <link rel="stylesheet" href="/public/bootstrap-theme.min.css">
-    <script src="/public/jquery-1.11.2.min.js"></script>
-    <script src="/public/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/public/META-INF/resources/webjars/bootstrap/4.6.0/dist/css/bootstrap.min.css" />
+    <script src="/public/META-INF/resources/webjars/jquery/3.6.0/dist/jquery.min.js"></script>
+    <script src="/public/META-INF/resources/webjars/bootstrap/4.6.0/dist/js/bootstrap.min.js"></script>
 </head>
 
 <body role="document">
-  <nav class="navbar navbar-default">
-    <div class="container">
-      <div class="navbar-header">
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container">
         <a class="navbar-brand" href="/">${locale("app.name")}</a>
+        <div class="collapse navbar-collapse">
+          <ul class="navbar-nav mr-auto">
+          </ul>
+        </div><!--/.nav-collapse -->
       </div>
-      <div class="navbar-collapse">
-        <ul class="nav navbar-nav">
-        </ul>
-      </div><!--/.nav-collapse -->
-    </div>
-  </nav>
+    </nav>
 
   <div class="container" role="main">
   
-    <div class="panel panel-danger">
-      <div class="panel-heading">${status}</div>
-      <div class="panel-body">
+    <div class="card">
+     <div class="card-body">
+      <div class="card-header bg-light">${status}</div>
+      <div class="card-text">
 
       ${error}
 
       </div>
+     </div>
     </div>
   </div>
   <div class="container">

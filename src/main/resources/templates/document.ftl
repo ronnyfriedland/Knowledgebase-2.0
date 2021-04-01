@@ -8,14 +8,14 @@
     <title>Knowledgebase 2.0</title>
     <link rel="icon" href="/public/images/icon.gif" type="image/gif" />
 
-    <link rel="stylesheet" href="/public/bootstrap.min.css"/>
-    <link rel="stylesheet" href="/public/bootstrap-theme.min.css"/>
-    <script src="/public/jquery-1.11.2.min.js"></script>
-    <script src="/public/jquery.validate.min.js"></script>
-    <script src="/public/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/public/META-INF/resources/webjars/bootstrap/4.6.0/dist/css/bootstrap.min.css" />
+
+    <script src="/public/META-INF/resources/webjars/ckeditor4/4.16.0/ckeditor.js"></script>
+    <script src="/public/META-INF/resources/webjars/jquery/3.6.0/dist/jquery.min.js"></script>
+    <script src="/public/META-INF/resources/webjars/jquery-validation/1.19.3/dist/jquery.validate.min.js"></script>
+    <script src="/public/META-INF/resources/webjars/bootstrap/4.6.0/dist/js/bootstrap.min.js"></script>
     <script src="/public/knowledgebase.js"></script>
-    <script src="/public/ckeditor/ckeditor.js"></script>
-    
+
     <script type="text/javascript">
         jQuery( document ).ready(function() {
             CKEDITOR.replace( 'message', {
@@ -27,7 +27,7 @@
                 var dialogDefinition = ev.data.definition;
                 var dialog = dialogDefinition.dialog;
                 var editor = ev.editor;
-            
+
                 if (dialogName == 'image') {
                     dialogDefinition.onOk = function (e) {
                         var imageSrcUrl = e.sender.originalElement.$.src;
@@ -72,30 +72,30 @@
 
   <body role="document">
 
-    <nav class="navbar navbar-default">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container">
-        <div class="navbar-header">
-          <a class="navbar-brand" href="/">${locale("app.name")}</a>
-        </div>
-        <div class="navbar-collapse">
-          <ul class="nav navbar-nav">
-          <li><a href="/documents">${locale("app.menu.documents")}</a></li>
+        <a class="navbar-brand" href="/">${locale("app.name")}</a>
+        <div class="collapse navbar-collapse">
+          <ul class="navbar-nav mr-auto">
+          <li class="nav-item"><a class="nav-link" href="/documents">${locale("app.menu.documents")}</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
     </nav>
 
     <div class="container">
-      <div class="panel panel-default">
-        <div class="panel-heading">${locale("app.header.documents.add")}</div>
-          <div class="panel-body">
-            <form role="form" id="documentForm" action="/documents" method="post">
-              <div class="form-group"><label for="header">${locale("app.label.header")}</label><br/><input class="form-control" type="text" name="header" id="header" value="${header}"/></div>
-              <div class="form-group"><label for="message">${locale("app.label.content")}</label><br/><textarea id="message" name="message">${message}</textarea></div>
-              <div class="form-group"><label for="tags">${locale("app.label.tags")}</label><br/><input class="form-control" type="text" name="tags" id="tags" value="${tags}"/></div>
-              <div class="form-group"><label for="encrypted"><input type="checkbox" name="encrypted" id="encrypted" value="true" <#if (encrypted)>checked</#if> />&nbsp;${locale("app.label.encrypt")}</label></div>
-              <input class="btn btn-default" type="submit" value="${locale("app.link.save")}" />
-            </form>
+      <div class="card">
+        <div class="card-body">
+          <div class="card-header bg-light">${locale("app.header.documents.add")}</div>
+            <div class="card-footer">
+              <form role="form" id="documentForm" action="/documents" method="post">
+                <div class="form-group"><label for="header">${locale("app.label.header")}</label><br/><input class="form-control" type="text" name="header" id="header" value="${header}"/></div>
+                <div class="form-group"><label for="message">${locale("app.label.content")}</label><br/><textarea id="message" name="message">${message}</textarea></div>
+                <div class="form-group"><label for="tags">${locale("app.label.tags")}</label><br/><input class="form-control" type="text" name="tags" id="tags" value="${tags}"/></div>
+                <div class="form-group"><label for="encrypted"><input type="checkbox" name="encrypted" id="encrypted" value="true" <#if (encrypted)>checked</#if> />&nbsp;${locale("app.label.encrypt")}</label></div>
+                <input class="btn btn-primary" type="submit" value="${locale("app.link.save")}" />
+              </form>
+            </div>
           </div>
         </div>
       </div>

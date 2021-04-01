@@ -8,60 +8,58 @@
     <title>Knowledgebase 2.0</title>
     <link rel="icon" href="/public/images/icon.gif" type="image/gif" />
 
-    <link rel="stylesheet" href="/public/bootstrap.min.css" />
-    <link rel="stylesheet" href="/public/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="/public/META-INF/resources/webjars/bootstrap/4.6.0/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/public/META-INF/resources/webjars/jquery-confirm/3.3.4/dist/jquery-confirm.min.css" />
+    <link rel="stylesheet" href="/public/META-INF/resources/webjars/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link rel="stylesheet" href="/public/knowledgebase.css"/>
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" />
 
-    <script src="/public/jquery-1.11.2.min.js"></script>
-    <script src="/public/jquery.confirm.min.js"></script>
-    <script src="/public/bootstrap.min.js"></script>
+    <script src="/public/META-INF/resources/webjars/jquery/3.6.0/dist/jquery.min.js"></script>
+    <script src="/public/META-INF/resources/webjars/bootstrap/4.6.0/dist/js/bootstrap.min.js"></script>
+    <script src="/public/META-INF/resources/webjars/jquery-confirm/3.3.4/dist/jquery-confirm.min.js"></script>
     <script src="/public/knowledgebase.js"></script>
     
     <script type="text/javascript">
       var removeEntry = function(url){
         jQuery.confirm({
-          text: "${locale("app.label.delete.confirm.text")}",
+          content: "${locale("app.label.delete.confirm.text")}",
           title: "${locale("app.label.delete.confirm.title")}",
-          confirm: function(button) {
-            jQuery.ajax({
-              url: url,
-              type: 'DELETE',
-              async:false
-            });
-            window.location.reload();
-          },
-          confirmButton: "${locale("app.label.yes")}",
-          cancelButton: "${locale("app.label.no")}",
-          post: true,
-          confirmButtonClass: "btn-danger",
-          cancelButtonClass: "btn-default",
-          dialogClass: "modal-dialog modal-lg"
+          buttons: {
+                confirm: {
+                    text: "${locale("app.label.yes")}",
+                    action: function () {
+                        jQuery.ajax({
+                          url: url,
+                          type: 'DELETE',
+                          async:false
+                        });
+                        window.location.reload();
+                    }
+                },
+                cancel: {
+                    text: "${locale("app.label.no")}"
+                }
+          }
         });
       };
     </script>
   </head>
   <body role="document">
 
-    <nav class="navbar navbar-default">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container">
-        <div class="navbar-header">
-          <div class="navbar-header">
-            <a class="navbar-brand" href="/files">${locale("app.name")}</a>
-          </div>
-        </div>
-        <div class="navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li><a href="/documents">${locale("app.menu.documents")}</a></li>
+        <a class="navbar-brand" href="/">${locale("app.name")}</a>
+        <div class="collapse navbar-collapse">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item"><a class="nav-link" href="/documents">${locale("app.menu.documents")}</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
     </nav>
 
     <div class="container">
-
-      <div class="panel panel-default">
-        <div class="panel-heading">${locale("app.header.files.list")}
+     <div class="card">
+      <div class="card-body">
+        <div class="card-header bg-light">${locale("app.header.files.list")}
             <#assign path = "">
             <#list header?split("/") as x>
                 /
@@ -74,7 +72,7 @@
             </#list>
 
         </div>
-        <div class="panel-body">
+        <div class="card-text">
           <#if (files?size > 0) >
             <div class="container-fluid scroll">
             
@@ -83,8 +81,9 @@
               <#list files as file>
 
                 <div class="col-sm-4">  
-                    <div class="panel panel-warning">
-                      <div class="panel-heading">
+                    <div class="card">
+                     <div class="card-body">
+                      <div class="card-title">
                         <div class="small">
                             <#if (file.key?length > 35)>
                               <span data-toggle="tooltip" title="${file.key}">
@@ -95,11 +94,11 @@
                             </#if>
 
                             <span onclick="javascript:removeEntry('/files/${file.header}');" style="cursor:pointer">
-                                &nbsp;&nbsp;<span class="glyphicon glyphicon-trash" aria-hidden="true" />
+                                &nbsp;&nbsp;<span class="fa fa-trash" aria-hidden="true" />
                             </span>
                         </div>
                       </div>
-                      <div class="panel-body" id="body_${file?index}">
+                      <div class="card-text" id="body_${file?index}">
                       </div>
                       <script type="text/javascript">
                         jQuery(function () { 
@@ -121,6 +120,7 @@
                             });
                         });
                         </script>
+                      </div>
                     </div>
 
                 </div>
@@ -128,6 +128,8 @@
               </#list>
 
              </div>
+
+             <br/>
 
              <#if document??>
                 <div class="alert alert-warning">
@@ -142,11 +144,11 @@
                   </div>
                 </div>
                 <a href="/documents/${document.key}?redirect=/files/${header}">
-                    <span class="glyphicon glyphicon-pencil" aria-hidden="true" />
+                    <span class="fa fa-edit" aria-hidden="true" />
                 </a>
              <#else>
                 <a href="/documents/add?header=${header}&tags=filesystem&redirect=/files/${header}">
-                    <span class="glyphicon glyphicon-file" aria-hidden="true" />
+                    <span class="fa fa-file" aria-hidden="true" />
                 </a>
             </#if>
 
@@ -154,7 +156,7 @@
 
           </#if>
         </div>
-
+       </div>
     </div>
 
     <div class="container">
