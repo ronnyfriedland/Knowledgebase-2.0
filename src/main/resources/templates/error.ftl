@@ -40,7 +40,7 @@
     </div>
   </div>
   <div class="container">
-    <footer>
+    <footer class="pt-4">
       <p>Version: @project.version@</p>
     </footer>
   </div>

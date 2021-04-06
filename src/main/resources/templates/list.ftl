@@ -131,13 +131,11 @@
                                   <input class="btn btn-primary confirm" type="button" value="${locale("app.link.delete")}" onclick="javascript:removeEntry('/documents/${message.key}');" />
                                 </form>
                               </div>
-                              <div class="card-text">
                                 <#if (message.tags?size > 0) >
                                   <#list message.tags as tag>
                                     <a class="badge badge-primary" href="#" onClick="javascript:filter('${tag}');"><span class="label label-default">${tag}</span></a>&nbsp;
                                   </#list>
                                 </#if>
-                              </div>
                             </div>
                           </div>
                         </div>
@@ -159,7 +157,7 @@
     </div>
 
     <div class="container">
-      <footer>
+      <footer class="pt-4">
         <p>Version: @project.version@</p>
       </footer>
     </div>

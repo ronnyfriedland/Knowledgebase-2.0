@@ -68,29 +68,30 @@
     </nav>
 
     <div class="container">
+      <div class="row">
 
-      <div class="card">
-        <div class="card-body">
-            <div class="card-text">
+        <div class="card col-sm">
+          <div class="card-body">
+             <div class="card-text">
                 <div id="metadata"></div>
              </div>
+           </div>
          </div>
-       </div>
 
-
-      <div class="card">
-        <div class="card-body">
+        <div class="card col-sm">
+          <div class="card-body">
             <div class="card-header bg-light">Metadaten</div>
             <div class="card-text">
                 <div id="metadatadetails"></div>
              </div>
+           </div>
          </div>
-       </div>
 
+      </div>
     </div>
 
     <div class="container">
-      <footer>
+      <footer class="pt-4">
         <p>Version: @project.version@</p>
       </footer>
     </div>
