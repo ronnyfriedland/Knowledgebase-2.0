@@ -16,12 +16,12 @@ Java based content store to store text-based information in a blog style.
 * language support with message properties
 * management view to browse the whole repository
 * (symmetric) encryption support
-* supports Maven and Gradle builds
+* supports Maven builds
 * Provides Docker container
 
 ## Requirements
 
-* Java 7/8 JRE
+* Java 11 Runtime
 * JCE Unlimited Strength Jurisdiction Policy Files
   * with current configuration using Oracle JDK, otherwise change ciphersuites and/or tls protocol version or disable ssl
 
@@ -66,20 +66,20 @@ If you want to autostart the the application use ``update-rc.d knowledgebase def
 
 ## Technology:
 
-- Java SE 7
-- Spring 4
-- Apache Jackrabbit 2.10
+- Java SE 11
+- Spring 5
+- Apache Jackrabbit
 - H2 Database
 - Lucene Search
-- Apache JCS 1.3
+- Apache JCS 
 - JAX-RS
 - Grizzly Http Server
-- Freemarker 2.3
+- Freemarker Template
 - jQuery JS
 - JSTree
 - Bootstrap CSS/JS
 - Launch4j
-- CKEditor 4
+- CKEditor
 - BouncyCastle
 - Docker
 
