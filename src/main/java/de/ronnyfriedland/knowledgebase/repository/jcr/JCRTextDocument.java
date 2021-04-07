@@ -119,7 +119,7 @@ public class JCRTextDocument {
                 this.message = message;
             }
         } catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException | NoSuchProviderException
-                | InvalidAlgorithmParameterException | IllegalBlockSizeException | BadPaddingException e) {
+                | IllegalBlockSizeException | BadPaddingException e) {
             throw new DataException("Error encrypting message", e);
         }
     }
@@ -230,7 +230,7 @@ public class JCRTextDocument {
             throw new DataException("Error decrypting message", e);
         }
 
-        return new Document<String>(path, getHeader(), message, isEncrypted(), tags);
+        return new Document<>(path, getHeader(), message, isEncrypted(), tags);
     }
 
     public void update(Document<String> update) throws DataException {
@@ -242,7 +242,7 @@ public class JCRTextDocument {
                 setMessage(update.getMessage());
             }
         } catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException | IllegalBlockSizeException
-                | BadPaddingException | NoSuchProviderException | InvalidAlgorithmParameterException e) {
+                | BadPaddingException | NoSuchProviderException e) {
             throw new DataException("Error encrypting message", e);
         }
         setEncrypted(update.isEncrypted());

@@ -15,7 +15,6 @@ import freemarker.template.TemplateModelException;
  * @author ronnyfriedland
  */
 @Component
-@SuppressWarnings("rawtypes")
 class MessageResolverMethod implements TemplateMethodModelEx {
 
     @Autowired
@@ -26,8 +25,6 @@ class MessageResolverMethod implements TemplateMethodModelEx {
 
     /**
      * {@inheritDoc}
-     * 
-     * @see freemarker.template.TemplateMethodModelEx#exec(java.util.List)
      */
     @Override
     public Object exec(final List arguments) throws TemplateModelException {

@@ -4,6 +4,11 @@ import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Value;
 
+/**
+ * The application configuration
+ *
+ * @author ronnyfriedland
+ */
 @org.springframework.context.annotation.Configuration
 public class Configuration {
     @Value("${server.interface}")

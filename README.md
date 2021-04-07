@@ -98,6 +98,12 @@ If you want to autostart the the application use ``update-rc.d knowledgebase def
 
 ## Changelog:
 
+### v1.0.0
+
+- dependency updates
+- migrate to Bootstrap 4
+- use webjars - where possible
+
 ### v0.9.3
 
 - add validation: max length of header is 1000 characters now

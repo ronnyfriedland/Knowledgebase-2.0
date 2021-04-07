@@ -1,6 +1,7 @@
 package de.ronnyfriedland.knowledgebase.entity;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 
@@ -68,8 +69,6 @@ public class Document<T> implements Serializable, Comparable<Document<T>> {
 
     /**
      * {@inheritDoc}
-     *
-     * @see java.lang.Object#toString()
      */
     @Override
     public String toString() {
@@ -78,12 +77,40 @@ public class Document<T> implements Serializable, Comparable<Document<T>> {
 
     /**
      * {@inheritDoc}
-     *
-     * @see java.lang.Comparable#compareTo(java.lang.Object)
      */
     @Override
     public int compareTo(final Document<T> o) {
         return getKey().compareTo(o.getKey());
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Document<?> document = (Document<?>) o;
+
+        if (encrypted != document.encrypted) return false;
+        if (key != null ? !key.equals(document.key) : document.key != null) return false;
+        if (header != null ? !header.equals(document.header) : document.header != null) return false;
+        if (message != null ? !message.equals(document.message) : document.message != null) return false;
+        // Probably incorrect - comparing Object[] arrays with Arrays.equals
+        return Arrays.equals(tags, document.tags);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode() {
+        int result = key != null ? key.hashCode() : 0;
+        result = 31 * result + (header != null ? header.hashCode() : 0);
+        result = 31 * result + (message != null ? message.hashCode() : 0);
+        result = 31 * result + Arrays.hashCode(tags);
+        result = 31 * result + (encrypted ? 1 : 0);
+        return result;
+    }
 }

@@ -41,8 +41,6 @@ public class SecurityFilter implements ContainerRequestFilter {
             private final Principal principal = new Principal() {
                 /**
                  * {@inheritDoc}
-                 *
-                 * @see java.security.Principal#getName()
                  */
                 @Override
                 public String getName() {
@@ -52,8 +50,6 @@ public class SecurityFilter implements ContainerRequestFilter {
 
             /**
              * {@inheritDoc}
-             *
-             * @see javax.ws.rs.core.SecurityContext#getUserPrincipal()
              */
             @Override
             public Principal getUserPrincipal() {
@@ -62,8 +58,6 @@ public class SecurityFilter implements ContainerRequestFilter {
 
             /**
              * {@inheritDoc}
-             *
-             * @see javax.ws.rs.core.SecurityContext#isUserInRole(java.lang.String)
              */
             @Override
             public boolean isUserInRole(final String role) {
@@ -72,8 +66,6 @@ public class SecurityFilter implements ContainerRequestFilter {
 
             /**
              * {@inheritDoc}
-             *
-             * @see javax.ws.rs.core.SecurityContext#isSecure()
              */
             @Override
             public boolean isSecure() {
@@ -82,8 +74,6 @@ public class SecurityFilter implements ContainerRequestFilter {
 
             /**
              * {@inheritDoc}
-             *
-             * @see javax.ws.rs.core.SecurityContext#getAuthenticationScheme()
              */
             @Override
             public String getAuthenticationScheme() {
@@ -110,7 +100,7 @@ public class SecurityFilter implements ContainerRequestFilter {
                     .build());
         }
         authentication = authentication.substring("Basic ".length());
-        String[] values = new String(Base64.base64Decode(authentication)).split(":");
+        String[] values = Base64.base64Decode(authentication).split(":");
         if (values.length < 2) {
             throw new WebApplicationException(Response.status(400)
                     .entity("Invalid syntax, expected 'username:password'").build());
@@ -129,7 +119,7 @@ public class SecurityFilter implements ContainerRequestFilter {
         }
     }
 
-    public class User {
+    public static class User {
 
         public String username;
         public Set<String> roles = new HashSet<>();

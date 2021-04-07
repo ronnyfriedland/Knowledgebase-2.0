@@ -256,15 +256,14 @@ public class JackRabbitRepository implements IRepository<Document<String>> {
         return result;
     }
 
-    private ObjectContentManager getObjectContentManager(final Session session) throws LoginException,
-    RepositoryException {
+    private ObjectContentManager getObjectContentManager(final Session session) {
         List<Class> classes = new ArrayList<>();
         classes.add(JCRTextDocument.class);
         Mapper mapper = new AnnotationMapperImpl(classes);
         return new ObjectContentManagerImpl(session, mapper);
     }
 
-    private Session createSession(final Repository repository) throws LoginException, RepositoryException {
+    private Session createSession(final Repository repository) throws RepositoryException {
         return repository.login(new SimpleCredentials(repositoryUsername, repositoryPassword));
     }
 

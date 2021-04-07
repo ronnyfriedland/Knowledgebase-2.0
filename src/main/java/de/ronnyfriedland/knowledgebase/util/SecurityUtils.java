@@ -24,7 +24,7 @@ public final class SecurityUtils {
             0x0b, 0x0c, 0x0d, 0x0e, 0x0f, 0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17 };
 
     public static String encryptStringSymmetric(final String decrypted) throws NoSuchAlgorithmException, NoSuchPaddingException,
-    NoSuchProviderException, InvalidKeyException, InvalidAlgorithmParameterException,
+    NoSuchProviderException, InvalidKeyException,
     IllegalBlockSizeException, BadPaddingException {
         SecretKey key = getSecretKey();
         Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding", BouncyCastleProvider.PROVIDER_NAME);

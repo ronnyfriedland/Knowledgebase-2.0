@@ -57,8 +57,6 @@ public class RepositoryMetadata implements Serializable {
 
     /**
      * {@inheritDoc}
-     *
-     * @see java.lang.Object#toString()
      */
     @Override
     public String toString() {
