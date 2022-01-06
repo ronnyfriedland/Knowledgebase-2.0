@@ -20,7 +20,7 @@
         <jcr.version>2.0</jcr.version>
         <jackrabbit.version>2.21.5</jackrabbit.version>
         <jackrabbit.ocm.version>1.5.3</jackrabbit.ocm.version>
-        <h2.version>1.4.199</h2.version>
+        <h2.version>2.0.206</h2.version>
         <jcs.version>1.3</jcs.version>
         <common.codec.version>1.15</common.codec.version>
         <bouncycastle.version>1.68</bouncycastle.version>
